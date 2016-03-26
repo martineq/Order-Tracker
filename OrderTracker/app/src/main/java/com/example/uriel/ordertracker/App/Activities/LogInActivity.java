@@ -1,5 +1,6 @@
 package com.example.uriel.ordertracker.App.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
 import com.example.uriel.ordertracker.R;
@@ -31,19 +33,22 @@ public class LogInActivity extends AppCompatActivity {
 
     public void validateUser(View v){
         SweetAlertDialog dialog = null;
-        String user = String.valueOf(((TextView)findViewById(R.id.user_id_startup)).getText());
+        String username = String.valueOf(((TextView)findViewById(R.id.user_id_startup)).getText());
         String password = String.valueOf(((TextView) findViewById(R.id.password_id_startup)).getText());
 
-        if(user.equals("")){
+        if(username.equals("")){
             dialog = Helpers.getErrorDialog(this, "Error", "Ingrese un nombre de usuario");
             dialog.show();
         }else if(password.equals("")){
             dialog = Helpers.getErrorDialog(this, "Error", "Ingrese una contraseña");
             dialog.show();
         }else {
-            String validation = userService.ValidateUser(user, password);
+            String validation = userService.validateUser(username, password);
             if(validation.equals(Constants.USER_OK)){
-                //enviar a la agenda
+                User loggedUser = userService.getByUsername(username);
+                Intent intent = new Intent(this, DiaryActivity.class);
+                intent.putExtra("userId", loggedUser.getId());
+                startActivity(intent);
             }else {
                 if(validation.equals(Constants.USER_INVALID)){
                     dialog = Helpers.getErrorDialog(this, "Error", "El nombre de usuario es invalido, intente nuevamente");

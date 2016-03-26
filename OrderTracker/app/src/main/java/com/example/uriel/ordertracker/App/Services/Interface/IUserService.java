@@ -1,8 +1,11 @@
 package com.example.uriel.ordertracker.App.Services.Interface;
 
+import com.example.uriel.ordertracker.App.Model.User;
+
 /**
  * Created by Uriel on 23-Mar-16.
  */
 public interface IUserService {
-    String ValidateUser(String username, String password);
+    String validateUser(String username, String password);
+    User getByUsername(String username);
 }
