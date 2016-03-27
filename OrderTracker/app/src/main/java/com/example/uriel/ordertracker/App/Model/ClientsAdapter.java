@@ -32,17 +32,19 @@ public class ClientsAdapter extends ArrayAdapter<Client> {
 
         Client client = clients.get(position);
 
+        TextView idText = (TextView) rowView.findViewById(R.id.idText);
         TextView nameText = (TextView) rowView.findViewById(R.id.nameText);
-        View circle = (View) rowView.findViewById(R.id.circle);
+        View rectangle = rowView.findViewById(R.id.rectangle);
 
+        idText.setText(String.valueOf(client.getId()));
         nameText.setText(client.getName());
         String state = client.getState();
         if(state.equals(Constants.VISITADO)){
-            circle.setBackgroundColor(Color.GREEN);
+            rectangle.setBackgroundColor(Color.GREEN);
         }else if(state.equals(Constants.PENDIENTE)){
-            circle.setBackgroundColor(Color.YELLOW);
+            rectangle.setBackgroundColor(Color.YELLOW);
         }else {
-            circle.setBackgroundColor(Color.RED);
+            rectangle.setBackgroundColor(Color.RED);
         }
 
         return rowView;

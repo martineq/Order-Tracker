@@ -7,5 +7,6 @@ import com.example.uriel.ordertracker.App.Model.User;
  */
 public interface IUserService {
     String validateUser(String username, String password);
+    User getById(int id);
     User getByUsername(String username);
 }

@@ -14,6 +14,15 @@ public class UserService implements IUserService {
         return Constants.USER_OK;
     }
 
+    public User getById(int id){
+        User user = new User();
+        user.setId(1);
+        user.setUsername("prueba");
+        user.setPassword("1234");
+
+        return user;
+    }
+
     public User getByUsername(String username){
         User user = new User();
         user.setId(1);

@@ -11,13 +11,25 @@ import java.util.ArrayList;
  */
 public class ClientService implements IClientService {
 
+    public Client getById(int clientId){
+        Client client1 = new Client();
+        client1.setId(1);
+        client1.setName("Cliente 1");
+        client1.setAddress("Av Paseo colon 850, CABA");
+        client1.setState(Constants.VISITADO);
+
+        return client1;
+    }
+
     public ArrayList<Client> getBySeller(int sellerId){
         Client client1 = new Client();
+        client1.setId(1);
         client1.setName("Cliente 1");
         client1.setAddress("Av Paseo colon 850, CABA");
         client1.setState(Constants.VISITADO);
 
         Client client2 = new Client();
+        client2.setId(2);
         client2.setName("Cliente 2");
         client2.setAddress("Av Gral Las Heras 2214, CABA");
         client2.setState(Constants.NO_VISITADO);

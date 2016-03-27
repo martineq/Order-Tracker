@@ -6,9 +6,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/idText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/nameText" />
 
-    <View android:id="@+id/circle"
+    <View android:id="@+id/rectangle"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"

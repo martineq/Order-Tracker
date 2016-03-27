@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_diary">DiaryActivity</string>
     <string name="section_format"></string>
+    <string name="title_activity_client_details">ClientDetailsActivity</string>
+    <string name="title_activity_details">DetailsWithMap</string>
+    <string name="google_app_id">ordertracker-1262</string>
 </resources>

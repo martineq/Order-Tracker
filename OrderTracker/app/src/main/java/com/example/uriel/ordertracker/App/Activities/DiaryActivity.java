@@ -1,7 +1,8 @@
 package com.example.uriel.ordertracker.App.Activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,7 +43,7 @@ public class DiaryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Actividad diaria");
-        
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), userId);
@@ -53,15 +54,6 @@ public class DiaryActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //ir a leer QR para comenzar pedido
-            }
-        });
-
     }
 
     @Override
@@ -110,6 +102,7 @@ public class DiaryActivity extends AppCompatActivity {
 
     public static class OffRouteFragment extends Fragment {
         private IClientService clientService;
+        private ArrayList<Client> clients;
 
         public OffRouteFragment() {
         }
@@ -128,15 +121,20 @@ public class DiaryActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_off_route, container, false);
 
             clientService = new ClientService();
-            ArrayList<Client> clients = clientService.getBySeller(getArguments().getInt("userId"));
-            ListView listView = (ListView) rootView.findViewById(R.id.listView);
+            final int userId = getArguments().getInt("userId");
+            clients = clientService.getBySeller(userId);
+            final ListView listView = (ListView) rootView.findViewById(R.id.listView);
             ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clients);
             listView.setAdapter(clientsAdapter);
 
+            final Activity context = getActivity();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //ir al detalle del cliente
+                    Client client = clients.get(position);
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    intent.putExtra("clientId", client.getId());
+                    startActivity(intent);
                 }
             });
 
