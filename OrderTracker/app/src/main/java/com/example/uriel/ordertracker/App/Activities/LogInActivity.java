@@ -59,4 +59,20 @@ public class LogInActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Salir", "Esta seguro que desea salir?", "Salir", "Cancelar");
+
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                finish();
+                moveTaskToBack(true);
+                sweetAlertDialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
 }

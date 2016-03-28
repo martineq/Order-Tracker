@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.uriel.helloworld.Activities.CartActivity">
+    <item android:id="@+id/ver_pedido" android:title="Ver Pedido Actual"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/ver_pedidos" android:title="Ver pedidos"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

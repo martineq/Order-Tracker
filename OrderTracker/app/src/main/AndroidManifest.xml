@@ -31,10 +31,6 @@
             android:name=".App.Activities.DiaryActivity"
             android:label="@string/title_activity_diary"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".App.Activities.ClientDetailsActivity"
-            android:label="@string/title_activity_client_details"
-            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,7 +45,14 @@
 
         <activity
             android:name=".App.Activities.DetailsActivity"
-            android:label="@string/title_activity_details"></activity>
+            android:label="@string/title_activity_details" />
+        <activity
+            android:name=".App.Activities.OrderActivity"
+            android:label="@string/title_activity_order"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".App.Activities.DrawerActivity"></activity>
+
     </application>
 
 </manifest>

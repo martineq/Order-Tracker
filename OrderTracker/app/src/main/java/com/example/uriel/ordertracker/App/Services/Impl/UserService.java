@@ -15,19 +15,13 @@ public class UserService implements IUserService {
     }
 
     public User getById(int id){
-        User user = new User();
-        user.setId(1);
-        user.setUsername("prueba");
-        user.setPassword("1234");
+        User user = new User(1, "Usuario 1", "1234");
 
         return user;
     }
 
     public User getByUsername(String username){
-        User user = new User();
-        user.setId(1);
-        user.setUsername("prueba");
-        user.setPassword("1234");
+        User user = new User(1, "Usuario 1", "1234");
 
         return user;
     }

@@ -8,11 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,13 +17,16 @@ import android.widget.ListView;
 
 import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.ClientsAdapter;
+import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
 import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
 
-public class DiaryActivity extends AppCompatActivity {
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class DiaryActivity extends DrawerActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -37,12 +37,12 @@ public class DiaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
-        Bundle args = getIntent().getExtras();
-        userId = args.getInt("userId");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Actividad diaria");
+
+        Bundle args = getIntent().getExtras();
+        userId = args.getInt("userId");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -54,28 +54,8 @@ public class DiaryActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_diary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        configDrawerAfterCreate(savedInstanceState);
     }
 
     public static class DiaryFragment extends Fragment {
@@ -178,4 +158,22 @@ public class DiaryActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        final Activity context = this;
+        SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que desea cerrar sesión?", "Volver", "Cancelar");
+
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                Intent intent = new Intent(context, LogInActivity.class);
+                startActivity(intent);
+                sweetAlertDialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
+
 }

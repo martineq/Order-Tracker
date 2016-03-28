@@ -6,4 +6,17 @@
     <string name="title_activity_client_details">ClientDetailsActivity</string>
     <string name="title_activity_details">DetailsWithMap</string>
     <string name="google_app_id">ordertracker-1262</string>
+    <string name="title_activity_order">OrderActivity</string>
+
+
+    <string-array name="arrayItems">
+        <item>Agenda</item>
+        <item>Catalogo</item>
+        <item>Pedidos</item>
+        <item>Desconectar</item>
+    </string-array>
+    <string name="drawer_open">Abrir menu</string>
+    <string name="drawer_close">Cerrar menu</string>
+    <string name="action_1">Acerca de...</string>
+
 </resources>

@@ -4,9 +4,15 @@ package com.example.uriel.ordertracker.App.Model;
  * Created by Uriel on 23-Mar-16.
  */
 public class User {
-    private int Id;
+    private int id;
     private String username;
     private String password;
+
+    public User(int id, String username, String password){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
 
     public String getPassword() {
         return password;
@@ -25,10 +31,10 @@ public class User {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        id = id;
     }
 }
