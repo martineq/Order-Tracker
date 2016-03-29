@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
@@ -78,6 +78,8 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
             rectangle.setBackgroundColor(Color.RED);
         }
 
+        TextView addressText = (TextView) findViewById(R.id.addressText);
+        addressText.setText(client.getAddress());
         List<Address> geocodeMatches = null;
         try {
             geocodeMatches = new Geocoder(this).getFromLocationName(client.getAddress(), 1);

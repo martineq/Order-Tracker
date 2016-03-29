@@ -19,6 +19,7 @@ import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.ClientsAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 
@@ -31,6 +32,8 @@ public class DiaryActivity extends DrawerActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private int userId;
+    private String username;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class DiaryActivity extends DrawerActivity {
 
         Bundle args = getIntent().getExtras();
         userId = args.getInt("userId");
+        username = args.getString(RestService.LOGIN_RESPONSE_NAME);
+        token = args.getString(RestService.LOGIN_TOKEN);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -63,10 +68,12 @@ public class DiaryActivity extends DrawerActivity {
         public DiaryFragment() {
         }
 
-        public static DiaryFragment newInstance(int sellerId) {
+        public static DiaryFragment newInstance(int sellerId, String username, String token) {
             DiaryFragment fragment = new DiaryFragment();
             Bundle args = new Bundle();
             args.putInt("userId", sellerId);
+            args.putString(RestService.LOGIN_RESPONSE_NAME, username);
+            args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
             return fragment;
         }
@@ -82,15 +89,17 @@ public class DiaryActivity extends DrawerActivity {
 
     public static class OffRouteFragment extends Fragment {
         private IClientService clientService;
-        private ArrayList<Client> clients;
+        private View rootView;
 
         public OffRouteFragment() {
         }
 
-        public static OffRouteFragment newInstance(int sellerId) {
+        public static OffRouteFragment newInstance(int sellerId, String username, String token) {
             OffRouteFragment fragment = new OffRouteFragment();
             Bundle args = new Bundle();
             args.putInt("userId", sellerId);
+            args.putString(RestService.LOGIN_RESPONSE_NAME, username);
+            args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
             return fragment;
         }
@@ -98,27 +107,33 @@ public class DiaryActivity extends DrawerActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_off_route, container, false);
+            rootView = inflater.inflate(R.layout.fragment_off_route, container, false);
+
+            final int userId = getArguments().getInt("userId");
+            final String username = getArguments().getString(RestService.LOGIN_RESPONSE_NAME);
+            final String token = getArguments().getString(RestService.LOGIN_TOKEN);
 
             clientService = new ClientService();
-            final int userId = getArguments().getInt("userId");
-            clients = clientService.getBySeller(userId);
+            clientService.getBySeller(username, token, this, this.getActivity());
+
+            return rootView;
+        }
+
+        public void populateClients(final ArrayList<Client> clientList){
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
-            ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clients);
+            ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientList);
             listView.setAdapter(clientsAdapter);
 
             final Activity context = getActivity();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Client client = clients.get(position);
+                    Client client = clientList.get(position);
                     Intent intent = new Intent(context, DetailsActivity.class);
                     intent.putExtra("clientId", client.getId());
                     startActivity(intent);
                 }
             });
-
-            return rootView;
         }
     }
 
@@ -134,9 +149,9 @@ public class DiaryActivity extends DrawerActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return DiaryFragment.newInstance(sellerId);
+                    return DiaryFragment.newInstance(sellerId, username, token);
                 case 1:
-                    return OffRouteFragment.newInstance(sellerId);
+                    return OffRouteFragment.newInstance(sellerId, username, token);
             }
 
             return null;

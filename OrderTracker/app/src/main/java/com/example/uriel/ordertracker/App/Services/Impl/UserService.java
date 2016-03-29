@@ -1,7 +1,9 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
+import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.User;
+import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
 
 /**
@@ -9,8 +11,17 @@ import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
  */
 public class UserService implements IUserService {
 
-    public String validateUser(String username, String password){
+    private final IRestService restService = RestService.getInstance();
+
+    public String validateUser(String username, String password, final LogInActivity context){
         //checkear contra el server
+
+        /*try {
+            restService.login(username, password, context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
         return Constants.USER_OK;
     }
 

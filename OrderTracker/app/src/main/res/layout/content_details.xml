@@ -50,6 +50,17 @@
         android:textSize="20dp"
         android:layout_marginLeft="5dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clientAddress"
+        android:layout_below="@+id/stateText"
+        android:layout_toRightOf="@+id/addressText"
+        android:layout_toEndOf="@+id/addressText"
+        android:layout_marginBottom="20dp"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp" />
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
