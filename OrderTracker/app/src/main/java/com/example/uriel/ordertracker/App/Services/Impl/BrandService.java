@@ -12,11 +12,13 @@ public class BrandService implements IBrandService {
     public ArrayList<Brand> getAll(){
         ArrayList<Brand> brands = new ArrayList<>();
 
-        Brand brand1 = new Brand(1, "Marca 1");
-        Brand brand2 = new Brand(2, "Marca 2");
+        Brand brand1 = new Brand(1, "BestPlates");
+        Brand brand2 = new Brand(2, "SuperBrand");
+        Brand brand3 = new Brand(3, "KitchenMaster");
 
         brands.add(brand1);
         brands.add(brand2);
+        brands.add(brand3);
 
         return brands;
     }

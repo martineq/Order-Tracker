@@ -52,7 +52,7 @@ public class GridAdapter extends ArrayAdapter<Product>{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View gridItem;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
@@ -72,7 +72,42 @@ public class GridAdapter extends ArrayAdapter<Product>{
         descripcionText.setText(products.get(position).getDescription());
         brandText.setText(products.get(position).getBrand().getDescription());
         priceText.setText("$" + String.format("%.2f", products.get(position).getPrice()));
-        imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
+
+        switch (products.get(position).getId()){
+            case 1:
+                imageView.setImageResource(R.mipmap.ic_bandeja);
+                break;
+            case 2:
+                imageView.setImageResource(R.mipmap.ic_bandeja_doble);
+                break;
+            case 3:
+                imageView.setImageResource(R.mipmap.ic_especiero);
+                break;
+            case 4:
+                imageView.setImageResource(R.mipmap.ic_espejo);
+                break;
+            case 5:
+                imageView.setImageResource(R.mipmap.ic_esponja);
+                break;
+            case 6:
+                imageView.setImageResource(R.mipmap.ic_hielera);
+                break;
+            case 7:
+                imageView.setImageResource(R.mipmap.ic_jarra);
+                break;
+            case 8:
+                imageView.setImageResource(R.mipmap.ic_pinche_choclo);
+                break;
+            case 9:
+                imageView.setImageResource(R.mipmap.ic_pinches);
+                break;
+            case 10:
+                imageView.setImageResource(R.mipmap.ic_sarten);
+                break;
+
+        }
+        //imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
+
         if(order.get(products.get(position).getId()) != null){
             qttText.setText(order.get(products.get(position).getId()).split("&")[1]);
         }
@@ -85,7 +120,7 @@ public class GridAdapter extends ArrayAdapter<Product>{
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((OrderActivity) context).zoomImageFromThumb(imageView, bitmap);
+                ((OrderActivity) context).zoomImageFromThumb(imageView, bitmap, products.get(position).getId());
             }
         });
 

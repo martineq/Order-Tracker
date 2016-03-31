@@ -53,7 +53,23 @@ public class LogInActivity extends AppCompatActivity {
             dialog = Helpers.getErrorDialog(this, "Error", "Ingrese una contraseña");
             dialog.show();
         }else {
-            userService.validateUser(username, password, this);
+            String validation = userService.validateUser(username, password, this);
+            if(validation.equals(Constants.USER_OK)){
+                User user = userService.getById(1);
+
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
+                editor.putString(RestService.LOGIN_PASSWORD, password);
+                editor.commit();
+
+                Intent intent = new Intent(this, DiaryActivity.class);
+                intent.putExtra("userId", user.getId());
+                intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
+                intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

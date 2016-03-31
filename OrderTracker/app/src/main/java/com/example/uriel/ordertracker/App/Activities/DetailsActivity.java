@@ -14,6 +14,7 @@ import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -43,6 +44,9 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
     private int clientId;
     private Client client;
     private GoogleMap mMap;
+    private int userId;
+    private String username;
+    private String token;
     double latitude;
     double longitude;
     String name;
@@ -54,6 +58,10 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
 
         Bundle args = getIntent().getExtras();
         clientId = args.getInt("clientId");
+        userId = args.getInt("userId");
+        username = args.getString(RestService.LOGIN_RESPONSE_NAME);
+        token = args.getString(RestService.LOGIN_TOKEN);
+
         clientService = new ClientService();
 
         client = clientService.getById(clientId);
@@ -67,6 +75,9 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        TextView nameText = (TextView) findViewById(R.id.nameText);
+        nameText.setText(name);
 
         View rectangle = findViewById(R.id.rectangle);
         String state = client.getState();
@@ -152,5 +163,14 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DiaryActivity.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra(RestService.LOGIN_RESPONSE_NAME, username);
+        intent.putExtra(RestService.LOGIN_TOKEN, token);
+        startActivity(intent);
     }
 }

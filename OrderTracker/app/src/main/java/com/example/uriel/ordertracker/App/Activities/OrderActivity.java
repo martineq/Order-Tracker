@@ -197,11 +197,10 @@ public class OrderActivity extends AppCompatActivity {
     private void volver(){
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("clientId", clientId);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void zoomImageFromThumb(final View thumbView, Bitmap bitmap) {
+    public void zoomImageFromThumb(final View thumbView, Bitmap bitmap, int productId) {
         // If there's an animation in progress, cancel it
         // immediately and proceed with this one.
         if (mCurrentAnimator != null) {
@@ -210,7 +209,39 @@ public class OrderActivity extends AppCompatActivity {
 
         // Load the high-resolution "zoomed-in" image.
         final ImageView expandedImageView = (ImageView) findViewById(R.id.zoomImage);
-        expandedImageView.setImageBitmap(bitmap);
+        //expandedImageView.setImageBitmap(bitmap);
+        switch (productId){
+            case 1:
+                expandedImageView.setImageResource(R.mipmap.ic_bandeja);
+                break;
+            case 2:
+                expandedImageView.setImageResource(R.mipmap.ic_bandeja_doble);
+                break;
+            case 3:
+                expandedImageView.setImageResource(R.mipmap.ic_especiero);
+                break;
+            case 4:
+                expandedImageView.setImageResource(R.mipmap.ic_espejo);
+                break;
+            case 5:
+                expandedImageView.setImageResource(R.mipmap.ic_esponja);
+                break;
+            case 6:
+                expandedImageView.setImageResource(R.mipmap.ic_hielera);
+                break;
+            case 7:
+                expandedImageView.setImageResource(R.mipmap.ic_jarra);
+                break;
+            case 8:
+                expandedImageView.setImageResource(R.mipmap.ic_pinche_choclo);
+                break;
+            case 9:
+                expandedImageView.setImageResource(R.mipmap.ic_pinches);
+                break;
+            case 10:
+                expandedImageView.setImageResource(R.mipmap.ic_sarten);
+                break;
+        }
 
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.

@@ -18,15 +18,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin" />
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nameText"
+        android:layout_below="@+id/pedidoButton"
+        android:layout_marginBottom="20dp"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Estado del cliente:"
         android:id="@+id/stateText"
-        android:layout_below="@id/pedidoButton"
+        android:layout_below="@id/nameText"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="20dp"
         android:textSize="20dp"
@@ -35,7 +43,7 @@
     <View android:id="@+id/rectangle"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_below="@id/pedidoButton"
+        android:layout_below="@id/nameText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/rectangle"/>
@@ -54,12 +62,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clientAddress"
+        android:lines="2"
         android:layout_below="@+id/stateText"
         android:layout_toRightOf="@+id/addressText"
         android:layout_toEndOf="@+id/addressText"
         android:layout_marginBottom="20dp"
-        android:textSize="20dp"
-        android:layout_marginLeft="5dp" />
+        android:textSize="20dp" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"

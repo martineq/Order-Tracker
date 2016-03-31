@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:textSize="20dp"
+        android:hint="Cantidad"
         android:id="@+id/quantityText" />
 
 </LinearLayout>
