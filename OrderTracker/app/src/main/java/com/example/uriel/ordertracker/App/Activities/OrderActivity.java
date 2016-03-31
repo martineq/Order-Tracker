@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -172,7 +173,7 @@ public class OrderActivity extends AppCompatActivity {
             View gridItem = (View) grid.getChildAt(i);
             int productId = Integer.valueOf(((TextView) gridItem.findViewById(R.id.idText)).getText().toString());
             String product = ((TextView) gridItem.findViewById(R.id.descripcionText)).getText().toString();
-            double price = Double.valueOf(((TextView) gridItem.findViewById(R.id.priceText)).getText().toString().substring(1));
+            double price = Double.parseDouble(((TextView) gridItem.findViewById(R.id.priceText)).getText().toString().substring(1).replace(",","."));
             Integer quantity = 0;
             String qtt = ((EditText) gridItem.findViewById(R.id.quantityText)).getText().toString();
             if (!qtt.equals("")) {
