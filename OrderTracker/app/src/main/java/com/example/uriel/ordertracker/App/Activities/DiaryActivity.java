@@ -42,7 +42,8 @@ public class DiaryActivity extends DrawerActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Actividad diaria");
+
+        setTitle("Actividad diaria");
 
         Bundle args = getIntent().getExtras();
         userId = args.getInt("userId");

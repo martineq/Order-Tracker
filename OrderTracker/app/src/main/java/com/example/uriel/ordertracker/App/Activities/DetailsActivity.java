@@ -67,9 +67,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         client = clientService.getById(clientId);
         name = client.getName();
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //toolbar.setTitle(name);
+        setTitle("Info del cliente: "+name);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
