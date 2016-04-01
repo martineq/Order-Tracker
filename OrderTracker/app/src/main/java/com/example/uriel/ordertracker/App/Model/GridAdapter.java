@@ -25,12 +25,14 @@ public class GridAdapter extends ArrayAdapter<Product>{
     private Activity context;
     private final ArrayList<Product> products;
     private final HashMap<Integer, String> order;
+    private boolean readOnly;
 
-    public GridAdapter(Activity c, ArrayList<Product> products, HashMap<Integer, String> order) {
+    public GridAdapter(Activity c, ArrayList<Product> products, HashMap<Integer, String> order, boolean readOnly) {
         super(c, R.layout.grid_item, products);
         context = c;
         this.products = products;
         this.order = order;
+        this.readOnly = readOnly;
     }
 
     @Override
@@ -72,6 +74,9 @@ public class GridAdapter extends ArrayAdapter<Product>{
         descripcionText.setText(products.get(position).getDescription());
         brandText.setText(products.get(position).getBrand().getDescription());
         priceText.setText("$" + String.format("%.2f", products.get(position).getPrice()));
+        if(readOnly){
+            qttText.setVisibility(View.INVISIBLE);
+        }
 
         switch (products.get(position).getId()){
             case 1:

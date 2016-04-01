@@ -1,30 +1,22 @@
 package com.example.uriel.ordertracker.App.Activities;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.R;
-
-import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -124,9 +116,6 @@ public class DrawerActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     /* Manejar qué pasa cuando se selecciona cada elemento de la lista.
      */
     private void selectAction(int position) {
@@ -135,14 +124,13 @@ public class DrawerActivity extends AppCompatActivity {
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-
                 SweetAlertDialog dialog1 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó agenda", "Volver", "Cancelar");
                 dialog1.show();
-
                 break;
             case 1:
-                SweetAlertDialog dialog2 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó Catalogo", "Volver", "Cancelar");
-                dialog2.show();
+                Intent intent = new Intent(this, OrderActivity.class);
+                intent.putExtra("ReadOnly", true);
+                startActivity(intent);
                 break;
             default:
                 SweetAlertDialog dialog3 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó otro", "Volver", "Cancelar");

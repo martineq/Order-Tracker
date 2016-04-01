@@ -109,6 +109,8 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderActivity.class);
+                intent.putExtra("ReadOnly", false);
+                intent.putExtra("userId", userId);
                 intent.putExtra("clientId", clientId);
                 intent.putExtra("clientName", name);
                 startActivity(intent);

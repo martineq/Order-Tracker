@@ -18,5 +18,6 @@
     <string name="drawer_open">Abrir menu</string>
     <string name="drawer_close">Cerrar menu</string>
     <string name="action_1">Acerca de...</string>
+    <string name="title_activity_view_my_order">ViewMyOrderActivity</string>
 
 </resources>

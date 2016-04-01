@@ -4,16 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -48,6 +47,8 @@ public class OrderActivity extends AppCompatActivity {
     GridView grid;
     GridAdapter gridAdapter;
     int clientId;
+    int userId;
+    boolean readOnly;
     private HashMap<Integer, String> order;
 
     // Hold a reference to the current animator,
@@ -67,12 +68,37 @@ public class OrderActivity extends AppCompatActivity {
         productService = new ProductService();
         brandService = new BrandService();
 
-        clientId = getIntent().getExtras().getInt("clientId");
-        String clientName = getIntent().getExtras().getString("clientName");
+        final Activity context = this;
+        FloatingActionButton verPedido = (FloatingActionButton) findViewById(R.id.ver_pedido);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(clientName);
+        readOnly = getIntent().getExtras().getBoolean("ReadOnly");
+        if(readOnly){
+            verPedido.setVisibility(View.INVISIBLE);
+        }else {
+            userId = getIntent().getExtras().getInt("userId");
+            clientId = getIntent().getExtras().getInt("clientId");
+            String clientName = getIntent().getExtras().getString("clientName");
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            toolbar.setTitle(clientName);
+
+            verPedido.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    obtenerPedido();
+                    double total = calcularTotal();
+
+                    Intent intent = new Intent(context, ViewMyOrderActivity.class);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("order", order);
+                    intent.putExtra("total", total);
+                    intent.putExtra("clientId", clientId);
+                    startActivity(intent);
+                }
+            });
+        }
+
 
         order = new HashMap<Integer, String>();
 
@@ -113,39 +139,6 @@ public class OrderActivity extends AppCompatActivity {
                 android.R.integer.config_shortAnimTime);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_order, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.ver_pedido) {
-            obtenerPedido();
-            double total = calcularTotal();
-
-            Intent intent = new Intent(this, OrderActivity.class);
-            intent.putExtra("order", order);
-            intent.putExtra("total", total);
-            intent.putExtra("clientId", clientId);
-            startActivity(intent);
-
-        }else if(id == R.id.ver_pedidos){
-            Intent intent = new Intent(this, ViewOrdersActivity.class);
-            startActivity(intent);
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void setBrand(String brand){
         ArrayList<Product> products;
 
@@ -157,7 +150,7 @@ public class OrderActivity extends AppCompatActivity {
 
         grid=(GridView)findViewById(R.id.gridView);
         obtenerPedido();
-        gridAdapter = new GridAdapter(OrderActivity.this, products, order);
+        gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
         grid.setAdapter(gridAdapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -173,7 +166,7 @@ public class OrderActivity extends AppCompatActivity {
             View gridItem = (View) grid.getChildAt(i);
             int productId = Integer.valueOf(((TextView) gridItem.findViewById(R.id.idText)).getText().toString());
             String product = ((TextView) gridItem.findViewById(R.id.descripcionText)).getText().toString();
-            double price = Double.parseDouble(((TextView) gridItem.findViewById(R.id.priceText)).getText().toString().substring(1).replace(",","."));
+            double price = Double.parseDouble(((TextView) gridItem.findViewById(R.id.priceText)).getText().toString().substring(1).replace(",", "."));
             Integer quantity = 0;
             String qtt = ((EditText) gridItem.findViewById(R.id.quantityText)).getText().toString();
             if (!qtt.equals("")) {
@@ -371,16 +364,20 @@ public class OrderActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que descartar desea cancelar el pedido?", "Descartar", "Cancelar");
+        if(readOnly){
+            super.onBackPressed();
+        }else {
+            SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que descartar desea cancelar el pedido?", "Descartar", "Cancelar");
 
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                volver();
-                sweetAlertDialog.cancel();
-            }
-        });
+            dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    volver();
+                    sweetAlertDialog.cancel();
+                }
+            });
 
-        dialog.show();
+            dialog.show();
+        }
     }
 }

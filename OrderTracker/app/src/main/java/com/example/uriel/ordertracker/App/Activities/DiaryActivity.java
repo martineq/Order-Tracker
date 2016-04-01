@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.ClientsAdapter;
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
@@ -115,7 +116,46 @@ public class DiaryActivity extends DrawerActivity {
             final String token = getArguments().getString(RestService.LOGIN_TOKEN);
 
             clientService = new ClientService();
-            clientService.getBySeller(username, token, this, this.getActivity());
+
+            //borrar cuando ande el servicio
+            ArrayList<Client> clients = new ArrayList<>();
+            Client client1 = new Client(1, "Aldo Proieto", "Av Paseo colon 850, CABA", Constants.VISITADO);
+            Client client2 = new Client(2, "Federico Bulos", "Av Gral Las Heras 2214, CABA", Constants.NO_VISITADO);
+            Client client3 = new Client(3, "Sebestian Vignolo", "Lavalleja 173, CABA", Constants.VISITADO);
+            Client client4 = new Client(4, "Pablo Ladaga", "Av Scalabrini Ortiz 2417, CABA", Constants.PENDIENTE);
+            Client client5 = new Client(5, "Juan Carlos Pellegrini", "Av Angel Gallardo 265, CABA", Constants.VISITADO);
+            Client client6 = new Client(6, "Emiliano Raggi", "Av Cnel Apolinario Figueroa 1043, CABA", Constants.PENDIENTE);
+            Client client7 = new Client(7, "Roberto Leto", "Paysandu 1459, CABA", Constants.NO_VISITADO);
+            Client client8 = new Client(8, "Jose Amado", "Av Cordoba 1450, CABA", Constants.NO_VISITADO);
+            Client client9 = new Client(9, "Daniel Retamozo", "Av Corrientes 850, CABA", Constants.VISITADO);
+            Client client10 = new Client(10, "Juan Fernandez", "Araoz 657, CABA", Constants.NO_VISITADO);
+            Client client11 = new Client(11, "Renato De La Paulera", "Humboldt 1100, CABA", Constants.VISITADO);
+            Client client12 = new Client(12, "Walter Zafarian", "Sarmiento 350, CABA", Constants.PENDIENTE);
+            Client client13 = new Client(13, "Martin Liberman", "Lacarra 1000, CABA", Constants.VISITADO);
+            Client client14 = new Client(14, "Matias Garcia", "Jose Hernandez 420, CABA", Constants.PENDIENTE);
+            Client client15 = new Client(15, "Diego Fuks", "Av Cabildo 2530, CABA", Constants.NO_VISITADO);
+            Client client16 = new Client(16, "Marcelo Grandio", "Roosevelt 1655, CABA", Constants.NO_VISITADO);
+
+            clients.add(client1);
+            clients.add(client2);
+            clients.add(client3);
+            clients.add(client4);
+            clients.add(client5);
+            clients.add(client6);
+            clients.add(client7);
+            clients.add(client8);
+            clients.add(client9);
+            clients.add(client10);
+            clients.add(client11);
+            clients.add(client12);
+            clients.add(client13);
+            clients.add(client14);
+            clients.add(client15);
+            clients.add(client16);
+
+            populateClients(clients);
+
+            //clientService.getBySeller(username, token, this, this.getActivity());
 
             return rootView;
         }
