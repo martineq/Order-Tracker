@@ -49,12 +49,11 @@
         <activity
             android:name=".App.Activities.OrderActivity"
             android:label="@string/title_activity_order"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity android:name=".App.Activities.DrawerActivity" />
         <activity
             android:name=".App.Activities.ViewMyOrderActivity"
-            android:label="@string/title_activity_view_my_order"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_view_my_order" ></activity>
     </application>
 
 </manifest>

@@ -39,7 +39,7 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class OrderActivity extends AppCompatActivity {
+public class OrderActivity extends DrawerActivity {
 
     private String brand_spinner[];
     private IProductService productService;
@@ -78,10 +78,6 @@ public class OrderActivity extends AppCompatActivity {
             userId = getIntent().getExtras().getInt("userId");
             clientId = getIntent().getExtras().getInt("clientId");
             String clientName = getIntent().getExtras().getString("clientName");
-
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            toolbar.setTitle(clientName);
 
             verPedido.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,6 +133,9 @@ public class OrderActivity extends AppCompatActivity {
         // Retrieve and cache the system's default "short" animation time.
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
+
+        configDrawerAfterCreate(savedInstanceState);
+        setTitle("Arme su pedido");
     }
 
     public void setBrand(String brand){
