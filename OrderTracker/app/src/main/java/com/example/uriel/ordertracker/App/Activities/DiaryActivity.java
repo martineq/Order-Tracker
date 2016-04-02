@@ -32,7 +32,6 @@ public class DiaryActivity extends DrawerActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private int userId;
     private String username;
     private String token;
 
@@ -47,7 +46,6 @@ public class DiaryActivity extends DrawerActivity {
         setTitle("Actividad diaria");
 
         Bundle args = getIntent().getExtras();
-        userId = args.getInt("userId");
         username = args.getString(RestService.LOGIN_RESPONSE_NAME);
         token = args.getString(RestService.LOGIN_TOKEN);
 
@@ -73,7 +71,6 @@ public class DiaryActivity extends DrawerActivity {
         public static DiaryFragment newInstance(int sellerId, String username, String token) {
             DiaryFragment fragment = new DiaryFragment();
             Bundle args = new Bundle();
-            args.putInt("userId", sellerId);
             args.putString(RestService.LOGIN_RESPONSE_NAME, username);
             args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
@@ -99,7 +96,6 @@ public class DiaryActivity extends DrawerActivity {
         public static OffRouteFragment newInstance(int sellerId, String username, String token) {
             OffRouteFragment fragment = new OffRouteFragment();
             Bundle args = new Bundle();
-            args.putInt("userId", sellerId);
             args.putString(RestService.LOGIN_RESPONSE_NAME, username);
             args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
@@ -111,7 +107,6 @@ public class DiaryActivity extends DrawerActivity {
                                  Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_off_route, container, false);
 
-            final int userId = getArguments().getInt("userId");
             final String username = getArguments().getString(RestService.LOGIN_RESPONSE_NAME);
             final String token = getArguments().getString(RestService.LOGIN_TOKEN);
 

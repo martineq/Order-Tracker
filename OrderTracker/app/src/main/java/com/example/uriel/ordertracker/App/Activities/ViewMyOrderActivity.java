@@ -1,7 +1,9 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +13,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Model.OrderLine;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.R;
 
@@ -52,8 +56,10 @@ public class ViewMyOrderActivity extends DrawerActivity {
         setTitle("Su pedido");
         configDrawerAfterCreate(savedInstanceState);
 
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
+
         Intent intent = getIntent();
-        userId = intent.getExtras().getInt("userId");
         order = (HashMap<Integer, String>)intent.getSerializableExtra("order");
         total = intent.getExtras().getDouble("total");
         clientId = intent.getExtras().getInt("clientId");

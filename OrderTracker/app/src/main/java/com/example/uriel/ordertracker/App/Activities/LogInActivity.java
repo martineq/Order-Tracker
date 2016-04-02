@@ -39,6 +39,27 @@ public class LogInActivity extends AppCompatActivity {
         this.loginLayout = findViewById(R.id.loginLayout);
         this.progressBar = findViewById(R.id.login_progress);
         this.userService = new UserService();
+
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
+        String username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
+        String password = sharedPref.getString(RestService.LOGIN_PASSWORD, "");
+        if(username != "" && password != ""){
+            try {
+                String validation = userService.validateUser(username, password, this);
+                if(validation.equals(Constants.USER_OK)){
+                    User user = userService.getById(1);
+
+                    Intent intent = new Intent(this, DiaryActivity.class);
+                    intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
+                    intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void validateUser(View v){
@@ -59,12 +80,12 @@ public class LogInActivity extends AppCompatActivity {
 
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(RestService.LOGIN_RESPONSE_ID, String.valueOf(user.getId()));
                 editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
                 editor.putString(RestService.LOGIN_PASSWORD, password);
                 editor.commit();
 
                 Intent intent = new Intent(this, DiaryActivity.class);
-                intent.putExtra("userId", user.getId());
                 intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
                 intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
                 startActivity(intent);

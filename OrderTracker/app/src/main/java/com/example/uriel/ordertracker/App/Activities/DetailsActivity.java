@@ -44,7 +44,6 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
     private int clientId;
     private Client client;
     private GoogleMap mMap;
-    private int userId;
     private String username;
     private String token;
     double latitude;
@@ -58,7 +57,6 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
 
         Bundle args = getIntent().getExtras();
         clientId = args.getInt("clientId");
-        userId = args.getInt("userId");
         username = args.getString(RestService.LOGIN_RESPONSE_NAME);
         token = args.getString(RestService.LOGIN_TOKEN);
 
@@ -110,7 +108,6 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderActivity.class);
                 intent.putExtra("ReadOnly", false);
-                intent.putExtra("userId", userId);
                 intent.putExtra("clientId", clientId);
                 intent.putExtra("clientName", name);
                 startActivity(intent);

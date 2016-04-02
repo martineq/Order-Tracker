@@ -1,6 +1,8 @@
 package com.example.uriel.ordertracker.App.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -30,9 +34,15 @@ public class DrawerActivity extends AppCompatActivity {
     public CharSequence mTitle;
     public String[] optionsTitles;
 
+    public int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
+
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {

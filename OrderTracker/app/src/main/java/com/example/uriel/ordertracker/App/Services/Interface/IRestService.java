@@ -12,6 +12,7 @@ import org.json.JSONException;
  */
 public interface IRestService {
     public final static String RESPONSE_CODE = "com.example.uriel.ordertracker.App.Services.RestService.CODE";
+    public final static String LOGIN_RESPONSE_ID = "com.example.uriel.ordertracker.App.Services.RestService.LOGIN_RESPONSE_ID";
     public final static String LOGIN_RESPONSE_NAME = "com.example.uriel.ordertracker.App.Services.RestService.LOGIN_RESPONSE_NAME";
     public final static String LOGIN_TOKEN = "com.example.uriel.ordertracker.App.Services.RestService.LOGIN_TOKEN";
     public final static String LOGIN_FULL_NAME = "com.example.uriel.ordertracker.App.Services.RestService.LOGIN_FULL_NAME";

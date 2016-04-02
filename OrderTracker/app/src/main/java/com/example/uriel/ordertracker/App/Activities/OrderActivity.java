@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -46,7 +45,6 @@ public class OrderActivity extends DrawerActivity {
     GridView grid;
     GridAdapter gridAdapter;
     int clientId;
-    int userId;
     boolean readOnly;
     private HashMap<Integer, String> order;
 
@@ -63,30 +61,13 @@ public class OrderActivity extends DrawerActivity {
         order = new HashMap<Integer, String>();
     }
 
-
     //Esta funcion guarda el estado en caso de que se rote el dispositivo
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        for (int i = 0; i < grid.getChildCount(); i++) {
-            View gridItem = (View) grid.getChildAt(i);
-            int productId = Integer.valueOf(((TextView) gridItem.findViewById(R.id.idText)).getText().toString());
-
-            Integer quantity = 0;
-            String qtt = ((EditText) gridItem.findViewById(R.id.quantityText)).getText().toString();
-            if (!qtt.equals("")) {
-                quantity = Integer.valueOf(qtt);
-            }
-            if (quantity > 0) {
-                //Log.e("Salir",String.valueOf(productId)+" "+ String.valueOf(quantity));
-                outState.putInt(String.valueOf(productId), quantity);
-            }
-        }
-
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        obtenerPedido();
+        savedInstanceState.putSerializable("order", order);
+        super.onSaveInstanceState(savedInstanceState);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +83,6 @@ public class OrderActivity extends DrawerActivity {
         if(readOnly){
             verPedido.setVisibility(View.INVISIBLE);
         }else {
-            userId = getIntent().getExtras().getInt("userId");
             clientId = getIntent().getExtras().getInt("clientId");
             String clientName = getIntent().getExtras().getString("clientName");
 
@@ -113,7 +93,6 @@ public class OrderActivity extends DrawerActivity {
                     double total = calcularTotal();
 
                     Intent intent = new Intent(context, ViewMyOrderActivity.class);
-                    intent.putExtra("userId", userId);
                     intent.putExtra("order", order);
                     intent.putExtra("total", total);
                     intent.putExtra("clientId", clientId);
@@ -154,14 +133,28 @@ public class OrderActivity extends DrawerActivity {
 
         setBrand(s.getItemAtPosition(0).toString());
 
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            order = (HashMap<Integer, String>)savedInstanceState.getSerializable("order");
+
+            for (int i = 0; i < grid.getChildCount(); i++) {
+                View gridItem = (View) grid.getChildAt(i);
+                int productId = Integer.valueOf(((TextView) gridItem.findViewById(R.id.idText)).getText().toString());
+                String orderItem = order.get(productId);
+                EditText qtt = (EditText) gridItem.findViewById(R.id.quantityText);
+                String quantityOrdered = orderItem.split("&")[1];
+                if (!qtt.equals("")) {
+                    qtt.setText(quantityOrdered);
+                }
+            }
+        }
+
         // Retrieve and cache the system's default "short" animation time.
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
 
         configDrawerAfterCreate(savedInstanceState);
         setTitle("Arme su pedido");
-
-
     }
 
     public void setBrand(String brand){
@@ -174,8 +167,7 @@ public class OrderActivity extends DrawerActivity {
         }
 
         grid=(GridView)findViewById(R.id.gridView);
-
-
+        obtenerPedido();
         gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
         grid.setAdapter(gridAdapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -187,9 +179,6 @@ public class OrderActivity extends DrawerActivity {
         });
 
     }
-
-
-
 
     private void obtenerPedido() {
         for (int i = 0; i < grid.getChildCount(); i++) {
