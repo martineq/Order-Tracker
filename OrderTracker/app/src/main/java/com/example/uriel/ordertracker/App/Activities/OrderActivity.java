@@ -11,8 +11,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -60,6 +59,34 @@ public class OrderActivity extends DrawerActivity {
     // very frequently.
     private int mShortAnimationDuration;
 
+    public OrderActivity(){
+        order = new HashMap<Integer, String>();
+    }
+
+
+    //Esta funcion guarda el estado en caso de que se rote el dispositivo
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        for (int i = 0; i < grid.getChildCount(); i++) {
+            View gridItem = (View) grid.getChildAt(i);
+            int productId = Integer.valueOf(((TextView) gridItem.findViewById(R.id.idText)).getText().toString());
+
+            Integer quantity = 0;
+            String qtt = ((EditText) gridItem.findViewById(R.id.quantityText)).getText().toString();
+            if (!qtt.equals("")) {
+                quantity = Integer.valueOf(qtt);
+            }
+            if (quantity > 0) {
+                //Log.e("Salir",String.valueOf(productId)+" "+ String.valueOf(quantity));
+                outState.putInt(String.valueOf(productId), quantity);
+            }
+        }
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +121,6 @@ public class OrderActivity extends DrawerActivity {
                 }
             });
         }
-
-
-        order = new HashMap<Integer, String>();
 
         //cargar opciones de rubros
         ArrayList<Brand> brands = brandService.getAll();
@@ -136,6 +160,8 @@ public class OrderActivity extends DrawerActivity {
 
         configDrawerAfterCreate(savedInstanceState);
         setTitle("Arme su pedido");
+
+
     }
 
     public void setBrand(String brand){
@@ -148,7 +174,8 @@ public class OrderActivity extends DrawerActivity {
         }
 
         grid=(GridView)findViewById(R.id.gridView);
-        obtenerPedido();
+
+
         gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
         grid.setAdapter(gridAdapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -158,7 +185,11 @@ public class OrderActivity extends DrawerActivity {
 
             }
         });
+
     }
+
+
+
 
     private void obtenerPedido() {
         for (int i = 0; i < grid.getChildCount(); i++) {

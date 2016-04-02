@@ -48,6 +48,7 @@
             android:label="@string/title_activity_details" />
         <activity
             android:name=".App.Activities.OrderActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_order"
             />
         <activity android:name=".App.Activities.DrawerActivity" />

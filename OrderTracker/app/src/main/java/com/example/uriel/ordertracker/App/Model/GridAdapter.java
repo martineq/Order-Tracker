@@ -35,22 +35,20 @@ public class GridAdapter extends ArrayAdapter<Product>{
         this.readOnly = readOnly;
     }
 
+
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return products.size();
     }
 
     @Override
     public Product getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
+        return products.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
+        return products.get(position).getId();
     }
 
     @Override
@@ -131,4 +129,5 @@ public class GridAdapter extends ArrayAdapter<Product>{
 
         return gridItem;
     }
+
 }
