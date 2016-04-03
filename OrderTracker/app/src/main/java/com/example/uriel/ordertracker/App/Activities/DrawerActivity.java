@@ -20,7 +20,10 @@ import android.widget.ListView;
 
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
+import com.example.uriel.ordertracker.App.Services.Impl.UserService;
+import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
 import com.example.uriel.ordertracker.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -135,13 +138,22 @@ public class DrawerActivity extends AppCompatActivity {
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-                SweetAlertDialog dialog0 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó agenda", "Volver", "Cancelar");
-                dialog0.show();
+
+                IUserService userService = new UserService();
+                User user = userService.getById(1);
+
+                Intent intent2;
+                intent2 = new Intent(this, DiaryActivity.class);
+                intent2.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
+                intent2.putExtra(RestService.LOGIN_TOKEN, user.getToken());
+                finish();
+                startActivity(intent2);
                 break;
             case 1:
                 Intent intent1;
                 intent1 = new Intent(this, OrderActivity.class);
                 intent1.putExtra("ReadOnly", true);
+                finish();
                 startActivity(intent1);
                 break;
             case 2:
@@ -159,11 +171,12 @@ public class DrawerActivity extends AppCompatActivity {
                         editor.commit();
 
                         Intent intent3;
-                        intent3 = new Intent(context, LogInActivity.class);
+                        intent3 = new Intent(DrawerActivity.this,LogInActivity.class);
                         intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        sweetAlertDialog.dismiss();
                         finish();
                         startActivity(intent3);
-                        finish();
+
                     }
                 });
                 dialog3.show();
