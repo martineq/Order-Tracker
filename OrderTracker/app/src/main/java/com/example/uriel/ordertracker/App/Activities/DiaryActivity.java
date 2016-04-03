@@ -1,7 +1,9 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -218,7 +220,16 @@ public class DiaryActivity extends DrawerActivity {
         dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(RestService.LOGIN_RESPONSE_ID, "");
+                editor.putString(RestService.LOGIN_RESPONSE_NAME, "");
+                editor.putString(RestService.LOGIN_PASSWORD, "");
+                editor.commit();
+
                 Intent intent = new Intent(context, LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
                 startActivity(intent);
                 sweetAlertDialog.cancel();
             }

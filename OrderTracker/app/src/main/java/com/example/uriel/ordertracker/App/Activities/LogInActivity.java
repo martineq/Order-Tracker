@@ -41,7 +41,6 @@ public class LogInActivity extends AppCompatActivity {
         this.userService = new UserService();
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-
         String username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
         String password = sharedPref.getString(RestService.LOGIN_PASSWORD, "");
         if(username != "" && password != ""){
@@ -156,7 +155,6 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 finish();
-                moveTaskToBack(true);
                 sweetAlertDialog.cancel();
             }
         });

@@ -1,5 +1,6 @@
 package com.example.uriel.ordertracker.App.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,7 +43,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
-
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
@@ -130,20 +130,42 @@ public class DrawerActivity extends AppCompatActivity {
      */
     private void selectAction(int position) {
         mDrawerList.setItemChecked(position, true);
+        final Activity context = this;
 
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-                SweetAlertDialog dialog1 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó agenda", "Volver", "Cancelar");
-                dialog1.show();
+                SweetAlertDialog dialog0 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó agenda", "Volver", "Cancelar");
+                dialog0.show();
                 break;
             case 1:
-                Intent intent = new Intent(this, OrderActivity.class);
-                intent.putExtra("ReadOnly", true);
-                startActivity(intent);
+                Intent intent1;
+                intent1 = new Intent(this, OrderActivity.class);
+                intent1.putExtra("ReadOnly", true);
+                startActivity(intent1);
                 break;
-            default:
-                SweetAlertDialog dialog3 = Helpers.getConfirmationDialog(this, "OK", "Se seleccionó otro", "Volver", "Cancelar");
+            case 2:
+                break;
+            case 3:
+                SweetAlertDialog dialog3 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
+                dialog3.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(RestService.LOGIN_RESPONSE_ID, "");
+                        editor.putString(RestService.LOGIN_RESPONSE_NAME, "");
+                        editor.putString(RestService.LOGIN_PASSWORD, "");
+                        editor.commit();
+
+                        Intent intent3;
+                        intent3 = new Intent(context, LogInActivity.class);
+                        intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        finish();
+                        startActivity(intent3);
+                        finish();
+                    }
+                });
                 dialog3.show();
                 break;
         }
