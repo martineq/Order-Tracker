@@ -66,52 +66,50 @@ public class GridAdapter extends ArrayAdapter<Product>{
         TextView descripcionText = (TextView) gridItem.findViewById(R.id.descripcionText);
         TextView brandText = (TextView) gridItem.findViewById(R.id.brandText);
         TextView priceText = (TextView) gridItem.findViewById(R.id.priceText);
-        final ImageView imageView = (ImageView)gridItem.findViewById(R.id.itemImage);
-        EditText qttText = (EditText)gridItem.findViewById(R.id.quantityText);
+        final ImageView imageView = (ImageView) gridItem.findViewById(R.id.itemImage);
+        EditText qttText = (EditText) gridItem.findViewById(R.id.quantityText);
         idText.setText(String.valueOf(products.get(position).getId()));
         descripcionText.setText(products.get(position).getDescription());
         brandText.setText(products.get(position).getBrand().getDescription());
         priceText.setText("$" + String.format("%.2f", products.get(position).getPrice()));
-        if(readOnly){
+        if (readOnly) {
             qttText.setVisibility(View.INVISIBLE);
         }
-
-        switch (products.get(position).getId()){
+        switch (products.get(position).getId()) {
             case 1:
-                imageView.setImageResource(R.mipmap.ic_bandeja);
+                imageView.setImageResource(R.drawable.bandeja);
                 break;
             case 2:
-                imageView.setImageResource(R.mipmap.ic_bandeja_doble);
+                imageView.setImageResource(R.drawable.bandeja_doble);
                 break;
             case 3:
-                imageView.setImageResource(R.mipmap.ic_especiero);
+                imageView.setImageResource(R.drawable.especiero);
                 break;
             case 4:
-                imageView.setImageResource(R.mipmap.ic_espejo);
+                imageView.setImageResource(R.drawable.espejo);
                 break;
             case 5:
-                imageView.setImageResource(R.mipmap.ic_esponja);
+                imageView.setImageResource(R.drawable.esponja);
                 break;
             case 6:
-                imageView.setImageResource(R.mipmap.ic_hielera);
+                imageView.setImageResource(R.drawable.hielera);
                 break;
             case 7:
-                imageView.setImageResource(R.mipmap.ic_jarra);
+                imageView.setImageResource(R.drawable.jarra);
                 break;
             case 8:
-                imageView.setImageResource(R.mipmap.ic_pinche_choclo);
+                imageView.setImageResource(R.drawable.pinche_choclo);
                 break;
             case 9:
-                imageView.setImageResource(R.mipmap.ic_pinches);
+                imageView.setImageResource(R.drawable.pinches);
                 break;
             case 10:
-                imageView.setImageResource(R.mipmap.ic_sarten);
+                imageView.setImageResource(R.drawable.sarten);
                 break;
-
         }
         //imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
 
-        if(order.get(products.get(position).getId()) != null){
+        if (order.get(products.get(position).getId()) != null) {
             qttText.setText(order.get(products.get(position).getId()).split("&")[1]);
         }
 
@@ -129,5 +127,4 @@ public class GridAdapter extends ArrayAdapter<Product>{
 
         return gridItem;
     }
-
 }

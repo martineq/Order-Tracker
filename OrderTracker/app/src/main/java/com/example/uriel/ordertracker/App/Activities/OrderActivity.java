@@ -225,34 +225,34 @@ public class OrderActivity extends DrawerActivity {
         //expandedImageView.setImageBitmap(bitmap);
         switch (productId){
             case 1:
-                expandedImageView.setImageResource(R.mipmap.ic_bandeja);
+                expandedImageView.setImageResource(R.drawable.bandeja);
                 break;
             case 2:
-                expandedImageView.setImageResource(R.mipmap.ic_bandeja_doble);
+                expandedImageView.setImageResource(R.drawable.bandeja_doble);
                 break;
             case 3:
-                expandedImageView.setImageResource(R.mipmap.ic_especiero);
+                expandedImageView.setImageResource(R.drawable.especiero);
                 break;
             case 4:
-                expandedImageView.setImageResource(R.mipmap.ic_espejo);
+                expandedImageView.setImageResource(R.drawable.espejo);
                 break;
             case 5:
-                expandedImageView.setImageResource(R.mipmap.ic_esponja);
+                expandedImageView.setImageResource(R.drawable.esponja);
                 break;
             case 6:
-                expandedImageView.setImageResource(R.mipmap.ic_hielera);
+                expandedImageView.setImageResource(R.drawable.hielera);
                 break;
             case 7:
-                expandedImageView.setImageResource(R.mipmap.ic_jarra);
+                expandedImageView.setImageResource(R.drawable.jarra);
                 break;
             case 8:
-                expandedImageView.setImageResource(R.mipmap.ic_pinche_choclo);
+                expandedImageView.setImageResource(R.drawable.pinche_choclo);
                 break;
             case 9:
-                expandedImageView.setImageResource(R.mipmap.ic_pinches);
+                expandedImageView.setImageResource(R.drawable.pinches);
                 break;
             case 10:
-                expandedImageView.setImageResource(R.mipmap.ic_sarten);
+                expandedImageView.setImageResource(R.drawable.sarten);
                 break;
         }
 
