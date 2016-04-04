@@ -391,7 +391,7 @@ public class OrderActivity extends DrawerActivity {
             dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    volver();
+                    finish();
                     sweetAlertDialog.cancel();
                 }
             });
