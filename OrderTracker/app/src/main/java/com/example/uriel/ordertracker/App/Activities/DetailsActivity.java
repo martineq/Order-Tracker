@@ -162,12 +162,5 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         return false;
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, DiaryActivity.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra(RestService.LOGIN_RESPONSE_NAME, username);
-        intent.putExtra(RestService.LOGIN_TOKEN, token);
-        startActivity(intent);
-    }
+
 }

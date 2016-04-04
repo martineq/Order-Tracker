@@ -87,6 +87,7 @@ public class LogInActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, DiaryActivity.class);
                 intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
                 intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
+                intent.putExtra("FIRST", true);
                 startActivity(intent);
                 finish();
             }

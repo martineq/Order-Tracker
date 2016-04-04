@@ -157,7 +157,7 @@ public class DiaryActivity extends DrawerActivity {
             return rootView;
         }
 
-        public void populateClients(final ArrayList<Client> clientList){
+        public void populateClients(final ArrayList<Client> clientList) {
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
             ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientList);
             listView.setAdapter(clientsAdapter);
@@ -178,14 +178,14 @@ public class DiaryActivity extends DrawerActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private int sellerId;
 
-        public SectionsPagerAdapter(FragmentManager fm, int sellerId){
+        public SectionsPagerAdapter(FragmentManager fm, int sellerId) {
             super(fm);
             this.sellerId = sellerId;
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     return DiaryFragment.newInstance(sellerId, username, token);
                 case 1:
@@ -214,28 +214,28 @@ public class DiaryActivity extends DrawerActivity {
 
     @Override
     public void onBackPressed() {
-        final Activity context = this;
-        SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que desea cerrar sesión?", "Volver", "Cancelar");
 
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(RestService.LOGIN_RESPONSE_ID, "");
-                editor.putString(RestService.LOGIN_RESPONSE_NAME, "");
-                editor.putString(RestService.LOGIN_PASSWORD, "");
-                editor.commit();
+        Boolean yourBool = getIntent().getExtras().getBoolean("FIRST");
 
-                Intent intent = new Intent(context, LogInActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-                startActivity(intent);
-                sweetAlertDialog.cancel();
-            }
-        });
+        if (yourBool==true) {
+            final Activity context = this;
+            SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Salir", "Esta seguro que desea salir", "Salir", "Cancelar");
 
-        dialog.show();
+            dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                    finish();
+                    sweetAlertDialog.cancel();
+                }
+            });
+
+            dialog.show();
+
+        }
+
+        else {
+            super .onBackPressed();
+        }
     }
-
 }
