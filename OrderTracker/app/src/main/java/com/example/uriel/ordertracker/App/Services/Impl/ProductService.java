@@ -38,25 +38,12 @@ public class ProductService implements IProductService {
         return products;
     }
 
-    public ArrayList<Product> getByBrand(String brand){
+    public ArrayList<Product> getByBrand(ArrayList<Product> allProducts ,String brand){
         ArrayList<Product> products = new ArrayList<>();
-        switch (brand){
-            case "BestPlates":
-                products.add(new Product(1, "Bandeja redonda", 50.25, new Brand(1, "BestPlates"),""));
-                products.add(new Product(2, "Bandeja para masas", 99.99, new Brand(1, "BestPlates"),""));
-                break;
-            case "SuperBrand":
-                products.add(new Product(3, "Especiero de metal", 40, new Brand(2, "SuperBrand"),""));
-                products.add(new Product(4, "Espejo regulable", 75.75, new Brand(2, "SuperBrand"),""));
-                products.add(new Product(6, "Hielera", 80, new Brand(2, "SuperBrand"),""));
-                products.add(new Product(7, "Jarra metalica", 65, new Brand(2, "SuperBrand"),""));
-                products.add(new Product(9, "6 Pinches", 70, new Brand(2, "SuperBrand"),""));
-                break;
-            case "KitchenMaster":
-                products.add(new Product(5, "Esponja", 15.50, new Brand(3, "KitchenMaster"),""));
-                products.add(new Product(8, "Pinche para choclo", 25, new Brand(3, "KitchenMaster"),""));
-                products.add(new Product(10, "Panquequera", 120.50, new Brand(3, "KitchenMaster"),""));
-                break;
+        for (Product product : allProducts){
+            if(product.getBrand().getDescription().equals(brand)){
+                products.add(product);
+            }
         }
 
         return products;

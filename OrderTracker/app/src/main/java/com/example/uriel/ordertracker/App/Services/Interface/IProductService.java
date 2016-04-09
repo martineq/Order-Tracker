@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public interface IProductService {
     ArrayList<Product> getAll();
-    ArrayList<Product> getByBrand(String brand);
+    ArrayList<Product> getByBrand(ArrayList<Product> allProducts, String brand);
 }

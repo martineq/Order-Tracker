@@ -1,9 +1,7 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -83,6 +81,9 @@ public class DiaryActivity extends DrawerActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
+
+            final String username = getArguments().getString(RestService.LOGIN_RESPONSE_NAME);
+            final String token = getArguments().getString(RestService.LOGIN_TOKEN);
 
             return rootView;
         }

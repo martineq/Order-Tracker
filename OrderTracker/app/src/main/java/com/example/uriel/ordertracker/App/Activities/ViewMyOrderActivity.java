@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -140,6 +141,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
         qttText.setText(product.split("&")[1]);
         qttText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         qttText.setTextSize(25);
+        qttText.setGravity(Gravity.CENTER);
 
         TextView descriptionText = new TextView(this);
         descriptionText.setText(product.split("&")[0]);
@@ -150,11 +152,13 @@ public class ViewMyOrderActivity extends DrawerActivity {
         priceText.setText("$" + product.split("&")[2]);
         priceText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         priceText.setTextSize(25);
+        priceText.setGravity(Gravity.RIGHT);
 
         TextView totalText = new TextView(this);
         totalText.setText("$" + String.format("%.2f", Integer.valueOf(product.split("&")[1]) * Double.valueOf(product.split("&")[2])));
         totalText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         totalText.setTextSize(25);
+        totalText.setGravity(Gravity.RIGHT);
 
             /* Add Texts to row. */
         tr.addView(qttText);

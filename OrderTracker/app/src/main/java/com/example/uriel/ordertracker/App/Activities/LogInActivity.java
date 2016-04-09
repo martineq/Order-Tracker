@@ -74,7 +74,7 @@ public class LogInActivity extends AppCompatActivity {
             dialog.show();
         }else {
             String validation = userService.validateUser(username, password, this);
-            if(validation.equals(Constants.USER_OK)){
+            /*if(validation.equals(Constants.USER_OK)){
                 User user = userService.getById(1);
 
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
@@ -90,7 +90,7 @@ public class LogInActivity extends AppCompatActivity {
                 intent.putExtra("FIRST", true);
                 startActivity(intent);
                 finish();
-            }
+            }*/
         }
     }
 

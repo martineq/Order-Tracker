@@ -6,7 +6,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ public class OrderActivity extends DrawerActivity {
     int clientId;
     boolean readOnly;
     private HashMap<Integer, String> order;
+    private ArrayList<Product> allProducts;
 
     // Hold a reference to the current animator,
     // so that it can be canceled mid-way.
@@ -78,6 +81,7 @@ public class OrderActivity extends DrawerActivity {
 
         final Activity context = this;
         FloatingActionButton verPedido = (FloatingActionButton) findViewById(R.id.ver_pedido);
+        verPedido.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
 
         readOnly = getIntent().getExtras().getBoolean("ReadOnly");
         if(readOnly){
@@ -162,8 +166,9 @@ public class OrderActivity extends DrawerActivity {
 
         if(brand.equals("TODAS")){
             products = productService.getAll();
+            allProducts = products;
         }else{
-            products = productService.getByBrand(brand);
+            products = productService.getByBrand(allProducts, brand);
         }
 
         grid=(GridView)findViewById(R.id.gridView);
@@ -177,7 +182,6 @@ public class OrderActivity extends DrawerActivity {
 
             }
         });
-
     }
 
     private void obtenerPedido() {
