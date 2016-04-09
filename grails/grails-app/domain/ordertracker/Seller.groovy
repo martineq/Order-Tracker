@@ -1,10 +1,11 @@
 package ordertracker
 
-class Vendedor {
+class Seller {
 
     static constraints = {
     }
 
-
+    String name
+    String zone
 
 }
