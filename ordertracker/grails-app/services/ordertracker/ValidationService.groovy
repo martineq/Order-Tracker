@@ -31,8 +31,18 @@ class ValidationService implements Queryingly{
 
     @Override
     def generateQuery() {
-        this.validationResult = this.user.token.compareTo( User.findByUsername(this.user.username.toString()).token ) == 0 ? true : false
-        return this.validationResult
+        try {
+            User user = User.findByUsername(this.user.username.toString())
+            this.validationResult = this.user.token.compareTo(user.token) == 0 ? true : false
+        }
+
+        catch( NullPointerException npe ) {
+            this.validationResult = false
+        }
+
+        finally {
+            return this.validationResult
+        }
     }
 
     @Override

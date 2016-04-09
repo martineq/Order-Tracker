@@ -62,6 +62,24 @@ class ValidationServiceSpec extends Specification {
         }
     }
 
+    void "test invalidUsername"() {
+        given:
+            Requester requester = new Requester()
+            requester.addProperty(Keywords.METHOD, Keywords.GET)
+            requester.addProperty(Keywords.USERNAME, 'felipe')
+            requester.addProperty(Keywords.TOKEN, 'tokenM')
+
+        and:
+            def validationService = new ValidationService();
+
+        when:
+            validationService.validate(requester)
+            def validationResult = validationService.generateQuery()
+
+        then:
+            validationResult == false
+    }
+
     void "test invalidUsernameToken"() {
         given:
             Requester requester = new Requester()
