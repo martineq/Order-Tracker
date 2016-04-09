@@ -2,6 +2,7 @@ package com.example.uriel.ordertracker.App.Services.Impl;
 
 import com.example.uriel.ordertracker.App.Model.Brand;
 import com.example.uriel.ordertracker.App.Services.Interface.IBrandService;
+import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,9 @@ import java.util.ArrayList;
  * Created by Uriel on 27-Mar-16.
  */
 public class BrandService implements IBrandService {
+
+    private final IRestService restService = RestService.getInstance();
+
     public ArrayList<Brand> getAll(){
         ArrayList<Brand> brands = new ArrayList<>();
 

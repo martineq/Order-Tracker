@@ -87,6 +87,11 @@ public class DiaryActivity extends DrawerActivity {
 
             return rootView;
         }
+
+        public void handleUnexpectedError(String error){
+            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error de autenticación", error);
+            dialog.show();
+        }
     }
 
     public static class OffRouteFragment extends Fragment {
@@ -173,6 +178,11 @@ public class DiaryActivity extends DrawerActivity {
                     startActivity(intent);
                 }
             });
+        }
+
+        public void handleUnexpectedError(String error){
+            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error de autenticación", error);
+            dialog.show();
         }
     }
 

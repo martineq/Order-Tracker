@@ -1,5 +1,9 @@
 package com.example.uriel.ordertracker.App.Model;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 /**
  * Created by Uriel on 31-Mar-16.
  */
@@ -52,5 +56,14 @@ public class OrderLine {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public JSONObject toJSONObject(){
+        HashMap<String,Object> params = new HashMap<String,Object>();
+        if (this.order != null) params.put("order",String.valueOf(this.order.getId()));
+        if (this.product != null) params.put("product", String.valueOf(this.product.getId()));
+        if (this.quantity > 0) params.put("quantity", String.valueOf(this.quantity));
+        if (this.price > 0) params.put("price", String.valueOf(price));
+        return new JSONObject(params);
     }
 }

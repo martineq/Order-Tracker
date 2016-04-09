@@ -4,8 +4,11 @@ package com.example.uriel.ordertracker.App.Model;
  * Created by Uriel on 31-Mar-16.
  */
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Uriel on 21-Jan-16.
@@ -15,7 +18,7 @@ public class Order {
     private Client client;
     private Date fecha;
     private double importeTotal;
-    private boolean enviado;
+    private String estado;
     private User seller;
     private ArrayList<OrderLine> lines;
 
@@ -59,12 +62,20 @@ public class Order {
         this.importeTotal = importeTotal;
     }
 
-    public boolean isEnviado() {
-        return enviado;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setEnviado(boolean enviado) {
-        this.enviado = enviado;
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
     public ArrayList<OrderLine> getLines() {
@@ -74,5 +85,22 @@ public class Order {
     public void setLineas(ArrayList<OrderLine> lines) {
         this.lines = lines;
     }
+
+    public JSONObject toJSONObject(){
+        HashMap<String,String> params = new HashMap<String,String>();
+        if (this.client != null) params.put("client", String.valueOf(this.client.getId()));
+        if (this.fecha != null) params.put("fecha", String.valueOf(this.fecha));
+        if (this.estado != "") params.put("estado", this.estado);
+        if (this.importeTotal > 0) params.put("importeTotal", String.valueOf(importeTotal));
+        if (this.seller != null) params.put("vendedor", String.valueOf(this.seller.getId()));
+        String lines = "[";
+        for (OrderLine line: this.lines) {
+            lines += line.toJSONObject() + ",";
+        }
+        lines = lines.substring(0, lines.length()-1) + "]";
+        if (this.lines.size() > 0) params.put("lines", lines);
+        return new JSONObject(params);
+    }
+
 }
 

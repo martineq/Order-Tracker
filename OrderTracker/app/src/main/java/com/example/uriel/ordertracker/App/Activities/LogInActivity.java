@@ -45,8 +45,8 @@ public class LogInActivity extends AppCompatActivity {
         String password = sharedPref.getString(RestService.LOGIN_PASSWORD, "");
         if(username != "" && password != ""){
             try {
-                String validation = userService.validateUser(username, password, this);
-                if(validation.equals(Constants.USER_OK)){
+                userService.validateUser(username, password, this);
+                /*if(validation.equals(Constants.USER_OK)){
                     User user = userService.getById(1);
 
                     Intent intent = new Intent(this, DiaryActivity.class);
@@ -54,7 +54,7 @@ public class LogInActivity extends AppCompatActivity {
                     intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
                     startActivity(intent);
                     finish();
-                }
+                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class LogInActivity extends AppCompatActivity {
 
     public void validateUser(View v){
         SweetAlertDialog dialog = null;
-        String username = String.valueOf(((TextView)findViewById(R.id.user_id_startup)).getText());
+        String username = String.valueOf(((TextView) findViewById(R.id.user_id_startup)).getText());
         String password = String.valueOf(((TextView) findViewById(R.id.password_id_startup)).getText());
 
         if(username.equals("")){
@@ -73,7 +73,7 @@ public class LogInActivity extends AppCompatActivity {
             dialog = Helpers.getErrorDialog(this, "Error", "Ingrese una contraseña");
             dialog.show();
         }else {
-            String validation = userService.validateUser(username, password, this);
+            userService.validateUser(username, password, this);
             /*if(validation.equals(Constants.USER_OK)){
                 User user = userService.getById(1);
 
@@ -101,6 +101,7 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         editor.putString(RestService.LOGIN_PASSWORD, password.getText().toString());
+        editor.putString(RestService.LOGIN_TOKEN, user.getToken());
         editor.commit();
 
         Intent intent = new Intent(this, DiaryActivity.class);
@@ -112,8 +113,9 @@ public class LogInActivity extends AppCompatActivity {
         finish();
     }
 
-    public void handleUnexpectedError(int code){
-        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "Ocurrio un error, codigo: " + String.valueOf(code));
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error de autenticación", error);
+        dialog.show();
     }
 
     public void showProgress(final boolean show) {

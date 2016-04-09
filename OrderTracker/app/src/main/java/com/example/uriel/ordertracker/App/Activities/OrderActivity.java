@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,14 +26,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Brand;
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.GridAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Product;
 import com.example.uriel.ordertracker.App.Services.Impl.BrandService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Interface.IBrandService;
 import com.example.uriel.ordertracker.App.Services.Interface.IProductService;
 import com.example.uriel.ordertracker.R;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +54,8 @@ public class OrderActivity extends DrawerActivity {
     GridAdapter gridAdapter;
     int clientId;
     boolean readOnly;
+    private String username;
+    private String token;
     private HashMap<Integer, String> order;
     private ArrayList<Product> allProducts;
 
@@ -79,6 +87,10 @@ public class OrderActivity extends DrawerActivity {
         productService = new ProductService();
         brandService = new BrandService();
 
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
+        token = sharedPref.getString(RestService.LOGIN_TOKEN, "");
+
         final Activity context = this;
         FloatingActionButton verPedido = (FloatingActionButton) findViewById(R.id.ver_pedido);
         verPedido.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
@@ -106,36 +118,7 @@ public class OrderActivity extends DrawerActivity {
         }
 
         //cargar opciones de rubros
-        ArrayList<Brand> brands = brandService.getAll();
-        final ArrayList<Integer> brandsIds = new ArrayList<Integer>();
-        brand_spinner = new String[brands.size() + 1];
-        brand_spinner[0] = "TODAS";
-        brandsIds.add(0);
-        for(int i = 0; i < brands.size(); i++){
-            Brand marca = brands.get(i);
-            brand_spinner[i+1] = marca.getDescription();
-            brandsIds.add(marca.getId());
-        }
-
-        final Spinner s = (Spinner) findViewById(R.id.brandSpinner);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, brand_spinner);
-        s.setAdapter(spinnerAdapter);
-        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String brand = s.getItemAtPosition(position).toString();
-                int rubroId = brandsIds.get(position);
-                //TODO: setBrand por id para ser mas prolijo
-                setBrand(brand);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        setBrand(s.getItemAtPosition(0).toString());
+        brandService.getAll();
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
@@ -161,27 +144,56 @@ public class OrderActivity extends DrawerActivity {
         setTitle("Arme su pedido");
     }
 
-    public void setBrand(String brand){
-        ArrayList<Product> products;
-
-        if(brand.equals("TODAS")){
-            products = productService.getAll();
-            allProducts = products;
-        }else{
-            products = productService.getByBrand(allProducts, brand);
+    public void populateBrands(ArrayList<Brand> brands){
+        final ArrayList<Integer> brandsIds = new ArrayList<Integer>();
+        brand_spinner = new String[brands.size() + 1];
+        brand_spinner[0] = "TODAS";
+        brandsIds.add(0);
+        for(int i = 0; i < brands.size(); i++){
+            Brand marca = brands.get(i);
+            brand_spinner[i+1] = marca.getDescription();
+            brandsIds.add(marca.getId());
         }
 
-        grid=(GridView)findViewById(R.id.gridView);
-        obtenerPedido();
-        gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
-        grid.setAdapter(gridAdapter);
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final Spinner s = (Spinner) findViewById(R.id.brandSpinner);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, brand_spinner);
+        s.setAdapter(spinnerAdapter);
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String brand = s.getItemAtPosition(position).toString();
+                int rubroId = brandsIds.get(position);
+                //TODO: setBrand por id para ser mas prolijo
+                try {
+                    setBrand(brand);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
+        try {
+            setBrand(s.getItemAtPosition(0).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBrand(String brand) throws JSONException {
+        ArrayList<Product> products;
+
+        if(brand.equals("TODAS")){
+            products = productService.getAll(username, token, this);
+            allProducts = products;
+        }else{
+            products = productService.getByBrand(allProducts, brand);
+            populateProducts(products);
+        }
     }
 
     private void obtenerPedido() {
@@ -383,6 +395,25 @@ public class OrderActivity extends DrawerActivity {
                 mCurrentAnimator = set;
             }
         });
+    }
+
+    public void populateProducts(ArrayList<Product> products){
+        grid=(GridView)findViewById(R.id.gridView);
+        obtenerPedido();
+        gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
+        grid.setAdapter(gridAdapter);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+            }
+        });
+    }
+
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error de autenticación", error);
+        dialog.show();
     }
 
     @Override

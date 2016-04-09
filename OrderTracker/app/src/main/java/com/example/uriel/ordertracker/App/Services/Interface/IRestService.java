@@ -4,6 +4,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
+import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
+import com.example.uriel.ordertracker.App.Model.Order;
 
 import org.json.JSONException;
 
@@ -26,4 +29,7 @@ public interface IRestService {
 
     void login(final String username, final String password, final LogInActivity context) throws JSONException;
     void getClients(final String username, final String token, final DiaryActivity.OffRouteFragment fragment, final FragmentActivity context);
+    void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context) throws JSONException;
+    void getProducts(final String username, final String token, final OrderActivity context) throws JSONException;
+    void getBrands(final String username, final String token, final OrderActivity context) throws JSONException;
 }

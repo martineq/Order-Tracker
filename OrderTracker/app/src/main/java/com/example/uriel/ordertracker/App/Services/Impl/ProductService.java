@@ -1,8 +1,12 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
+import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Model.Brand;
 import com.example.uriel.ordertracker.App.Model.Product;
 import com.example.uriel.ordertracker.App.Services.Interface.IProductService;
+import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -10,7 +14,16 @@ import java.util.ArrayList;
  * Created by Uriel on 27-Mar-16.
  */
 public class ProductService implements IProductService {
-    public ArrayList<Product> getAll(){
+
+    private final IRestService restService = RestService.getInstance();
+
+    public ArrayList<Product> getAll(String username, String token, OrderActivity context) throws JSONException{
+        try {
+            restService.getProducts(username, token, context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         ArrayList<Product> products = new ArrayList<>();
 
         Product product1 = new Product(1, "Bandeja redonda", 50.25, new Brand(1, "BestPlates"),"");

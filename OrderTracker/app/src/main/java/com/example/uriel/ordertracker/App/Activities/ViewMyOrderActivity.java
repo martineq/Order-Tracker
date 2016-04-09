@@ -20,9 +20,11 @@ import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Model.OrderLine;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
+import com.example.uriel.ordertracker.App.Services.Impl.OrderService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
+import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
@@ -37,11 +39,14 @@ public class ViewMyOrderActivity extends DrawerActivity {
     HashMap<Integer, String> order;
     int clientId;
     int userId;
+    String username;
+    String token;
     double total;
     Button confirmarButton;
     private UserService userService;
     private ClientService clientService;
     private ProductService productService;
+    private IOrderService orderService;
     final Activity context = this;
     private boolean blockBackKey;
 
@@ -52,6 +57,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
         userService = new UserService();
         clientService = new ClientService();
         productService = new ProductService();
+        orderService = new OrderService();
         blockBackKey = false;
 
         setTitle("Su pedido");
@@ -59,6 +65,8 @@ public class ViewMyOrderActivity extends DrawerActivity {
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
+        username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
+        token = sharedPref.getString(RestService.LOGIN_TOKEN, "");
 
         Intent intent = getIntent();
         order = (HashMap<Integer, String>)intent.getSerializableExtra("order");
@@ -190,23 +198,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
         try{
             User seller = userService.getById(userId);
             Order order = new Order(0, clientService.getById(clientId), Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
-
-            SweetAlertDialog dialog = Helpers.getSuccesDialog(this, "Pedido", "El pedido se almaceno con exito");
-
-            dialog.setCancelable(false);
-            dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    blockBackKey = false;
-                    Intent intent = new Intent(context, DiaryActivity.class);
-                    intent.putExtra("userId", userId);
-                    startActivity(intent);
-                    sweetAlertDialog.cancel();
-                }
-            });
-
-            dialog.show();
-
+            orderService.sendOrder(username, token, order, this);
         }catch(Exception e){
             SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "No se pudo almacenar el pedido, intente nuevamente");
             dialog.show();
@@ -219,6 +211,29 @@ public class ViewMyOrderActivity extends DrawerActivity {
         divider.setLayoutParams(new TableRow.LayoutParams(2, TableRow.LayoutParams.MATCH_PARENT));
 
         return divider;
+    }
+
+    public void savedOrder(){
+        SweetAlertDialog dialog = Helpers.getSuccesDialog(this, "Pedido", "El pedido se almaceno con exito");
+
+        dialog.setCancelable(false);
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                blockBackKey = false;
+                Intent intent = new Intent(context, DiaryActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                sweetAlertDialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error de autenticación", error);
+        dialog.show();
     }
 
     @Override
