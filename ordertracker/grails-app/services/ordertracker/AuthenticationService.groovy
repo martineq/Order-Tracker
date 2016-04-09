@@ -6,6 +6,7 @@ import ordertracker.protocol.Result
 import ordertracker.protocol.Status
 import ordertracker.protocol.builder.JsonObjectBuilder
 import ordertracker.protocol.builder.properties.JsonPropertyFactory
+import ordertracker.queries.Keywords
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
@@ -17,13 +18,10 @@ class AuthenticationService implements Queryingly{
     private boolean authenticationResult
     private List<String> properties
 
-    private static String USERNAME = "username"
-    private static String PASSWORD = "password"
-
     AuthenticationService() {
         this.user = new User(username: '', password: '', token: '')
         this.authenticationResult = false
-        this.properties = Arrays.asList( USERNAME, PASSWORD )
+        this.properties = Arrays.asList( Keywords.USERNAME, Keywords.PASSWORD )
     }
 
     private ProtocolJsonBuilder validUser(ProtocolJsonBuilder protocolJsonBuilder) {
@@ -44,15 +42,14 @@ class AuthenticationService implements Queryingly{
 
     @Override
     def validate(Requester requester) {
-
         if ( requester.getProperty("method").toString().compareTo("GET") )
             throw new QueryException("Invalid HTTP request method: must be GET")
 
         boolean requesterValidationResult = requester.validateRequest(this.properties)
 
         if ( requesterValidationResult == true ) {
-            this.user.username = requester.getProperty(USERNAME)
-            this.user.password = requester.getProperty(PASSWORD)
+            this.user.username = requester.getProperty(Keywords.USERNAME)
+            this.user.password = requester.getProperty(Keywords.PASSWORD)
         }
 
         return requesterValidationResult

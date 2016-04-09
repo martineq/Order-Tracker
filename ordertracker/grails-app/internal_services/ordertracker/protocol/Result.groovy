@@ -18,4 +18,8 @@ enum Result {
     static String getEnumName() {
         return "result"
     }
+
+    static Result defineResult(boolean result) {
+        return ( result == true ) ? Result.OK : Result.ERROR
+    }
 }

@@ -24,10 +24,12 @@ class ProtocolJsonBuilder {
 
     def addStatus(Status status) {
         this.jsonObjectBuilder.addJsonableItem(status)
+        return this
     }
 
     def addData(Data data) {
         this.jsonObjectBuilder.addJsonableItem(data)
+        return this
     }
 
     def build() {
