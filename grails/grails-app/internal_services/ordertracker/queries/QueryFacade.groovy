@@ -10,6 +10,10 @@ class QueryFacade {
         this.queryProtocol = authenticationQuery
     }
 
+    QueryFacade(Queryingly queryService) {
+        this.queryProtocol = new Query(queryService)
+    }
+
     def solve(RequestFacade request) {
         this.queryProtocol.analyse(request)
         this.queryProtocol.run()
