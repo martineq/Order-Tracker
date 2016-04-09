@@ -1,13 +1,28 @@
 package ordertracker.queries
 
+import ordertracker.protocol.ProtocolJsonBuilder
+import ordertracker.protocol.Result
+import ordertracker.protocol.Status
 import org.apache.catalina.connector.RequestFacade
 
-interface QueryProtocol {
+abstract class QueryProtocol {
 
-    QueryProtocol analyse(RequestFacade request)
+    protected ProtocolJsonBuilder builder
+    protected String queryExceptionMessage
+    protected Requester requester
 
-    QueryProtocol run()
+    QueryProtocol analyse(RequestFacade request) {
+        this.requester.addProperty( "method", request.method )
+        request.headerNames.each { header -> this.requester.addProperty( header, request.getHeader(header)) }
+        return this
+    }
 
-    def buildJson()
+    abstract QueryProtocol run()
 
+    def buildJson() {
+        if ( this.queryExceptionMessage.empty == true )
+            return this.builder.build()
+
+        return new ProtocolJsonBuilder(new Status(Result.ERROR, this.queryExceptionMessage)).build()
+    }
 }
