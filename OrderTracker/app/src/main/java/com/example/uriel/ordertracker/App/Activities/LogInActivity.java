@@ -46,15 +46,6 @@ public class LogInActivity extends AppCompatActivity {
         if(username != "" && password != ""){
             try {
                 userService.validateUser(username, password, this);
-                /*if(validation.equals(Constants.USER_OK)){
-                    User user = userService.getById(1);
-
-                    Intent intent = new Intent(this, DiaryActivity.class);
-                    intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-                    intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-                    startActivity(intent);
-                    finish();
-                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,23 +65,6 @@ public class LogInActivity extends AppCompatActivity {
             dialog.show();
         }else {
             userService.validateUser(username, password, this);
-            /*if(validation.equals(Constants.USER_OK)){
-                User user = userService.getById(1);
-
-                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(RestService.LOGIN_RESPONSE_ID, String.valueOf(user.getId()));
-                editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-                editor.putString(RestService.LOGIN_PASSWORD, password);
-                editor.commit();
-
-                Intent intent = new Intent(this, DiaryActivity.class);
-                intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-                intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-                intent.putExtra("FIRST", true);
-                startActivity(intent);
-                finish();
-            }*/
         }
     }
 

@@ -59,7 +59,7 @@ public class RestService implements IRestService {
                     @Override
                     public void onResponse(JSONObject response) {
                         UserDTO userContainer = new Gson().fromJson(response.toString(), UserDTO.class);
-                        if("OK".equals(userContainer.getStatus().getDescription())) {
+                        if(Constants.OK_RESPONSE.equals(userContainer.getStatus().getResult())) {
                             context.processLoginResponse(userContainer.getData());
                         } else {
                             context.handleUnexpectedError(userContainer.getStatus().getDescription());
@@ -107,7 +107,7 @@ public class RestService implements IRestService {
                     public void onResponse(JSONObject response) {
                         ClientsDTO clientsContainer =
                                 new Gson().fromJson(response.toString(), ClientsDTO.class);
-                        if("OK".equals(clientsContainer.getStatus().getDescription())) {
+                        if(Constants.OK_RESPONSE.equals(clientsContainer.getStatus().getResult())) {
                             fragment.populateClients(clientsContainer.getData());
                         } else {
                             fragment.handleUnexpectedError(clientsContainer.getStatus().getDescription());
@@ -149,7 +149,7 @@ public class RestService implements IRestService {
                     public void onResponse(JSONObject response) {
                         ProductDTO productsContainer =
                                 new Gson().fromJson(response.toString(), ProductDTO.class);
-                        if("OK".equals(productsContainer.getStatus().getDescription())) {
+                        if(Constants.OK_RESPONSE.equals(productsContainer.getStatus().getResult())) {
                             context.populateProducts(productsContainer.getData());
                         } else {
                             context.handleUnexpectedError(productsContainer.getStatus().getDescription());
@@ -191,7 +191,7 @@ public class RestService implements IRestService {
                     public void onResponse(JSONObject response) {
                         BrandDTO brandsContainer =
                                 new Gson().fromJson(response.toString(), BrandDTO.class);
-                        if("OK".equals(brandsContainer.getStatus().getDescription())) {
+                        if(Constants.OK_RESPONSE.equals(brandsContainer.getStatus().getResult())) {
                             context.populateBrands(brandsContainer.getData());
                         } else {
                             context.handleUnexpectedError(brandsContainer.getStatus().getDescription());
@@ -236,7 +236,7 @@ public class RestService implements IRestService {
                     public void onResponse(JSONObject response) {
                         BaseDTO baseContainer =
                                 new Gson().fromJson(response.toString(), BaseDTO.class);
-                        if("OK".equals(baseContainer.getStatus().getDescription())) {
+                        if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
                             context.savedOrder();
                         } else {
                             context.handleUnexpectedError(baseContainer.getStatus().getDescription());

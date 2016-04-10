@@ -65,7 +65,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         client = clientService.getById(clientId);
         name = client.getName();
 
-        setTitle("Info del cliente: "+name);
+        setTitle("Info del cliente: " + name);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -86,10 +86,10 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         }
 
         TextView addressText = (TextView) findViewById(R.id.addressText);
-        addressText.setText(client.getAddress());
+        addressText.setText(client.getAddress() + ", " + client.getCity());
         List<Address> geocodeMatches = null;
         try {
-            geocodeMatches = new Geocoder(this).getFromLocationName(client.getAddress(), 1);
+            geocodeMatches = new Geocoder(this).getFromLocationName(client.getAddress() + ", " + client.getCity(), 1);
 
             if (!geocodeMatches.isEmpty())
             {

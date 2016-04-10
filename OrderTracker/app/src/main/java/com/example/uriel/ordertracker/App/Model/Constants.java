@@ -28,8 +28,8 @@ public class Constants {
     public static String getClientsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + CLIENT_SERVICE); }
 
     //Response
-    public static final String ERROR_RESPONSE = "ERROR";
-    public static final String OK_RESPONSE = "OK";
+    public static final String ERROR_RESPONSE = "error";
+    public static final String OK_RESPONSE = "ok";
 
     public static final int INVALID_USERNAME = 1;
     public static final int INVALID_PASSWORD = 2;
