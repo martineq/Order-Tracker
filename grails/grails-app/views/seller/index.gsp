@@ -3,8 +3,6 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Vendedores</title>
-
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 </head>
 <body>
             <h1>Listado de vendedores</h1>
