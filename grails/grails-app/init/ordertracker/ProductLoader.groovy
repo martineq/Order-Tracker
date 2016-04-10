@@ -17,7 +17,9 @@ class ProductLoader {
                 stock:700, price:23.65, state:'disponible').save()
         new Product(name:'Fanta', brand_id:3, image:'not', category:'bebidas', characteristic:'botella 1500ml',
                 stock:800, price:24.43, state:'disponible').save()
-
+        Product prod = new Product(name:'Sprite', brand_id:3, image:'not', category:'bebidas', characteristic:'botella 1500ml',
+                                stock:800, price:23.85, state:'disponible').save()
+        print 'ID de un producto: '+ prod.getId() + '\n'
     }
 }
 
