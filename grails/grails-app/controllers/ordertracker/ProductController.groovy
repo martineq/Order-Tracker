@@ -1,6 +1,7 @@
 package ordertracker
 
 import ordertracker.queries.QueryFacade
+import ordertracker.queries.RawQueryFacade
 
 class ProductController {
 
@@ -21,6 +22,6 @@ class ProductController {
     }
 
     def image() {
-        // response <<
+        response << new RawQueryFacade(new ProductImageService()).solve(request)
     }
 }
