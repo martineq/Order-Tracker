@@ -1,6 +1,6 @@
 package ordertracker
 
-class Order {
+class ClientOrder {
 
     static constraints = {
     }
