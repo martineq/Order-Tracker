@@ -2,12 +2,13 @@ package ordertracker
 
 class Client {
 
-    int     id
-    String  name
-    String  address
-    String  city
-    String  qrcode
-
     static constraints = {
     }
+
+    String name
+    String address
+    String city
+    String qrcode
+    String email
+
 }
