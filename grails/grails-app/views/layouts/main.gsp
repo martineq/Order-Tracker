@@ -31,7 +31,33 @@
             </div>
             <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <g:pageProperty name="page.nav" />
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vendedores <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/seller/index">Listado</a></li>
+                <li><a href="#">Agenda</a></li>
+                <li role="separator" class="divider"></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Listado</a></li>
+                <li><a href="#">Alta</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Listado</a></li>
+                <li><a href="#">Editar listado</a></li>
+            </ul>
+        </li>
+                <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descuentos</a>
+
+        </li>
+    
                 </ul>
             </div>
         </div>
