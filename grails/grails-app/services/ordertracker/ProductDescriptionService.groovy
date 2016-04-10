@@ -13,6 +13,7 @@ import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
+import ordertracker.util.Server
 
 class ProductDescriptionService implements Queryingly {
 
@@ -51,11 +52,12 @@ class ProductDescriptionService implements Queryingly {
 
     private Data generateData() {
         def jsonObject = new JsonObjectBuilder()
-        //TODO Brand subquery
 
+        // TODO Brand subquery
+        // TODO IMAGE ID
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, product.name))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND_ID, product.brand_id))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE, product.image))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE, this.getImageURL()))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CATEGORY, product.category))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CHARACTERISTIC, product.characteristic))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STOCK, product.stock))
@@ -63,6 +65,10 @@ class ProductDescriptionService implements Queryingly {
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, product.state))
 
         return new Data(jsonObject)
+    }
+
+    private String getImageURL() {
+        return Server.getURL()+"/"+Keywords.PRODUCT.toString()+'/'+Keywords.IMAGE.toString()+'/'+this.productID.toString()
     }
 
 }
