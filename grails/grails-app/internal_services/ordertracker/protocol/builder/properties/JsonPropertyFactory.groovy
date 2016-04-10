@@ -15,6 +15,30 @@ class JsonPropertyFactory implements Jsonable {
         jsonProperty = new JsonPropertyCommand(name, value, this.&jsonJsonableCommandProperty )
     }
 
+    JsonPropertyFactory(String name, Double value) {
+        jsonProperty = new JsonPropertyCommand(name, value, this.&jsonDoubleCommandProperty )
+    }
+
+    JsonPropertyFactory(String name, int value) {
+        jsonProperty = new JsonPropertyCommand(name, value, this.&jsonIntegerCommandProperty )
+    }
+
+    JsonPropertyFactory(Enum name, String value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonStringCommandProperty )
+    }
+
+    JsonPropertyFactory(Enum name, Jsonable value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonJsonableCommandProperty )
+    }
+
+    JsonPropertyFactory(Enum name, Double value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonDoubleCommandProperty )
+    }
+
+    JsonPropertyFactory(Enum name, int value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonIntegerCommandProperty )
+    }
+
     def buildJson() {
         return jsonProperty.buildJson()
     }
@@ -32,6 +56,18 @@ class JsonPropertyFactory implements Jsonable {
     def jsonJsonableCommandProperty(String name, Jsonable value) {
         def propertyName = this.encapsulateString(name)
         def propertyValue = value.buildJson()
+        return propertyName + JsonElements.JSON_PROPERTY_SEPARATOR + propertyValue
+    }
+
+    def jsonDoubleCommandProperty(String name, Double value) {
+        def propertyName = this.encapsulateString(name)
+        def propertyValue = value.toString()
+        return propertyName + JsonElements.JSON_PROPERTY_SEPARATOR + propertyValue
+    }
+
+    def jsonIntegerCommandProperty(String name, int value) {
+        def propertyName = this.encapsulateString(name)
+        def propertyValue = value.toString()
         return propertyName + JsonElements.JSON_PROPERTY_SEPARATOR + propertyValue
     }
 }

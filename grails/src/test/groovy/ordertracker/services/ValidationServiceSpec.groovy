@@ -5,8 +5,10 @@ import grails.test.mixin.TestFor
 import ordertracker.User
 import ordertracker.UserLoader
 import ordertracker.ValidationService
+import ordertracker.constants.HttpProtocol
+import ordertracker.constants.Keywords
 import ordertracker.protocol.ProtocolJsonBuilder
-import ordertracker.queries.Keywords
+import ordertracker.queries.Query
 import ordertracker.queries.QueryException
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
@@ -22,7 +24,7 @@ class ValidationServiceSpec extends Specification {
 
     private Requester generateMartinRequester() {
         Requester requester = new Requester()
-        requester.addProperty(Keywords.METHOD, Keywords.GET)
+        requester.addProperty(HttpProtocol.METHOD, HttpProtocol.GET)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
         return requester
@@ -44,58 +46,71 @@ class ValidationServiceSpec extends Specification {
 
     void "test invalidRequest"() {
         given:
-        Requester requester = new Requester()
-        requester.addProperty(Keywords.METHOD, Keywords.GET)
-        requester.addProperty(Keywords.USERNAME, 'martin')
+            Requester requester = new Requester()
+            requester.addProperty(HttpProtocol.METHOD, HttpProtocol.GET)
+            requester.addProperty(Keywords.USERNAME, 'martin')
 
         and:
-        def validationService = new ValidationService();
+            def validationService = new ValidationService();
+            def message = ""
 
+        when:
         try {
-            when:
-                validationService.validate(requester)
+            validationService.validate(requester)
+        }
+        catch (QueryException qe ) {
+            message = qe.getMessage()
         }
 
-        catch (QueryException qe ) {
-            then:
-                qe.getMessage() == 'Invalid request - user rejected'
-        }
+        then:
+            message == 'Invalid request'
     }
 
     void "test invalidUsername"() {
         given:
             Requester requester = new Requester()
-            requester.addProperty(Keywords.METHOD, Keywords.GET)
+            requester.addProperty(HttpProtocol.METHOD, HttpProtocol.GET)
             requester.addProperty(Keywords.USERNAME, 'felipe')
             requester.addProperty(Keywords.TOKEN, 'tokenM')
 
         and:
             def validationService = new ValidationService();
-
-        when:
             validationService.validate(requester)
-            def validationResult = validationService.generateQuery()
+            def message = ""
+        when:
+            try {
+                validationService.generateQuery()
+            }
+            catch (QueryException qe) {
+                message = qe.getMessage()
+            }
 
         then:
-            validationResult == false
+            message == 'Invalid request - user rejected'
     }
 
     void "test invalidUsernameToken"() {
         given:
             Requester requester = new Requester()
-            requester.addProperty(Keywords.METHOD, Keywords.GET)
+            requester.addProperty(HttpProtocol.METHOD, HttpProtocol.GET)
             requester.addProperty(Keywords.USERNAME, 'martin')
             requester.addProperty(Keywords.TOKEN, 'tokenM')
 
         and:
             def validationService = new ValidationService();
+            validationService.validate(requester)
+            def message = ""
 
         when:
-            validationService.validate(requester)
-            def validationResult = validationService.generateQuery()
+            try {
+                validationService.generateQuery()
+            }
+            catch (QueryException qe) {
+                message = qe.getMessage()
+            }
 
         then:
-            validationResult == false
+            message == 'Invalid request - user rejected'
     }
 
     void "test validUsernameToken"() {

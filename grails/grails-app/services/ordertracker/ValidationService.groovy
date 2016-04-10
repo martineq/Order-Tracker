@@ -1,9 +1,10 @@
 package ordertracker
 
+import ordertracker.constants.Enums
+import ordertracker.constants.Keywords
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
 import ordertracker.protocol.Status
-import ordertracker.queries.Keywords
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
@@ -21,8 +22,7 @@ class ValidationService implements Queryingly{
 
     @Override
     def validate(Requester requester) {
-        if ( requester.validateRequest(Arrays.asList(Keywords.USERNAME, Keywords.TOKEN)) == false )
-            throw new QueryException("Invalid request - user rejected")
+        requester.validateRequest(Enums.asList(Keywords.USERNAME, Keywords.TOKEN))
 
         this.user.username = requester.getProperty(Keywords.USERNAME)
         this.user.token = requester.getProperty(Keywords.TOKEN)
@@ -31,22 +31,19 @@ class ValidationService implements Queryingly{
 
     @Override
     def generateQuery() {
-        try {
-            User user = User.findByUsername(this.user.username.toString())
-            this.validationResult = this.user.token.compareTo(user.token) == 0 ? true : false
-        }
+        User user = User.findByUsername(this.user.username.toString())
 
-        catch( NullPointerException npe ) {
-            this.validationResult = false
-        }
+        if ( user == null || this.user.token.compareTo(user.token) != 0 )
+            throw new QueryException("Invalid request - user rejected")
 
-        finally {
-            return this.validationResult
-        }
+        return this.validationResult = true
     }
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        return new ProtocolJsonBuilder().addStatus(new Status(Result.defineResult(this.validationResult),"Permitted access"))
+        if ( this.validationResult == false )
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR), "Validation Service failed")
+
+        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK,"Permitted access"))
     }
 }

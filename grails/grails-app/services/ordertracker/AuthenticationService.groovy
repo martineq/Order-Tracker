@@ -1,12 +1,14 @@
 package ordertracker
 
+import ordertracker.constants.Enums
+import ordertracker.constants.HttpProtocol
+import ordertracker.constants.Keywords
 import ordertracker.protocol.Data
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
 import ordertracker.protocol.Status
 import ordertracker.protocol.builder.JsonObjectBuilder
 import ordertracker.protocol.builder.properties.JsonPropertyFactory
-import ordertracker.queries.Keywords
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
@@ -16,66 +18,43 @@ class AuthenticationService implements Queryingly{
 
     private User user
     private boolean authenticationResult
-    private List<String> properties
 
     AuthenticationService() {
         this.user = new User(username: '', password: '', token: '')
         this.authenticationResult = false
-        this.properties = Arrays.asList( Keywords.USERNAME, Keywords.PASSWORD )
-    }
-
-    private ProtocolJsonBuilder validUser(ProtocolJsonBuilder protocolJsonBuilder) {
-        protocolJsonBuilder.addStatus(new Status(Result.OK, "Authenticated username"))
-        protocolJsonBuilder.addData(this.generateData());
-
-        return protocolJsonBuilder
-    }
-
-    private ProtocolJsonBuilder invalidUser(ProtocolJsonBuilder protocolJsonBuilder) {
-        protocolJsonBuilder.addStatus(new Status(Result.ERROR, "Authentication failed"))
-        return protocolJsonBuilder
-    }
-
-    private Data generateData() {
-        new Data(new JsonObjectBuilder().addJsonableItem(new JsonPropertyFactory("token", this.user.token)))
     }
 
     @Override
     def validate(Requester requester) {
-        if ( requester.getProperty("method").toString().compareTo("GET") )
+        if ( requester.getProperty(HttpProtocol.METHOD).toString().compareTo(HttpProtocol.GET.toString()) )
             throw new QueryException("Invalid HTTP request method: must be GET")
 
-        boolean requesterValidationResult = requester.validateRequest(this.properties)
-
-        if ( requesterValidationResult == true ) {
-            this.user.username = requester.getProperty(Keywords.USERNAME)
-            this.user.password = requester.getProperty(Keywords.PASSWORD)
-        }
-
-        return requesterValidationResult
+        requester.validateRequest( Enums.asList( Keywords.USERNAME, Keywords.PASSWORD ))
+        this.user.username = requester.getProperty(Keywords.USERNAME)
+        this.user.password = requester.getProperty(Keywords.PASSWORD)
+        return true
     }
 
     @Override
     def generateQuery() {
-        try {
-            User user = User.findByUsername(this.user.username)
-            this.user.token = user.token
-            this.authenticationResult = this.user.password.compareTo(user.password) == 0 ? true : false
-        }
+        User user = User.findByUsername(this.user.username.toString())
 
-        catch( NullPointerException npe ) {
-            this.authenticationResult = false
-        }
+        if ( user == null || this.user.password.compareTo(user.password) != 0 )
+            throw new QueryException("Invalid request - user rejected")
 
-        finally {
-            return this.authenticationResult
-        }
+        this.user.token = user.token
+        return this.authenticationResult = true
     }
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        ProtocolJsonBuilder protocolJsonBuilder = new ProtocolJsonBuilder()
-        authenticationResult ? this.validUser(protocolJsonBuilder) : this.invalidUser( protocolJsonBuilder )
-        return protocolJsonBuilder
+        if ( authenticationResult == false )
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Authentication failed"))
+
+        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "Authenticated username")).addData(this.generateData())
+    }
+
+    private Data generateData() {
+        new Data(new JsonObjectBuilder().addJsonableItem(new JsonPropertyFactory("token", this.user.token)))
     }
 }

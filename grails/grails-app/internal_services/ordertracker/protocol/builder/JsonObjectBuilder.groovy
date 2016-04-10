@@ -21,9 +21,15 @@ class JsonObjectBuilder implements Jsonable {
     }
 
     def buildJson() {
-        if ( this.jsonablesItemsType.simpleName.toString().compareTo(JsonObjectBuilder.simpleName) == 0 )
+        try {
+            if (this.jsonablesItemsType.simpleName.toString().compareTo(JsonObjectBuilder.simpleName) == 0)
                 return new JsonWriterFactory(properties, true).writeJson()
 
-        return new JsonWriterFactory(properties).writeJson()
+            return new JsonWriterFactory(properties).writeJson()
+        }
+
+        catch (NullPointerException npe) {
+            return new JsonWriterFactory(properties).writeJson()
+        }
     }
 }

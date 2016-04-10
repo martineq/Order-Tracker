@@ -18,6 +18,14 @@ class Requester {
         return this.properties.get(property)
     }
 
+    def addProperty(Enum property, Object object) {
+        this.properties.put(property.toString(), object)
+    }
+
+    def getProperty(Enum property) {
+        return this.properties.get(property.toString())
+    }
+
     boolean validateRequest(List<String> minimumProperties) {
         def propertiesFound = 0
         def properties = this.properties.keySet()
@@ -25,7 +33,6 @@ class Requester {
 
         if ( propertiesFound != minimumProperties.size() )
             throw new QueryException("Invalid request")
-
         return true
     }
 
