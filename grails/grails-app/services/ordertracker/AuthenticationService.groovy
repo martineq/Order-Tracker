@@ -55,6 +55,13 @@ class AuthenticationService implements Queryingly{
     }
 
     private Data generateData() {
-        new Data(new JsonObjectBuilder().addJsonableItem(new JsonPropertyFactory("token", this.user.token)))
+        def jsonObjectBuilder = new JsonObjectBuilder()
+
+        // TODO: asignar el valor correcto del USERNAME_ID
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.USERNAME_ID, 0))
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.USERNAME, this.user.username))
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.TOKEN, this.user.token))
+
+        return new Data(jsonObjectBuilder)
     }
 }

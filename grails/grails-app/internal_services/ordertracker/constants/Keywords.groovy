@@ -6,6 +6,7 @@ enum Keywords {
     PASSWORD("password"),
     TOKEN("token"),
 
+    USERNAME_ID("username_id"),
     BRAND_ID("brand_id"),
     PRODUCT_ID("product_id"),
 
@@ -20,6 +21,7 @@ enum Keywords {
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
+    PRODUCT("product"),
 
     private final String value
 
