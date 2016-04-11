@@ -8,8 +8,5 @@ class SellerController {
         def sellers = Seller.list()
         [sellers:sellers]
     }
-    
-    	def hi() {
-		render (view:'index.gsp')
-	}
+
 }

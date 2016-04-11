@@ -35,7 +35,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vendedores <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="/seller/index">Listado</a></li>
-                <li><a href="#">Agenda</a></li>
+                <li><a href="/agenda/index">Agenda</a></li>
                 <li role="separator" class="divider"></li>
             </ul>
         </li>
