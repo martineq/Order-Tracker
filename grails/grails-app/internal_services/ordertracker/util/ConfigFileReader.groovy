@@ -9,7 +9,6 @@ class ConfigFileReader {
     }
 
     def readNumbers(String defaultValue) {
-        println(this.fileLocation)
         try {
             File file = new File(this.fileLocation)
             return this.restrict(file.text)

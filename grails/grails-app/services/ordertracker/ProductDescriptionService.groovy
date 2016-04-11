@@ -53,10 +53,8 @@ class ProductDescriptionService implements Queryingly {
     private Data generateData() {
         def jsonObject = new JsonObjectBuilder()
 
-        // TODO Brand subquery
-        // TODO IMAGE ID
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, product.name))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND_ID, product.brand_id))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND_ID, this.getBrandName(product.brand_id)))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE, this.getImageURL()))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CATEGORY, product.category))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CHARACTERISTIC, product.characteristic))
@@ -71,5 +69,16 @@ class ProductDescriptionService implements Queryingly {
         return Server.getURL()+"/"+Keywords.PRODUCT.toString()+'/'+Keywords.IMAGE.toString()+'/'+this.productID.toString()
     }
 
+    private String getBrandName(def brand_id) {
+        try {
+            def brand = Brand.findById(brand_id.toString())
+            return brand.name
+        }
+
+        catch (NullPointerException np) {
+            new QueryException("Server error: brand name for Product not found")
+        }
+
+    }
 }
 
