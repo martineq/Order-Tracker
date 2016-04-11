@@ -10,6 +10,10 @@ class Requester {
         this.properties = new HashedMap()
     }
 
+    def addProperty(Enum property, Enum object) {
+        this.properties.put(property.toString(), object.toString())
+    }
+
     def addProperty(String property, Object object) {
         this.properties.put(property, object)
     }

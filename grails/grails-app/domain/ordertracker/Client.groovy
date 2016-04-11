@@ -8,6 +8,7 @@ class Client {
     String name
     String address
     String city
+    String state
     String qrcode
     String email
 

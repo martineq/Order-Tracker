@@ -6,6 +6,7 @@ enum Keywords {
     PASSWORD("password"),
     TOKEN("token"),
 
+    CLIENT_ID("client_id"),
     USERNAME_ID("username_id"),
     BRAND_ID("brand_id"),
     PRODUCT_ID("product_id"),
