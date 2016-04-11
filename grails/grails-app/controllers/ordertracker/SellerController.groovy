@@ -5,7 +5,7 @@ import ordertracker.queries.QueryFacade
 class SellerController {
 
     def index() {
-        def sellers = Seller.list()
+        def sellers = Seller.list(sort:"document_number", order:"des")
         [sellers:sellers]
     }
 

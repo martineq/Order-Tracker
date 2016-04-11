@@ -7,7 +7,7 @@ class Agenda {
 
     int seller_id
     int client_id
-    String day
+    int day
     String time
 
 }

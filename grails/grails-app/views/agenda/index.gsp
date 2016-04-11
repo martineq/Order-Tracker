@@ -23,7 +23,7 @@
   <tr>
     <td class="tg-yw4l"> ${seller.document_number}</td>
     <td class="tg-yw4l">${seller.name}</td>
-    <td class="tg-yw4l"><g:link action="show" id="${seller.id}">Ver</a></g:link></td>
+    <td class="tg-yw4l"><g:link action="show" id="${seller.id}" params="[day: -1 ]">Ver</a></g:link></td>
   </tr>
 </g:each>
 
