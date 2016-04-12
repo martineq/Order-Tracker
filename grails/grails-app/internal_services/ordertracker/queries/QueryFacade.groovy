@@ -1,5 +1,6 @@
 package ordertracker.queries
 
+import ordertracker.util.logger.Log
 import org.apache.catalina.connector.RequestFacade
 
 class QueryFacade {
@@ -19,6 +20,7 @@ class QueryFacade {
     }
 
     def solve(RequestFacade request) {
+        Log.info(request)
         this.queryProtocol.analyse(request)
         this.queryProtocol.run()
         this.queryProtocol.buildResponse()

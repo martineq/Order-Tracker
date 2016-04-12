@@ -2,6 +2,8 @@ package ordertracker.constants
 
 enum ServerDetails {
 
+    SERVER_LOGS_PATH('logs/'),
+    SERVER_INFO_LOG_FILE_NAME('info.log'),
     SERVER_IP_FILE('grails-app/conf/serverPublicIPAddress'),
     SERVER_PORT_FILE('grails-app/conf/serverPublicPort'),
     SERVER_DEFAULT_IP('localhost'),

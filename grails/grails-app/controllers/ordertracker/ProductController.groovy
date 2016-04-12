@@ -5,6 +5,10 @@ import ordertracker.queries.RawQueryFacade
 
 class ProductController {
 
+    def before() {
+        Log.info(request)
+    }
+
     def index() {
         def renderer = new Renderer()
         render renderer.message("Métodos disponibles<br>")
