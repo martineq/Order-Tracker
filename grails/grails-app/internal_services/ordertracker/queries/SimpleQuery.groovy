@@ -15,12 +15,13 @@ class SimpleQuery extends QueryProtocol {
     }
 
     private boolean validateRequester() {
-        def validationService = new ValidationService()
+        // User authentication in request discarded
+/*        def validationService = new ValidationService()
         validationService.validate(this.requester)
 
         if ( validationService.generateQuery() == false )
             throw new QueryException("Invalid token - access permission denied")
-    }
+*/    }
 
     @Override
     QueryProtocol run() {

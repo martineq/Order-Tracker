@@ -3,6 +3,7 @@ package ordertracker
 import ordertracker.constants.Enums
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.InvalidConstants
+import ordertracker.constants.ServerDetails
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
@@ -11,11 +12,12 @@ import ordertracker.tranmission.TransmissionMedium
 class ProductImageService implements Queryingly{
 
     private def productID
-    private def image
+    private String image
+    private static tmpImageFile = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_TMP_PRODUCTS_IMAGE_DIR.toString()
 
     ProductImageService() {
         this.productID = InvalidConstants.INVALID_PRODUCT
-        this.image = InvalidConstants.INVALID_IMAGE
+        this.image= InvalidConstants.INVALID_IMAGE
     }
 
     @Override
@@ -32,17 +34,35 @@ class ProductImageService implements Queryingly{
     @Override
     def generateQuery() {
         try {
-            this.image = Product.findById(this.productID.toString()).image
-            return true
+            File tempImage = new File(tmpImageFile + productID.toString())
+            image = tempImage.text
         }
-
-        catch( NullPointerException npe ) {
-            return false
+        catch(FileNotFoundException e) {
+            this.processSavedImage()
+            this.saveTmpImage()
         }
     }
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
         return this.image
+    }
+
+    private def processSavedImage() {
+        try {
+            Product product = Product.findById(productID.toString())
+            File imageFile = new File(product.image)
+            image = imageFile.bytes.encodeBase64()
+        }
+        catch(NullPointerException e) {}
+        catch(FileNotFoundException e) {}
+    }
+
+    private def saveTmpImage() {
+        try {
+            new File(tmpImageFile).mkdirs()
+            new File(tmpImageFile + productID.toString()).write(image)
+        }
+        catch(FileNotFoundException e) {}
     }
 }

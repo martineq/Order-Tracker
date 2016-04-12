@@ -2,6 +2,8 @@ package ordertracker.constants
 
 enum ServerDetails {
 
+    SERVER_TMP_DIR('tmp/'),
+    SERVER_TMP_PRODUCTS_IMAGE_DIR('images/products/'),
     SERVER_LOGS_PATH('logs/'),
     SERVER_INFO_LOG_FILE_NAME('info.log'),
     SERVER_IP_FILE('grails-app/conf/serverPublicIPAddress'),
