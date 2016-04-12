@@ -24,6 +24,7 @@ import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -88,7 +89,7 @@ public class DiaryActivity extends DrawerActivity {
         }
 
         public void handleUnexpectedError(String error){
-            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error de autenticación", error);
+            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error en la obtención de la agenda", error);
             dialog.show();
         }
     }
@@ -172,15 +173,21 @@ public class DiaryActivity extends DrawerActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Client client = clientList.get(position);
+                    HashMap<String, String> clientDetails = new HashMap<String, String>();
+                    clientDetails.put("id", String.valueOf(client.getId()));
+                    clientDetails.put("name", client.getName());
+                    clientDetails.put("address", client.getAddress());
+                    clientDetails.put("city", client.getCity());
+                    clientDetails.put("state", client.getState());
                     Intent intent = new Intent(context, DetailsActivity.class);
-                    intent.putExtra("clientId", client.getId());
+                    intent.putExtra("client", clientDetails);
                     startActivity(intent);
                 }
             });
         }
 
         public void handleUnexpectedError(String error){
-            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error de autenticación", error);
+            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error en la obtención de clientes", error);
             dialog.show();
         }
     }

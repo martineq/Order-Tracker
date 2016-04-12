@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -41,7 +42,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         GoogleMap.OnMarkerClickListener {
 
     private IClientService clientService;
-    private int clientId;
+    private HashMap<String, String> clientDetails;
     private Client client;
     private GoogleMap mMap;
     private String username;
@@ -56,13 +57,13 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_details);
 
         Bundle args = getIntent().getExtras();
-        clientId = args.getInt("clientId");
+        clientDetails = (HashMap<String, String>) args.getSerializable("client");
         username = args.getString(RestService.LOGIN_RESPONSE_NAME);
         token = args.getString(RestService.LOGIN_TOKEN);
 
         clientService = new ClientService();
 
-        client = clientService.getById(clientId);
+        client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"));
         name = client.getName();
 
         setTitle("Info del cliente: " + name);
@@ -108,7 +109,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderActivity.class);
                 intent.putExtra("ReadOnly", false);
-                intent.putExtra("clientId", clientId);
+                intent.putExtra("clientId", Integer.valueOf(clientDetails.get("id")));
                 intent.putExtra("clientName", name);
                 startActivity(intent);
             }

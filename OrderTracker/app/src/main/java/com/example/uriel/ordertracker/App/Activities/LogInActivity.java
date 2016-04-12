@@ -69,16 +69,19 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void processLoginResponse(User user){
+        TextView username = (TextView) findViewById(R.id.user_id_startup);
         TextView password = (TextView) findViewById(R.id.password_id_startup);
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
+        String a = username.getText().toString();
+        editor.putString(RestService.LOGIN_RESPONSE_NAME, username.getText().toString());
         editor.putString(RestService.LOGIN_PASSWORD, password.getText().toString());
         editor.putString(RestService.LOGIN_TOKEN, user.getToken());
         editor.commit();
 
         Intent intent = new Intent(this, DiaryActivity.class);
+        //cambiar a id
         intent.putExtra("userId", user.getId());
         intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
