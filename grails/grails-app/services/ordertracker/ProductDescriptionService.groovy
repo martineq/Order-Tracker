@@ -53,20 +53,17 @@ class ProductDescriptionService implements Queryingly {
     private Data generateData() {
         def jsonObject = new JsonObjectBuilder()
 
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, product.name))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND_ID, this.getBrandName(product.brand_id)))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE, this.getImageURL()))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CATEGORY, product.category))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CHARACTERISTIC, product.characteristic))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STOCK, product.stock))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) product.id))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.DESCRIPTION, product.name))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.PRICE, product.price))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, product.state))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE_BASE_64, this.getImageURL(product.id.toString())))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND, this.getBrandName(product.brand_id)))
 
         return new Data(jsonObject)
     }
 
-    private String getImageURL() {
-        return Server.getURL()+"/"+Keywords.PRODUCT.toString()+'/'+Keywords.IMAGE.toString()+'/'+this.productID.toString()
+    private String getImageURL(String product_id) {
+        return Server.getURL()+"/"+Keywords.PRODUCT.toString()+'/'+Keywords.IMAGE.toString()+'/'+product_id
     }
 
     private String getBrandName(def brand_id) {
