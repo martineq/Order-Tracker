@@ -19,6 +19,7 @@ enum Keywords {
     DESCRIPTION("description"),
     ID("id"),
     IMAGE("image"),
+    IMAGE_BASE_64("imageBase64"),
     NAME("name"),
     PRICE("price"),
     QRCODE("qrcode"),

@@ -13,6 +13,7 @@ import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
+import ordertracker.util.Server
 
 class AvailableProductsService implements Queryingly {
 
@@ -54,12 +55,17 @@ class AvailableProductsService implements Queryingly {
     private Jsonable generateJsonProductsObject(def product) {
         def jsonObject = new JsonObjectBuilder()
 
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE, product.image))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, product.name))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND, this.getBrandName(product.brand_id)))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) product.id))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.DESCRIPTION, product.name))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.PRICE, product.price))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE_BASE_64, this.getImageURL(product.id.toString())))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND, this.getBrandName(product.brand_id)))
 
         return jsonObject
+    }
+
+    private String getImageURL(String product_id) {
+        return Server.getURL()+"/"+Keywords.PRODUCT.toString()+'/'+Keywords.IMAGE.toString()+'/'+product_id
     }
 
     private String getBrandName(def brand_id) {
