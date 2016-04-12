@@ -59,7 +59,7 @@ class ClientDescriptionService implements Queryingly{
     private Data generateData() {
         JsonObjectBuilder jsonObjectBuilder = new JsonObjectBuilder()
 
-        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.CLIENT_ID, this.client.id.toString()))
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) this.client.id))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, this.client.name))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.ADDRESS, this.client.address))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.CITY, this.client.city))
