@@ -16,6 +16,8 @@ enum Keywords {
     CATEGORY("category"),
     CITY("city"),
     CHARACTERISTIC("characteristic"),
+    DESCRIPTION("description"),
+    ID("id"),
     IMAGE("image"),
     NAME("name"),
     PRICE("price"),

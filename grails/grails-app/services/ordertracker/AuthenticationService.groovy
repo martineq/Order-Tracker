@@ -40,9 +40,9 @@ class AuthenticationService implements Queryingly{
         User user = User.findByUsername(this.user.username.toString())
 
         if ( user == null || this.user.password.compareTo(user.password) != 0 )
-            throw new QueryException("Invalid request - user rejected")
+            throw new QueryException("User rejected")
 
-        this.user.token = user.token
+        this.user = user
         return this.authenticationResult = true
     }
 
@@ -57,7 +57,7 @@ class AuthenticationService implements Queryingly{
     private Data generateData() {
         def jsonObjectBuilder = new JsonObjectBuilder()
         
-        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.USERNAME_ID, this.user.id.toString()))
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) this.user.id))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.USERNAME, this.user.username))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.TOKEN, this.user.token))
 
