@@ -55,10 +55,11 @@ class AssignedClientsListService implements Queryingly{
     private Jsonable generateJsonClientObject(Client client) {
         def clientJsonObject = new JsonObjectBuilder()
 
+        clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) client.id))
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, client.name))
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ADDRESS, client.address))
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CITY, client.city))
-        clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.QRCODE, client.qrcode))
+        clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, client.state))
 
         return clientJsonObject
     }
