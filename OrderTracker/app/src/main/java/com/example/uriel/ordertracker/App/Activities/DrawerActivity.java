@@ -47,7 +47,7 @@ public class DrawerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
+        userId = sharedPref.getInt(RestService.LOGIN_RESPONSE_ID, -1);
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
