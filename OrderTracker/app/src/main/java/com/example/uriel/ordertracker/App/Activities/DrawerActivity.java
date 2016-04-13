@@ -1,13 +1,9 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,12 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
-import com.example.uriel.ordertracker.App.Model.User;
-import com.example.uriel.ordertracker.App.Services.Impl.RestService;
-import com.example.uriel.ordertracker.App.Services.Impl.UserService;
-import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -45,9 +37,7 @@ public class DrawerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedPref.getInt(RestService.LOGIN_RESPONSE_ID, -1);
+        userId = SessionInformation.getEditor().loadUserInformation().getId();
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
@@ -140,17 +130,9 @@ public class DrawerActivity extends AppCompatActivity {
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-
-                IUserService userService = new UserService();
-                User user = userService.getById(1);
-
-                Intent intent2;
-                intent2 = new Intent(this, DiaryActivity.class);
-                intent2.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-                intent2.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-                //finish();
-                startActivity(intent2);
+                startActivity(new Intent(this, DiaryActivity.class));
                 break;
+
             case 1:
                 Intent intent1;
                 intent1 = new Intent(this, OrderActivity.class);
@@ -158,32 +140,23 @@ public class DrawerActivity extends AppCompatActivity {
                 //finish();
                 startActivity(intent1);
                 break;
+
             case 2:
                 break;
+
             case 3:
                 SweetAlertDialog dialog3 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
                 dialog3.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-
+                        SessionInformation.getEditor().removeUserInformation();
 
                         Intent intent3;
                         intent3 = new Intent(getApplicationContext(),LogInActivity.class);
-                        intent3.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+                        intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         sweetAlertDialog.dismiss();
                         finish();
-
-                        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString(RestService.LOGIN_RESPONSE_ID, "");
-                        editor.putString(RestService.LOGIN_RESPONSE_NAME, "");
-                        editor.putString(RestService.LOGIN_PASSWORD, "");
-                        editor.commit();
-
                         startActivity(intent3);
-
-
-
                     }
                 });
                 dialog3.show();
