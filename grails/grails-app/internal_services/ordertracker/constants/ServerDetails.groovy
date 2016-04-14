@@ -8,10 +8,14 @@ enum ServerDetails {
     SERVER_LOGS_PATH('logs/'),
     SERVER_INFO_LOG_FILE_NAME('info.log'),
     SERVER_WARN_LOG_FILE_NAME('warn.log'),
+    SERVER_SECW_LOG_FILE_NAME('security.log'),
     SERVER_IP_FILE('grails-app/conf/serverPublicIPAddress'),
     SERVER_PORT_FILE('grails-app/conf/serverPublicPort'),
     SERVER_DEFAULT_IP('localhost'),
     SERVER_DEFAULT_PORT('8080'),
+    SERVER_LOG_INFO('INFO'),
+    SERVER_LOG_WARN('WARN'),
+    SERVER_LOG_SECW('SECW'),
 
     private final String value
 

@@ -10,7 +10,7 @@ class InfoFormatter {
         this.date = 0
     }
 
-    def format(RequestFacade request) {
+    def format(RequestFacade request, String type) {
         String username = request.getHeader('username')
         if ( username == null ) username = 'anonymous'
 
@@ -18,10 +18,10 @@ class InfoFormatter {
         String action = request.requestURI
         String method = request.method
 
-        this.format(username + " requested " + action + " access from ip " + ip + " using " + method + " method ")
+        this.format(username + " requested " + action + " access from ip " + ip + " using " + method + " method ", type)
     }
 
-    String format(String message) {
+    String format(String message, String type) {
         Date date = new Date()
 
         if (this.date.compareTo(date.getDateString()) != 0) {
@@ -29,17 +29,6 @@ class InfoFormatter {
             throw new DateChangedException(this.date)
         }
 
-        return "#INFO ["+date.getTimeString()+"]: "+message
-    }
-
-    String formatWarning(String message) {
-        Date date = new Date()
-
-        if (this.date.compareTo(date.getDateString()) != 0) {
-            this.date = date.getDateString()
-            throw new DateChangedException(this.date)
-        }
-
-        return "#WARN ["+date.getTimeString()+"]: "+message
+        return "#"+type+" ["+date.getTimeString()+"]: "+message
     }
 }
