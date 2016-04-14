@@ -14,9 +14,9 @@ public class Product {
     private String description;
     private double price;
     private String imageBase64;
-    private Brand brand;
+    private String brand;
 
-    public Product(int id, String description, double price, Brand brand, String imageBase64){
+    public Product(int id, String description, double price, String brand, String imageBase64){
         this.id = id;
         this.description = description;
         this.price = price;
@@ -56,11 +56,11 @@ public class Product {
         this.id = id;
     }
 
-    public Brand getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 

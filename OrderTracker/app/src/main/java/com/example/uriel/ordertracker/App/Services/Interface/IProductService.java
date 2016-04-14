@@ -11,6 +11,6 @@ import java.util.ArrayList;
  * Created by Uriel on 27-Mar-16.
  */
 public interface IProductService {
-    ArrayList<Product> getAll(String username, String token, OrderActivity context) throws JSONException;
+    void getAll(String username, String token, OrderActivity context) throws JSONException;
     ArrayList<Product> getByBrand(ArrayList<Product> allProducts, String brand);
 }

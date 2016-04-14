@@ -75,14 +75,15 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         String a = username.getText().toString();
-        editor.putString(RestService.LOGIN_RESPONSE_NAME, username.getText().toString());
+        editor.putInt(RestService.LOGIN_RESPONSE_ID, user.getId());
+        editor.putString(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         editor.putString(RestService.LOGIN_PASSWORD, password.getText().toString());
         editor.putString(RestService.LOGIN_TOKEN, user.getToken());
         editor.commit();
 
         Intent intent = new Intent(this, DiaryActivity.class);
         //cambiar a id
-        intent.putExtra("userId", user.getId());
+        intent.putExtra(RestService.LOGIN_RESPONSE_ID, String.valueOf(user.getId()));
         intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
         intent.putExtra(RestService.LOGIN_PASSWORD, password.getText().toString());

@@ -25,15 +25,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.uriel.ordertracker.App.Model.Brand;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.GridAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Product;
-import com.example.uriel.ordertracker.App.Services.Impl.BrandService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
-import com.example.uriel.ordertracker.App.Services.Interface.IBrandService;
 import com.example.uriel.ordertracker.App.Services.Interface.IProductService;
 import com.example.uriel.ordertracker.R;
 
@@ -45,11 +42,13 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+//import com.example.uriel.ordertracker.App.Services.Impl.BrandService;
+
 public class OrderActivity extends DrawerActivity {
 
     private String brand_spinner[];
     private IProductService productService;
-    private IBrandService brandService;
+    //private IBrandService brandService;
     GridView grid;
     GridAdapter gridAdapter;
     int clientId;
@@ -85,7 +84,7 @@ public class OrderActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         productService = new ProductService();
-        brandService = new BrandService();
+        //brandService = new BrandService();
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
@@ -117,9 +116,6 @@ public class OrderActivity extends DrawerActivity {
             });
         }
 
-        //cargar opciones de rubros
-        brandService.getAll();
-
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             order = (HashMap<Integer, String>)savedInstanceState.getSerializable("order");
@@ -142,17 +138,22 @@ public class OrderActivity extends DrawerActivity {
 
         configDrawerAfterCreate(savedInstanceState);
         setTitle("Arme su pedido");
+
+        //cargar opciones de rubros
+        //brandService.getAll(username, token, this);
+
+        try {
+            productService.getAll(username, token, this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void populateBrands(ArrayList<Brand> brands){
-        final ArrayList<Integer> brandsIds = new ArrayList<Integer>();
+    public Spinner populateBrands(ArrayList<String> brands){
         brand_spinner = new String[brands.size() + 1];
         brand_spinner[0] = "TODAS";
-        brandsIds.add(0);
         for(int i = 0; i < brands.size(); i++){
-            Brand marca = brands.get(i);
-            brand_spinner[i+1] = marca.getDescription();
-            brandsIds.add(marca.getId());
+            brand_spinner[i+1] = brands.get(i);
         }
 
         final Spinner s = (Spinner) findViewById(R.id.brandSpinner);
@@ -162,8 +163,6 @@ public class OrderActivity extends DrawerActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String brand = s.getItemAtPosition(position).toString();
-                int rubroId = brandsIds.get(position);
-                //TODO: setBrand por id para ser mas prolijo
                 try {
                     setBrand(brand);
                 } catch (JSONException e) {
@@ -177,22 +176,21 @@ public class OrderActivity extends DrawerActivity {
             }
         });
 
-        try {
-            setBrand(s.getItemAtPosition(0).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        return s;
     }
 
     public void setBrand(String brand) throws JSONException {
         ArrayList<Product> products;
 
         if(brand.equals("TODAS")){
-            products = productService.getAll(username, token, this);
-            allProducts = products;
+            if(allProducts.size() > 0){
+                populateProducts(allProducts, true);
+            }else{
+                productService.getAll(username, token, this);
+            }
         }else{
             products = productService.getByBrand(allProducts, brand);
-            populateProducts(products);
+            populateProducts(products, false);
         }
     }
 
@@ -229,7 +227,39 @@ public class OrderActivity extends DrawerActivity {
         startActivity(intent);
     }
 
-    public void zoomImageFromThumb(final View thumbView, Bitmap bitmap, int productId) {
+    public void populateProducts(ArrayList<Product> products, boolean all){
+        if(all){
+            allProducts = products;
+            ArrayList<String> brands = new ArrayList<>();
+            for (Product product: products) {
+                brands.add(product.getBrand());
+            }
+            Spinner s = populateBrands(brands);
+            try {
+                setBrand(s.getItemAtPosition(0).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        grid=(GridView)findViewById(R.id.gridView);
+        obtenerPedido();
+        gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
+        grid.setAdapter(gridAdapter);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+            }
+        });
+    }
+
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la obtención de productos", error);
+        dialog.show();
+    }
+
+    public void zoomImageFromThumb(final View thumbView, Bitmap bitmap) {
         // If there's an animation in progress, cancel it
         // immediately and proceed with this one.
         if (mCurrentAnimator != null) {
@@ -238,39 +268,8 @@ public class OrderActivity extends DrawerActivity {
 
         // Load the high-resolution "zoomed-in" image.
         final ImageView expandedImageView = (ImageView) findViewById(R.id.zoomImage);
-        //expandedImageView.setImageBitmap(bitmap);
-        switch (productId){
-            case 1:
-                expandedImageView.setImageResource(R.drawable.bandeja);
-                break;
-            case 2:
-                expandedImageView.setImageResource(R.drawable.bandeja_doble);
-                break;
-            case 3:
-                expandedImageView.setImageResource(R.drawable.especiero);
-                break;
-            case 4:
-                expandedImageView.setImageResource(R.drawable.espejo);
-                break;
-            case 5:
-                expandedImageView.setImageResource(R.drawable.esponja);
-                break;
-            case 6:
-                expandedImageView.setImageResource(R.drawable.hielera);
-                break;
-            case 7:
-                expandedImageView.setImageResource(R.drawable.jarra);
-                break;
-            case 8:
-                expandedImageView.setImageResource(R.drawable.pinche_choclo);
-                break;
-            case 9:
-                expandedImageView.setImageResource(R.drawable.pinches);
-                break;
-            case 10:
-                expandedImageView.setImageResource(R.drawable.sarten);
-                break;
-        }
+        expandedImageView.setImageBitmap(bitmap);
+
 
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.
@@ -395,25 +394,6 @@ public class OrderActivity extends DrawerActivity {
                 mCurrentAnimator = set;
             }
         });
-    }
-
-    public void populateProducts(ArrayList<Product> products){
-        grid=(GridView)findViewById(R.id.gridView);
-        obtenerPedido();
-        gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
-        grid.setAdapter(gridAdapter);
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-            }
-        });
-    }
-
-    public void handleUnexpectedError(String error){
-        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error de autenticación", error);
-        dialog.show();
     }
 
     @Override

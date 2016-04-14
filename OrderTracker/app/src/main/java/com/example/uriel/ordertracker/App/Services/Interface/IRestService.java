@@ -31,5 +31,4 @@ public interface IRestService {
     void getClients(final String username, final String token, final DiaryActivity.OffRouteFragment fragment, final FragmentActivity context);
     void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context) throws JSONException;
     void getProducts(final String username, final String token, final OrderActivity context) throws JSONException;
-    void getBrands(final String username, final String token, final OrderActivity context) throws JSONException;
 }

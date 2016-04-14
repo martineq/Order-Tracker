@@ -14,7 +14,6 @@ import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
-import com.example.uriel.ordertracker.App.Model.Dto.BrandDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.UserDTO;
@@ -141,7 +140,7 @@ public class RestService implements IRestService {
      */
     @Override
     public void getProducts(final String username, final String token, final OrderActivity context) {
-        String url = Constants.getClientsServiceUrl();
+        String url = Constants.getProductsServiceUrl();
 
         JsonObjectRequest req = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject> () {
@@ -150,51 +149,9 @@ public class RestService implements IRestService {
                         ProductDTO productsContainer =
                                 new Gson().fromJson(response.toString(), ProductDTO.class);
                         if(Constants.OK_RESPONSE.equals(productsContainer.getStatus().getResult())) {
-                            context.populateProducts(productsContainer.getData());
+                            context.populateProducts(productsContainer.getData(), true);
                         } else {
                             context.handleUnexpectedError(productsContainer.getStatus().getDescription());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                int a = 0;
-                //handle error
-            }
-        })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("username", username);
-                headers.put("token", token);
-                return headers;
-            }
-        };
-
-        // add the request object to the queue to be executed
-        Request response = Volley.newRequestQueue(context).add(req);
-    }
-
-    /**
-     * @param username
-     * @param token
-     * @param context
-     */
-    @Override
-    public void getBrands(final String username, final String token, final OrderActivity context) {
-        String url = Constants.getClientsServiceUrl();
-
-        JsonObjectRequest req = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject> () {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        BrandDTO brandsContainer =
-                                new Gson().fromJson(response.toString(), BrandDTO.class);
-                        if(Constants.OK_RESPONSE.equals(brandsContainer.getStatus().getResult())) {
-                            context.populateBrands(brandsContainer.getData());
-                        } else {
-                            context.handleUnexpectedError(brandsContainer.getStatus().getDescription());
                         }
                     }
                 }, new Response.ErrorListener() {

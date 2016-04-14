@@ -21,11 +21,13 @@ public class Constants {
     public static final String LOGIN_SERVICE = "authentication/authenticate";
     public static final String LOGOUT_SERVICE = "logout";
     public static final String CLIENT_SERVICE = "client/list";
+    public static final String PRODUCT_SERVICE = "product/list";
     public static final String SHARED_PREFERENCES = "commonKey";
 
     public static String getLoginServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGIN_SERVICE); }
     public static String getLogoutServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGOUT_SERVICE); }
     public static String getClientsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + CLIENT_SERVICE); }
+    public static String getProductsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + PRODUCT_SERVICE); }
 
     //Response
     public static final String ERROR_RESPONSE = "error";

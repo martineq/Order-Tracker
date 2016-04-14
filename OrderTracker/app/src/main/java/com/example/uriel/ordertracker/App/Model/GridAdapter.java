@@ -70,58 +70,21 @@ public class GridAdapter extends ArrayAdapter<Product>{
         EditText qttText = (EditText) gridItem.findViewById(R.id.quantityText);
         idText.setText(String.valueOf(products.get(position).getId()));
         descripcionText.setText(products.get(position).getDescription());
-        brandText.setText(products.get(position).getBrand().getDescription());
+        brandText.setText(products.get(position).getBrand());
         priceText.setText("$" + String.format("%.2f", products.get(position).getPrice()));
         if (readOnly) {
             qttText.setVisibility(View.INVISIBLE);
         }
-        switch (products.get(position).getId()) {
-            case 1:
-                imageView.setImageResource(R.drawable.bandeja);
-                break;
-            case 2:
-                imageView.setImageResource(R.drawable.bandeja_doble);
-                break;
-            case 3:
-                imageView.setImageResource(R.drawable.especiero);
-                break;
-            case 4:
-                imageView.setImageResource(R.drawable.espejo);
-                break;
-            case 5:
-                imageView.setImageResource(R.drawable.esponja);
-                break;
-            case 6:
-                imageView.setImageResource(R.drawable.hielera);
-                break;
-            case 7:
-                imageView.setImageResource(R.drawable.jarra);
-                break;
-            case 8:
-                imageView.setImageResource(R.drawable.pinche_choclo);
-                break;
-            case 9:
-                imageView.setImageResource(R.drawable.pinches);
-                break;
-            case 10:
-                imageView.setImageResource(R.drawable.sarten);
-                break;
-        }
-        //imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
-
         if (order.get(products.get(position).getId()) != null) {
             qttText.setText(order.get(products.get(position).getId()).split("&")[1]);
         }
+        imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
 
-        //set zoom image
-        //View parentLayout = (View)parent.getParent();
-
-        //final ImageView image = parentLayout.findViewById(R.id.zoomImage);
         final Bitmap bitmap = Product.decodeBase64(products.get(position).getImageBase64());
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((OrderActivity) context).zoomImageFromThumb(imageView, bitmap, products.get(position).getId());
+                ((OrderActivity) context).zoomImageFromThumb(imageView, bitmap);
             }
         });
 
