@@ -31,4 +31,15 @@ class InfoFormatter {
 
         return "#INFO ["+date.getTimeString()+"]: "+message
     }
+
+    String formatWarning(String message) {
+        Date date = new Date()
+
+        if (this.date.compareTo(date.getDateString()) != 0) {
+            this.date = date.getDateString()
+            throw new DateChangedException(this.date)
+        }
+
+        return "#WARN ["+date.getTimeString()+"]: "+message
+    }
 }

@@ -48,4 +48,15 @@ class Log {
             persist(logFormatter.format(request))
         }
     }
+
+    static def warn(def message) {
+        try {
+            show(logFormatter.formatWarning(message))
+        }
+
+        catch (DateChangedException e) {
+            show(logFormatter.formatWarning("** "+e.getMessage()+" **"))
+            show(logFormatter.formatWarning(message))
+        }
+    }
 }

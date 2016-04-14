@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.internalServices.ImageService
 import ordertracker.protocol.Data
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
@@ -58,7 +59,7 @@ class AvailableProductsService implements Queryingly {
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) product.id))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.DESCRIPTION, product.name))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.PRICE, product.price))
-        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE_BASE_64, this.getImageURL(product.id.toString())))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE_BASE_64, ImageService.loadImage((int) product.id)))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND, this.getBrandName(product.brand_id)))
 
         return jsonObject
