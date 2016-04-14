@@ -14,7 +14,7 @@ class InfoFormatter {
         String username = request.getHeader('username')
         if ( username == null ) username = 'anonymous'
 
-        String ip = request.localAddr
+        String ip = request.remoteAddr
         String action = request.requestURI
         String method = request.method
 
