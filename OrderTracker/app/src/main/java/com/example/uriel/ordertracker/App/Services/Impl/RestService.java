@@ -16,7 +16,6 @@ import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
-import com.example.uriel.ordertracker.App.Model.Dto.UserDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.google.gson.Gson;
@@ -31,6 +30,7 @@ import java.util.Map;
  * Created by Uriel on 29-Mar-16.
  */
 public class RestService implements IRestService {
+
     private static RestService ourInstance = null;
 
     public static RestService getInstance() {
@@ -38,9 +38,6 @@ public class RestService implements IRestService {
             ourInstance = new RestService();
         }
         return ourInstance;
-    }
-
-    protected RestService() {
     }
 
     /**
@@ -51,44 +48,7 @@ public class RestService implements IRestService {
      */
     @Override
     public void login(final String username, final String password, final LogInActivity context) throws JSONException {
-        String url = Constants.getLoginServiceUrl();
-
-        JsonObjectRequest req = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        UserDTO userContainer = new Gson().fromJson(response.toString(), UserDTO.class);
-                        if(Constants.OK_RESPONSE.equals(userContainer.getStatus().getResult())) {
-                            context.processLoginResponse(userContainer.getData());
-                        } else {
-                            context.handleUnexpectedError(userContainer.getStatus().getDescription());
-                            context.showProgress(false);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                context.handleUnexpectedError("Error en la conexión");
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("username", username);
-                headers.put("password", password);
-                return headers;
-            }
-        };
-
-        /*
-        req.setRetryPolicy(new DefaultRetryPolicy(10000,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                */
-
-        // Add the request to the RequestQueue.
-        Request response = Volley.newRequestQueue(context).add(req);
+        LoginService.newRequest(context).login(username, password);
     }
 
     /**
@@ -115,6 +75,7 @@ public class RestService implements IRestService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
                 int a = 0;
                 //handle error
             }
@@ -157,6 +118,7 @@ public class RestService implements IRestService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
                 int a = 0;
                 //handle error
             }
@@ -202,6 +164,7 @@ public class RestService implements IRestService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
                 int a = 0;
                 //handle error
             }
