@@ -32,6 +32,7 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
     private ConnectionService.URLServerSource urlServerSource;
 
     public static LoginService newRequest(LogInActivity logInActivity) {
+        logInActivity.showProgress(true);
         return new LoginService(logInActivity);
     }
 

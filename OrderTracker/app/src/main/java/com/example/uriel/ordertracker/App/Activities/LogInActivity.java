@@ -25,8 +25,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class LogInActivity extends AppCompatActivity {
 
     private IUserService userService;
-    private View loginLayout;
-    private View progressBar;
+    private View entryScreen;
+    private View loggingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,8 @@ public class LogInActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("Order Tracker");
 
-        this.loginLayout = findViewById(R.id.loginLayout);
-        this.progressBar = findViewById(R.id.login_progress);
+        this.entryScreen = findViewById(R.id.entry_screen);
+        this.loggingScreen = findViewById(R.id.login_in_screen);
         this.userService = new UserService();
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
@@ -50,6 +50,8 @@ public class LogInActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        this.showProgress(false);
     }
 
     public void validateUser(View v){
@@ -103,28 +105,25 @@ public class LogInActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginLayout.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginLayout.animate().setDuration(shortAnimTime).alpha(
+            entryScreen.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    loginLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+                    entryScreen.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
                 }
             });
 
-            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressBar.animate().setDuration(shortAnimTime).alpha(
+            loggingScreen.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                    loggingScreen.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
                 }
             });
+
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+            entryScreen.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
+            loggingScreen.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
         }
     }
 

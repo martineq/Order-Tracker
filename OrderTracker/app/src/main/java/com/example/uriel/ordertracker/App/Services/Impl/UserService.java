@@ -12,14 +12,8 @@ import org.json.JSONException;
  */
 public class UserService implements IUserService {
 
-    private final IRestService restService = RestService.getInstance();
-
     public void validateUser(String username, String password, final LogInActivity context){
-        try {
-            restService.login(username, password, context);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        LoginService.newRequest(context).login(username, password);
     }
 
     public User getById(int id){
