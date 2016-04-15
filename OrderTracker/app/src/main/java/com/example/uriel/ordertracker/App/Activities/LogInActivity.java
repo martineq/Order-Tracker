@@ -2,9 +2,7 @@ package com.example.uriel.ordertracker.App.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
-import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
 import com.example.uriel.ordertracker.R;
@@ -32,6 +29,8 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        SessionInformation.InitializeSessionInformation(this.getApplicationContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Order Tracker");
@@ -40,16 +39,31 @@ public class LogInActivity extends AppCompatActivity {
         this.progressBar = findViewById(R.id.login_progress);
         this.userService = new UserService();
 
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        String username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
-        String password = sharedPref.getString(RestService.LOGIN_PASSWORD, "");
-        if(username != "" && password != ""){
-            try {
-                userService.validateUser(username, password, this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        User user = SessionInformation.getEditor().loadUserInformation();
+
+        if ( user.getUsername().isEmpty() | user.getPassword().isEmpty() ) {
+            this.logginOptionsVisibility(View.VISIBLE);
+            SessionInformation.getEditor().removeUserInformation();
         }
+
+        else try {
+                this.logginOptionsVisibility(View.INVISIBLE);
+                userService.validateUser(user.getUsername(), user.getPassword(), this);
+             } catch (Exception e) {
+                e.printStackTrace();
+             }
+    }
+
+    private void logginOptionsVisibility(int visibility) {
+        int opposite = ( visibility == View.VISIBLE ) ? View.INVISIBLE : View.VISIBLE;
+
+        findViewById(R.id.user_startup).setVisibility(visibility);
+        findViewById(R.id.user_id_startup).setVisibility(visibility);
+        findViewById(R.id.password_startup).setVisibility(visibility);
+        findViewById(R.id.password_id_startup).setVisibility(visibility);
+        findViewById(R.id.login_button_startup).setVisibility(visibility);
+        findViewById(R.id.login_progress).setVisibility(opposite);
+        findViewById(R.id.logging_in).setVisibility(opposite);
     }
 
     public void validateUser(View v){
@@ -64,11 +78,14 @@ public class LogInActivity extends AppCompatActivity {
             dialog = Helpers.getErrorDialog(this, "Error", "Ingrese una contraseña");
             dialog.show();
         }else {
+            this.logginOptionsVisibility(View.INVISIBLE);
             userService.validateUser(username, password, this);
+            this.logginOptionsVisibility(View.VISIBLE);
         }
     }
 
     public void processLoginResponse(User user){
+<<<<<<< HEAD
         TextView username = (TextView) findViewById(R.id.user_id_startup);
         TextView password = (TextView) findViewById(R.id.password_id_startup);
 
@@ -88,6 +105,14 @@ public class LogInActivity extends AppCompatActivity {
         intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
         intent.putExtra(RestService.LOGIN_PASSWORD, password.getText().toString());
         startActivity(intent);
+=======
+
+        TextView passwordView =(TextView) findViewById(R.id.password_id_startup);
+        user.setPassword(passwordView.getText().toString());
+        SessionInformation.getEditor().saveUserInformation(user);
+
+        startActivity(new Intent(this, DiaryActivity.class));
+>>>>>>> 0534aa740bb59830bb4a706cd3e40d1c45e3821d
         finish();
     }
 
