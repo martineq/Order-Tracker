@@ -1,5 +1,7 @@
 package com.example.uriel.ordertracker.App.Model;
 
+import java.util.Date;
+
 /**
  * Created by Uriel on 25-Mar-16.
  */
@@ -9,13 +11,15 @@ public class Client {
     private String address;
     private String city;
     private String state;
+    private Date visitDate;
 
-    public Client(int id, String name, String address, String city, String state){
+    public Client(int id, String name, String address, String city, String state, Date visitDate){
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
+        this.visitDate = visitDate;
     }
 
     public int getId() {
@@ -56,5 +60,13 @@ public class Client {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Date getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(Date visitDate) {
+        this.visitDate = visitDate;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Order;
@@ -27,8 +28,11 @@ import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -49,6 +53,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
     private IOrderService orderService;
     final Activity context = this;
     private boolean blockBackKey;
+    HashMap<String, String> clientDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,8 @@ public class ViewMyOrderActivity extends DrawerActivity {
         Intent intent = getIntent();
         order = (HashMap<Integer, String>)intent.getSerializableExtra("order");
         total = intent.getExtras().getDouble("total");
-        clientId = intent.getExtras().getInt("clientId");
+        clientDetails = (HashMap<String, String>) intent.getExtras().getSerializable("client");
+        clientId = Integer.valueOf(clientDetails.get("id"));
 
         confirmarButton = (Button)findViewById(R.id.confirmarButton);
         if(order.size() == 0){
@@ -197,7 +203,15 @@ public class ViewMyOrderActivity extends DrawerActivity {
         //agregar registro de pedido
         try{
             User seller = userService.getById(userId);
-            Order order = new Order(0, clientService.getById(clientId), Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date visitDate = null;
+            try {
+                visitDate = format.parse(clientDetails.get("visitDate"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), visitDate);
+            Order order = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
             orderService.sendOrder(username, token, order, this);
         }catch(Exception e){
             SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "No se pudo almacenar el pedido, intente nuevamente");

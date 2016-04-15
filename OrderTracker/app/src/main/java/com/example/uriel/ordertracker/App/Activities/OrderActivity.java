@@ -98,8 +98,9 @@ public class OrderActivity extends DrawerActivity {
         if(readOnly){
             verPedido.setVisibility(View.INVISIBLE);
         }else {
-            clientId = getIntent().getExtras().getInt("clientId");
-            String clientName = getIntent().getExtras().getString("clientName");
+            final HashMap<String, String> clientDetails = (HashMap<String, String>) getIntent().getExtras().getSerializable("client");
+            clientId = Integer.valueOf(clientDetails.get("id"));
+            String clientName = clientDetails.get("name");
 
             verPedido.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,7 +111,7 @@ public class OrderActivity extends DrawerActivity {
                     Intent intent = new Intent(context, ViewMyOrderActivity.class);
                     intent.putExtra("order", order);
                     intent.putExtra("total", total);
-                    intent.putExtra("clientId", clientId);
+                    intent.putExtra("client", clientDetails);
                     startActivity(intent);
                 }
             });

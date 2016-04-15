@@ -142,6 +142,7 @@ public class DiaryActivity extends DrawerActivity {
                     clientDetails.put("address", client.getAddress());
                     clientDetails.put("city", client.getCity());
                     clientDetails.put("state", client.getState());
+                    clientDetails.put("visitDate", String.valueOf(client.getVisitDate()));
                     Intent intent = new Intent(context, DetailsActivity.class);
                     intent.putExtra("client", clientDetails);
                     startActivity(intent);

@@ -2,7 +2,9 @@ package com.example.uriel.ordertracker.App.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IUserService;
 import com.example.uriel.ordertracker.R;
@@ -46,7 +50,6 @@ public class LogInActivity extends AppCompatActivity {
             SessionInformation.getEditor().removeUserInformation();
         }
 
-<<<<<<< HEAD
         else try {
                 this.logginOptionsVisibility(View.INVISIBLE);
                 userService.validateUser(user.getUsername(), user.getPassword(), this);
@@ -65,9 +68,8 @@ public class LogInActivity extends AppCompatActivity {
         findViewById(R.id.login_button_startup).setVisibility(visibility);
         findViewById(R.id.login_progress).setVisibility(opposite);
         findViewById(R.id.logging_in).setVisibility(opposite);
-=======
+
         this.showProgress(false);
->>>>>>> fb9bb5edd7d167a745840c3f82e99608878479a0
     }
 
     public void validateUser(View v){
@@ -89,7 +91,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void processLoginResponse(User user){
-<<<<<<< HEAD
+
         TextView username = (TextView) findViewById(R.id.user_id_startup);
         TextView password = (TextView) findViewById(R.id.password_id_startup);
 
@@ -109,14 +111,12 @@ public class LogInActivity extends AppCompatActivity {
         intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
         intent.putExtra(RestService.LOGIN_PASSWORD, password.getText().toString());
         startActivity(intent);
-=======
 
         TextView passwordView =(TextView) findViewById(R.id.password_id_startup);
         user.setPassword(passwordView.getText().toString());
         SessionInformation.getEditor().saveUserInformation(user);
 
         startActivity(new Intent(this, DiaryActivity.class));
->>>>>>> 0534aa740bb59830bb4a706cd3e40d1c45e3821d
         finish();
     }
 
