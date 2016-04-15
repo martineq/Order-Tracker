@@ -15,7 +15,9 @@ public class Constants {
     public static String NO_VISITADO = "NO_VISITADO";
 
     //RestApi
-    public static final String BASE_URL = "190.31.15.90";
+    public static String BASE_URL = "190.31.6.157";
+    public static final String SERVER_URL_PROPERTY = "SERVER_URL";
+    public static final String SERVER_IP_REQUEST = "http://martinhernan.xyz/ip";
     public static final String LOCALHOST_PORT = ":8080/";
     public static final String HTTP = "http://";
     public static final String LOGIN_SERVICE = "authentication/authenticate";
@@ -23,6 +25,7 @@ public class Constants {
     public static final String CLIENT_SERVICE = "client/list";
     public static final String PRODUCT_SERVICE = "product/list";
     public static final String SHARED_PREFERENCES = "commonKey";
+    public static final long MINIMUM_REQUEST_IP_TIME = 300000; // 5 min = 300s = 300000ms
 
     public static String getLoginServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGIN_SERVICE); }
     public static String getLogoutServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGOUT_SERVICE); }
@@ -42,5 +45,7 @@ public class Constants {
     public static final int NO_PASSWORD = 7;
     public static final int NO_USERNAME = 8;
 
-
+    //File
+    public static final String PROGRAM_FOLDER = "OrderTracker/";
+    public static final String IP_FILE = "ip.txt";
 }

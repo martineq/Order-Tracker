@@ -15,76 +15,122 @@
 
     <!-- Login progress -->
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Usuario"
-        android:id="@+id/user_startup"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:textSize="20dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_height="match_parent"
+        android:id="@+id/entry_screen"
+        android:visibility="invisible">
 
-    <EditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario"
+            android:id="@+id/user_startup"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_id_startup"
+            android:layout_below="@+id/user_startup"
+            android:layout_alignLeft="@+id/password_startup"
+            android:layout_alignStart="@+id/password_startup"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentStart="true"
+            android:textSize="20dp"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:id="@+id/password_startup"
+            android:layout_below="@+id/user_id_startup"
+            android:layout_alignLeft="@+id/user_startup"
+            android:layout_alignStart="@+id/user_startup"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password_id_startup"
+            android:layout_below="@+id/password_startup"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="50dp"
+            android:textSize="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="iniciar sesión"
+            android:id="@+id/login_button_startup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="25dp"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:textSize="20dp"
+            android:onClick="validateUser"
+            android:layout_below="@+id/password_startup" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_id_startup"
-        android:layout_below="@+id/user_startup"
-        android:layout_alignLeft="@+id/password_startup"
-        android:layout_alignStart="@+id/password_startup"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp"
-        android:layout_alignParentLeft="true" />
+        android:layout_height="match_parent"
+        android:id="@+id/login_in_screen"
+        android:visibility="invisible">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Contraseña"
-        android:id="@+id/password_startup"
-        android:layout_below="@+id/user_id_startup"
-        android:layout_alignLeft="@+id/user_startup"
-        android:layout_alignStart="@+id/user_startup"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:textSize="20dp"
-        android:layout_marginLeft="5dp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="visible">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password_id_startup"
-        android:layout_below="@+id/password_startup"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="50dp"
-        android:textSize="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|top"
+                android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="iniciar sesión"
-        android:id="@+id/login_button_startup"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="25dp"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:textSize="20dp"
-        android:onClick="validateUser"
-        android:layout_below="@+id/password_startup" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="iniciando sesión..."
+                android:id="@+id/logging_in"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:layout_below="@+id/login_progress"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="25dp"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    layout
 
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
