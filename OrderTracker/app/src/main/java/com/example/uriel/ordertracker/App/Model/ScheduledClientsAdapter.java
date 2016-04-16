@@ -2,6 +2,7 @@ package com.example.uriel.ordertracker.App.Model;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,15 +28,26 @@ public class ScheduledClientsAdapter extends ArrayAdapter<Client> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.list_client, null, true);
 
+        String min;
+
         Client client = clients.get(position);
 
         TextView idText = (TextView) rowView.findViewById(R.id.idText);
         TextView nameText = (TextView) rowView.findViewById(R.id.nameText);
+        TextView hourText = (TextView) rowView.findViewById(R.id.hourText);
         View rectangle = rowView.findViewById(R.id.rectangle);
 
         idText.setText(String.valueOf(client.getId()));
         nameText.setText(client.getName());
         String state = client.getState();
+
+        min=String.valueOf(client.getVisitDate().getMinutes());
+        if(min.length()==1) {
+            min=min+"0";
+        }
+        String hour=String.valueOf((client.getVisitDate().getHours()))+":"+min;
+        hourText.setText(hour);
+
         if(state.equals(Constants.VISITADO)){
             rectangle.setBackgroundColor(Color.GREEN);
         }else if(state.equals(Constants.PENDIENTE)){

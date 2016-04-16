@@ -72,7 +72,7 @@ public class ScheduledClientFragment extends Fragment {
             final ListView listView = (ListView) rootView.findViewById(R.id.listViewSch);
 
             //TODO aca solo deberia pasar los clientes del dia
-            ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientList);
+           ScheduledClientsAdapter clientsAdapter = new ScheduledClientsAdapter(getActivity(), clientList);
             listView.setAdapter(clientsAdapter);
 
             final Activity context = getActivity();

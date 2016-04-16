@@ -30,6 +30,7 @@ import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -117,8 +118,37 @@ public class DiaryActivity extends DrawerActivity {
 
         public void populateClients(final ArrayList<Client> clientList) {
 
-            adapter.populateClients(clientList);
+            ArrayList<Client> clientListPrueba;
 
+
+            //TODO: aca a adapter deberia pasarle clientList y listo. Le pongo fecha a todos para probar.
+
+            clientListPrueba=new ArrayList<Client>();
+            clientListPrueba.addAll(clientList);
+
+            int i=0;
+
+            for (Client cli: clientListPrueba) {
+                if (i<3) {
+                    Date d = new Date(116, 3, 18, 15, 0, 0); //año 2016
+                    cli.setVisitDate(d);
+                }
+                else if(i>3 && i<20){
+                    Date d = new Date(116, 3, 19, 15, 0, 0);
+                    cli.setVisitDate(d);
+                }
+                else if(i>20 && i<30){
+                    Date d = new Date(116, 3, 19, 15, 20, 0);
+                    cli.setVisitDate(d);
+                }
+                else {
+                    Date d = new Date(116, 3, 20, 15, 20, 0);
+                    cli.setVisitDate(d);
+                }
+                i=i+1;
+            }
+
+            adapter.populateClients(clientListPrueba);
 
         }
 
