@@ -31,6 +31,7 @@ public class ScheduledClientFragment extends Fragment {
     ArrayList<Client> clientList;
 
     String day;
+    int numDay;
 
 
     @Override
@@ -61,8 +62,10 @@ public class ScheduledClientFragment extends Fragment {
         clientList=clients;
     }
 
-    public void setText(String c) {
+    public void setDay(String c,int num) {
+
         day=c;
+        numDay=num;
     }
 
 
@@ -71,27 +74,35 @@ public class ScheduledClientFragment extends Fragment {
         if (rootView != null && clientList!=null) {
             final ListView listView = (ListView) rootView.findViewById(R.id.listViewSch);
 
-            //TODO aca solo deberia pasar los clientes del dia
-           ScheduledClientsAdapter clientsAdapter = new ScheduledClientsAdapter(getActivity(), clientList);
-            listView.setAdapter(clientsAdapter);
 
-            final Activity context = getActivity();
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Client client = clientList.get(position);
-                    HashMap<String, String> clientDetails = new HashMap<String, String>();
-                    clientDetails.put("id", String.valueOf(client.getId()));
-                    clientDetails.put("name", client.getName());
-                    clientDetails.put("address", client.getAddress());
-                    clientDetails.put("city", client.getCity());
-                    clientDetails.put("state", client.getState());
-                    clientDetails.put("visitDate", String.valueOf(client.getVisitDate()));
-                    Intent intent = new Intent(context, DetailsActivity.class);
-                    intent.putExtra("client", clientDetails);
-                    startActivity(intent);
+            final ArrayList<Client> clientList2=new ArrayList<Client>();
+            for (Client cli: clientList) {
+                if(cli.getVisitDate().getDay()==numDay){
+                    clientList2.add(cli);
                 }
-            });
+            }
+            if(!clientList2.isEmpty()) {
+                ScheduledClientsAdapter clientsAdapter = new ScheduledClientsAdapter(getActivity(), clientList2);
+                listView.setAdapter(clientsAdapter);
+
+                final Activity context = getActivity();
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Client client = clientList2.get(position);
+                        HashMap<String, String> clientDetails = new HashMap<String, String>();
+                        clientDetails.put("id", String.valueOf(client.getId()));
+                        clientDetails.put("name", client.getName());
+                        clientDetails.put("address", client.getAddress());
+                        clientDetails.put("city", client.getCity());
+                        clientDetails.put("state", client.getState());
+                        clientDetails.put("visitDate", String.valueOf(client.getVisitDate()));
+                        Intent intent = new Intent(context, DetailsActivity.class);
+                        intent.putExtra("client", clientDetails);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
     }
 }
