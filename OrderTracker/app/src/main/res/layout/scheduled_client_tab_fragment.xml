@@ -5,11 +5,23 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Tab 1"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:id="@+id/textSch"
+        android:text="TITULO"
+        android:textSize="30dp"
+        android:dividerHeight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textSch"
+        android:id="@+id/listViewSch"
+        android:dividerHeight="10dp"
+        android:layout_alignParentLeft="true" />
+
 
 </RelativeLayout>

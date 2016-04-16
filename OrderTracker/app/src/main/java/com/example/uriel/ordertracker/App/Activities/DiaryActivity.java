@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,10 @@ public class DiaryActivity extends DrawerActivity {
     private String username;
     private String token;
 
+    AgendaFragment fragment1;
+    AgendaFragment fragment2;
+    private IClientService clientService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +59,12 @@ public class DiaryActivity extends DrawerActivity {
         username = user.getUsername();
         token = user.getToken();
 
+        clientService = new ClientService();
+        clientService.getBySeller(username, token, this, this);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), userId);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this,userId);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -68,10 +76,33 @@ public class DiaryActivity extends DrawerActivity {
         configDrawerAfterCreate(savedInstanceState);
     }
 
-    public static class DiaryFragment extends Fragment {
+
+    public void populateClients(final ArrayList<Client> clientList) {
+
+        if(fragment1!=null) fragment1.populateClients(clientList);
+        if(fragment2!=null) fragment2.populateClients(clientList);
+
+    }
+
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la obtención de clientes", error);
+        dialog.show();
+    }
+
+    public interface AgendaFragment {
+
+        public void populateClients(final ArrayList<Client> clientList);
+    }
+
+    public static class DiaryFragment extends Fragment implements AgendaFragment {
+
+        private View rootView;
+        ScheduledClientPageAdapter adapter;
 
         public DiaryFragment() {
+
         }
+
 
         public static DiaryFragment newInstance(int sellerId, String username, String token) {
             DiaryFragment fragment = new DiaryFragment();
@@ -80,6 +111,12 @@ public class DiaryActivity extends DrawerActivity {
             args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
             return fragment;
+        }
+
+        public void populateClients(final ArrayList<Client> clientList) {
+
+            adapter.populateClients(clientList);
+
         }
 
         @Override
@@ -105,10 +142,10 @@ public class DiaryActivity extends DrawerActivity {
             FragmentActivity activity = (FragmentActivity)this.getContext();
             FragmentManager manager = activity.getSupportFragmentManager();
 
-            final ScheduledClientPageAdapter adapter = new ScheduledClientPageAdapter
-                    (manager, tabLayout.getTabCount());
+            adapter = new ScheduledClientPageAdapter(manager, tabLayout.getTabCount());
             viewPager.setAdapter(adapter);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -135,11 +172,12 @@ public class DiaryActivity extends DrawerActivity {
         }
     }
 
-    public static class OffRouteFragment extends Fragment {
-        private IClientService clientService;
+    public static class OffRouteFragment extends Fragment implements AgendaFragment {
+
         private View rootView;
 
         public OffRouteFragment() {
+
         }
 
         public static OffRouteFragment newInstance(int sellerId, String username, String token) {
@@ -158,9 +196,6 @@ public class DiaryActivity extends DrawerActivity {
 
             final String username = SessionInformation.getEditor().loadUserInformation().getUsername();
             final String token = SessionInformation.getEditor().loadUserInformation().getToken();
-
-            clientService = new ClientService();
-            clientService.getBySeller(username, token, this, this.getActivity());
 
             return rootView;
         }
@@ -189,17 +224,15 @@ public class DiaryActivity extends DrawerActivity {
             });
         }
 
-        public void handleUnexpectedError(String error){
-            SweetAlertDialog dialog = Helpers.getErrorDialog(getActivity(), "Error en la obtención de clientes", error);
-            dialog.show();
-        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private int sellerId;
+        DiaryActivity par;
 
-        public SectionsPagerAdapter(FragmentManager fm, int sellerId) {
+        public SectionsPagerAdapter(FragmentManager fm, DiaryActivity act, int sellerId) {
             super(fm);
+            par=act;
             this.sellerId = sellerId;
         }
 
@@ -207,9 +240,13 @@ public class DiaryActivity extends DrawerActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return DiaryFragment.newInstance(sellerId, username, token);
+                    DiaryFragment f= DiaryFragment.newInstance(sellerId, username, token);
+                    fragment1=f;
+                    return f;
                 case 1:
-                    return OffRouteFragment.newInstance(sellerId, username, token);
+                    OffRouteFragment f2= OffRouteFragment.newInstance(sellerId, username, token);
+                    fragment2=f2;
+                    return f2;
             }
 
             return null;

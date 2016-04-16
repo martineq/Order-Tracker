@@ -1,6 +1,7 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,6 +13,7 @@ import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
+import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
@@ -23,6 +25,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +60,7 @@ public class RestService implements IRestService {
      * @param context
      */
     @Override
-    public void getClients(final String username, final String token, final DiaryActivity.OffRouteFragment fragment, final FragmentActivity context){
+    public void getClients(final String username, final String token, final DiaryActivity act, final AppCompatActivity context){
         String url = Constants.getClientsServiceUrl();
 
         JsonObjectRequest req = new JsonObjectRequest(url, null,
@@ -67,9 +70,9 @@ public class RestService implements IRestService {
                         ClientsDTO clientsContainer =
                                 new Gson().fromJson(response.toString(), ClientsDTO.class);
                         if(Constants.OK_RESPONSE.equals(clientsContainer.getStatus().getResult())) {
-                            fragment.populateClients(clientsContainer.getData());
+                            act.populateClients(clientsContainer.getData());
                         } else {
-                            fragment.handleUnexpectedError(clientsContainer.getStatus().getDescription());
+                            act.handleUnexpectedError(clientsContainer.getStatus().getDescription());
                         }
                     }
                 }, new Response.ErrorListener() {
