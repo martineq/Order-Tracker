@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.ListView;
 import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.ClientsAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.ScheduledClientPageAdapter;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
@@ -86,6 +89,42 @@ public class DiaryActivity extends DrawerActivity {
 
             final String username = getArguments().getString(RestService.LOGIN_RESPONSE_NAME);
             final String token = getArguments().getString(RestService.LOGIN_TOKEN);
+
+            TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
+            tabLayout.addTab(tabLayout.newTab().setText("D"));
+            tabLayout.addTab(tabLayout.newTab().setText("L"));
+            tabLayout.addTab(tabLayout.newTab().setText("M"));
+            tabLayout.addTab(tabLayout.newTab().setText("M"));
+            tabLayout.addTab(tabLayout.newTab().setText("J"));
+            tabLayout.addTab(tabLayout.newTab().setText("V"));
+            tabLayout.addTab(tabLayout.newTab().setText("S"));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
+
+            FragmentActivity activity = (FragmentActivity)this.getContext();
+            FragmentManager manager = activity.getSupportFragmentManager();
+
+            final ScheduledClientPageAdapter adapter = new ScheduledClientPageAdapter
+                    (manager, tabLayout.getTabCount());
+            viewPager.setAdapter(adapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
 
             return rootView;
         }
