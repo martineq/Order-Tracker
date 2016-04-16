@@ -28,15 +28,19 @@ public class ScheduledClientPageAdapter extends FragmentStatePagerAdapter {
         fragments=new ArrayList<ScheduledClientFragment>();
 
         fragment0 = new ScheduledClientFragment();
+        fragment0.setText("Domingo");
         fragments.add(fragment0);
 
         fragment1 = new ScheduledClientFragment();
+        fragment1.setText("Lunes");
         fragments.add(fragment1);
 
         fragment2 = new ScheduledClientFragment();
+        fragment2.setText("Martes");
         fragments.add(fragment2);
 
         fragment3= new ScheduledClientFragment();
+        fragment3.setText("Miercoles");
         fragments.add(fragment3);
     }
 
@@ -45,8 +49,8 @@ public class ScheduledClientPageAdapter extends FragmentStatePagerAdapter {
 
         for (ScheduledClientFragment curInstance: fragments) {
             curInstance.setList(clientList);
+            curInstance.populateClients();
         }
-
         if( clientList!=null && !clientList.isEmpty() ) list=clientList;
 
     }

@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.uriel.ordertracker.App.Activities.DetailsActivity;
 import com.example.uriel.ordertracker.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +29,8 @@ public class ScheduledClientFragment extends Fragment {
     private View rootView;
 
     ArrayList<Client> clientList;
+
+    String day;
 
 
     @Override
@@ -40,8 +44,25 @@ public class ScheduledClientFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        setTitle();
+    }
+
+    public void setTitle(){
+
+        TextView t=(TextView)getView().findViewById(R.id.textSch);
+        t.setText("Agenda para el dia "+day);
+
+    }
+
     public void setList(final ArrayList<Client> clients) {
         clientList=clients;
+    }
+
+    public void setText(String c) {
+        day=c;
     }
 
 

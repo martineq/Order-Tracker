@@ -79,7 +79,9 @@ public class DiaryActivity extends DrawerActivity {
 
     public void populateClients(final ArrayList<Client> clientList) {
 
-        if(fragment1!=null) fragment1.populateClients(clientList);
+        if(fragment1!=null) {
+            fragment1.populateClients(clientList);
+        }
         if(fragment2!=null) fragment2.populateClients(clientList);
 
     }
@@ -116,6 +118,7 @@ public class DiaryActivity extends DrawerActivity {
         public void populateClients(final ArrayList<Client> clientList) {
 
             adapter.populateClients(clientList);
+
 
         }
 

@@ -8,8 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textSch"
-        android:text="TITULO"
+        android:text="No hay clientes para mostrar"
         android:textSize="30dp"
+        android:textStyle="bold"
         android:dividerHeight="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
