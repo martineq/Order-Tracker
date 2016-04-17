@@ -114,11 +114,13 @@ public class RestService implements IRestService {
                         } else {
                             context.handleUnexpectedError(productsContainer.getStatus().getDescription());
                         }
+                        context.showDownloadingCatalog(false);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+                context.showDownloadingCatalog(false);
                 int a = 0;
                 //handle error
             }

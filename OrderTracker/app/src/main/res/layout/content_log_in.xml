@@ -130,23 +130,4 @@
 
     </RelativeLayout>
 
-    layout
-
-    <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_above="@+id/password_id_startup"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="iniciando sesión..."
-        android:id="@+id/logging_in"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:visibility="invisible"
-        android:layout_below="@+id/login_progress"
-        android:layout_marginTop="70dp" />
-
 </RelativeLayout>

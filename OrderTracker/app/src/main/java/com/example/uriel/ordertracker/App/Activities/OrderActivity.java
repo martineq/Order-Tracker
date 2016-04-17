@@ -59,6 +59,8 @@ public class OrderActivity extends DrawerActivity {
     private String token;
     private HashMap<Integer, String> order;
     private ArrayList<Product> allProducts;
+    private View catalog;
+    private View downloadingCatalog;
 
     // Hold a reference to the current animator,
     // so that it can be canceled mid-way.
@@ -85,6 +87,11 @@ public class OrderActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        catalog = this.findViewById(R.id.catalog_layout);
+        downloadingCatalog = this.findViewById(R.id.downloading_catalog_layout);
+        this.showDownloadingCatalog(true);
+
         productService = new ProductService();
         //brandService = new BrandService();
 
@@ -150,6 +157,15 @@ public class OrderActivity extends DrawerActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showDownloadingCatalog(boolean downloadingCatalog) {
+        int catalogVisibility = downloadingCatalog ? View.INVISIBLE : View.VISIBLE;
+        this.catalog.setVisibility(catalogVisibility);
+
+        int downloadingCatalogVisibility = downloadingCatalog ? View.VISIBLE : View.INVISIBLE;
+        this.downloadingCatalog.setVisibility(downloadingCatalogVisibility);
+
     }
 
     public Spinner populateBrands(ArrayList<Product> products){
