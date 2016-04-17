@@ -113,6 +113,7 @@ public class RestService implements IRestService {
                         ProductDTO productsContainer =
                                 new Gson().fromJson(response.toString(), ProductDTO.class);
                         if(Constants.OK_RESPONSE.equals(productsContainer.getStatus().getResult())) {
+                            context.populateBrands(productsContainer.getData());
                             context.populateProducts(productsContainer.getData(), true);
                         } else {
                             context.handleUnexpectedError(productsContainer.getStatus().getDescription());

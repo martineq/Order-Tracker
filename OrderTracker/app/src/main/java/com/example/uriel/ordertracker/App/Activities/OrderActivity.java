@@ -37,6 +37,8 @@ import com.example.uriel.ordertracker.R;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,7 +152,20 @@ public class OrderActivity extends DrawerActivity {
         }
     }
 
-    public Spinner populateBrands(ArrayList<String> brands){
+    public Spinner populateBrands(ArrayList<Product> products){
+        ArrayList<String> brands = new ArrayList<>();
+        for (Product product: products) {
+            if(!brands.contains(product.getBrand())){
+                brands.add(product.getBrand());
+            }
+        }
+        Collections.sort(brands, new Comparator<String>() {
+            @Override
+            public int compare(String b1, String b2) {
+                return (b1).compareToIgnoreCase(b2);
+            }
+        });
+
         brand_spinner = new String[brands.size() + 1];
         brand_spinner[0] = "TODAS";
         for(int i = 0; i < brands.size(); i++){
@@ -231,16 +246,6 @@ public class OrderActivity extends DrawerActivity {
     public void populateProducts(ArrayList<Product> products, boolean all){
         if(all){
             allProducts = products;
-            ArrayList<String> brands = new ArrayList<>();
-            for (Product product: products) {
-                brands.add(product.getBrand());
-            }
-            Spinner s = populateBrands(brands);
-            try {
-                setBrand(s.getItemAtPosition(0).toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
         grid=(GridView)findViewById(R.id.gridView);
         obtenerPedido();
