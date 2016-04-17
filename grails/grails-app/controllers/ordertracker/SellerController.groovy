@@ -9,4 +9,8 @@ class SellerController {
         [sellers:sellers]
     }
 
+    def weeklySchedule() {
+        response << new QueryFacade(new WeeklyScheduleService()).solve(request)
+    }
+
 }

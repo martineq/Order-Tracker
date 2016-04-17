@@ -16,6 +16,7 @@ enum Keywords {
     CATEGORY("category"),
     CITY("city"),
     CHARACTERISTIC("characteristic"),
+    DATE("date"),
     DESCRIPTION("description"),
     ID("id"),
     IMAGE("image"),
@@ -25,6 +26,7 @@ enum Keywords {
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
+    AR_TIMEZONE("GMT-3:00"),
     PRODUCT("product"),
 
     private final String value

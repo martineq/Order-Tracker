@@ -13,7 +13,7 @@ class ProductImageService implements Queryingly{
 
     private def productID
     private String image
-    private static tmpImageFile = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_TMP_PRODUCTS_IMAGE_DIR.toString()
+    private static tmpImageFile = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
 
     ProductImageService() {
         this.productID = InvalidConstants.INVALID_PRODUCT

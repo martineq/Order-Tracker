@@ -96,7 +96,7 @@ class AgendaLoader {
         new Agenda(seller_id:4, client_id:58,date: this.generateTimeInMs(calendar, year, month, friday, 16, 00), day:6, time:'16:00').save()
         new Agenda(seller_id:4, client_id:1,date: this.generateTimeInMs(calendar, year, month, saturday, 17, 00), day:7, time:'17:00').save()
         new Agenda(seller_id:4, client_id:2,date: this.generateTimeInMs(calendar, year, month, wednesday, 14, 00), day:4, time:'14:00').save()
-        new Agenda(seller_id:5, client_id:3,date: this.generateTimeInMs(calendar, year, month, wednesday, 14, 00), day:4, time:'14:00').save()
+        new Agenda(seller_id:4, client_id:3,date: this.generateTimeInMs(calendar, year, month, wednesday, 14, 00), day:4, time:'14:00').save()
 
     }
 }

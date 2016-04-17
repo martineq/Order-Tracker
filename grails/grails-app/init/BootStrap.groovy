@@ -24,6 +24,7 @@ class BootStrap {
             new SellerLoader().load()
             new ClientOrderLoader().load()
             new OrderDetailLoader().load()
+            new UserTypeLoader().load()
 
         Log.info("DB UP!")
     }

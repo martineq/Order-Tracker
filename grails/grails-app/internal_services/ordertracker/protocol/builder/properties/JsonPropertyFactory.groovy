@@ -23,6 +23,10 @@ class JsonPropertyFactory implements Jsonable {
         jsonProperty = new JsonPropertyCommand(name, value, this.&jsonIntegerCommandProperty )
     }
 
+    JsonPropertyFactory(String name, long value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonLongCommandProperty )
+    }
+
     JsonPropertyFactory(Enum name, String value) {
         jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonStringCommandProperty )
     }
@@ -37,6 +41,10 @@ class JsonPropertyFactory implements Jsonable {
 
     JsonPropertyFactory(Enum name, int value) {
         jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonIntegerCommandProperty )
+    }
+
+    JsonPropertyFactory(Enum name, long value) {
+        jsonProperty = new JsonPropertyCommand(name.toString(), value, this.&jsonLongCommandProperty )
     }
 
     def buildJson() {
@@ -66,6 +74,12 @@ class JsonPropertyFactory implements Jsonable {
     }
 
     def jsonIntegerCommandProperty(String name, int value) {
+        def propertyName = this.encapsulateString(name)
+        def propertyValue = value.toString()
+        return propertyName + JsonElements.JSON_PROPERTY_SEPARATOR + propertyValue
+    }
+
+    def jsonLongCommandProperty(String name, long value) {
         def propertyName = this.encapsulateString(name)
         def propertyValue = value.toString()
         return propertyName + JsonElements.JSON_PROPERTY_SEPARATOR + propertyValue
