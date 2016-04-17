@@ -78,6 +78,10 @@ public class Client implements Comparable<Client>  {
         return visitDate;
     }
 
+    public void setVisitDate(long visitDate) {
+        this.visitDate = new Date(visitDate);
+    }
+
     public void setVisitDate(Date visitDate) {
         this.visitDate = visitDate;
     }

@@ -22,7 +22,7 @@ public class Constants {
     public static final String HTTP = "http://";
     public static final String LOGIN_SERVICE = "authentication/authenticate";
     public static final String LOGOUT_SERVICE = "logout";
-    public static final String CLIENT_SERVICE = "client/list";
+    public static final String CLIENT_SERVICE = "seller/weeklySchedule";
     public static final String PRODUCT_SERVICE = "product/list";
     public static final String SHARED_PREFERENCES = "commonKey";
     public static final long MINIMUM_REQUEST_IP_TIME = 300000; // 5 min = 300s = 300000ms
