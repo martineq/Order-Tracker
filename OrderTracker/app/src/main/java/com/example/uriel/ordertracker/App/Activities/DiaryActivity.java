@@ -8,10 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +28,6 @@ import com.example.uriel.ordertracker.App.Services.Interface.IClientService;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -117,8 +114,13 @@ public class DiaryActivity extends DrawerActivity {
         }
 
         public void populateClients(final ArrayList<Client> clientList) {
+            final Activity context = this.getActivity();
+            if(clientList.size() == 0){
+                SweetAlertDialog dialog = Helpers.getErrorDialog(context, "Atención", "No hay ningun cliente disponible");
+                dialog.show();
+            }
 
-            ArrayList<Client> clientListPrueba;
+            /*ArrayList<Client> clientListPrueba;
 
 
             //TODO: aca a adapter deberia pasarle clientList y listo. Le pongo fecha a todos para probar.
@@ -151,9 +153,9 @@ public class DiaryActivity extends DrawerActivity {
                     cli.setVisitDate(d);
                 }
                 i=i+1;
-            }
+            }*/
 
-            adapter.populateClients(clientListPrueba);
+            adapter.populateClients(clientList/*Prueba*/);
 
         }
 
@@ -239,11 +241,16 @@ public class DiaryActivity extends DrawerActivity {
         }
 
         public void populateClients(final ArrayList<Client> clientList) {
+            final Activity context = this.getActivity();
+            if(clientList.size() == 0){
+                SweetAlertDialog dialog = Helpers.getErrorDialog(context, "Atención", "No hay ningun cliente disponible");
+                dialog.show();
+            }
+
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
             ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientList);
             listView.setAdapter(clientsAdapter);
 
-            final Activity context = getActivity();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -254,7 +261,7 @@ public class DiaryActivity extends DrawerActivity {
                     clientDetails.put("address", client.getAddress());
                     clientDetails.put("city", client.getCity());
                     clientDetails.put("state", client.getState());
-                    clientDetails.put("visitDate", String.valueOf(client.getVisitDate()));
+                    clientDetails.put("date", String.valueOf(client.getLongDate()));
                     Intent intent = new Intent(context, DetailsActivity.class);
                     intent.putExtra("client", clientDetails);
                     startActivity(intent);

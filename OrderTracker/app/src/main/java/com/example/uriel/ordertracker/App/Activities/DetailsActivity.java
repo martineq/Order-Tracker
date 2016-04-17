@@ -28,9 +28,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,14 +63,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
 
         clientService = new ClientService();
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date visitDate = null;
-        try {
-            visitDate = format.parse(clientDetails.get("visitDate"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), visitDate);
+        client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
         name = client.getName();
 
         setTitle("Info del cliente: " + name);

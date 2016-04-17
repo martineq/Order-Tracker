@@ -1,5 +1,7 @@
 package com.example.uriel.ordertracker.App.Model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Client implements Comparable<Client>  {
@@ -8,28 +10,28 @@ public class Client implements Comparable<Client>  {
     private String address;
     private String city;
     private String state;
-    private Date visitDate;
+    private long date;
 
-    public Client(int id, String name, String address, String city, String state, Date visitDate){
+    public Client(int id, String name, String address, String city, String state, long date){
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.visitDate = visitDate;
+        this.date = date;
     }
 
     //Ordenar los clientes segun a quien tengo que visitar mas temprano
     public int compareTo(Client comparecli) {
-        int compareage=((Client)comparecli).getVisitDate().getHours();
-        int myHours=getVisitDate().getHours();
+        int compareage=((Client)comparecli).getDate().getHours();
+        int myHours= getDate().getHours();
 
         if( compareage!=myHours ) {
             return myHours - compareage;
         }
         else {
-            int comparemin=((Client)comparecli).getVisitDate().getMinutes();
-            int myMins=getVisitDate().getMinutes();
+            int comparemin=((Client)comparecli).getDate().getMinutes();
+            int myMins= getDate().getMinutes();
             return myMins - comparemin;
         }
     }
@@ -74,16 +76,21 @@ public class Client implements Comparable<Client>  {
         this.state = state;
     }
 
-    public Date getVisitDate() {
-        return visitDate;
+    public Long getLongDate()
+    {
+        return date;
     }
 
-    public void setVisitDate(long visitDate) {
-        this.visitDate = new Date(visitDate);
+    public Date getDate()
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(this.date);
+        return calendar.getTime();
     }
 
-    public void setVisitDate(Date visitDate) {
-        this.visitDate = visitDate;
-    }
-
+    public void setDate(long date) { this.date = date; }
 }

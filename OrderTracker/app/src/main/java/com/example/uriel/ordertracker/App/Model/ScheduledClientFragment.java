@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Activities.DetailsActivity;
 import com.example.uriel.ordertracker.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +75,7 @@ public class ScheduledClientFragment extends Fragment {
             //Solo selecciono los clientes del dia
             final ArrayList<Client> clientList2=new ArrayList<Client>();
             for (Client cli: clientList) {
-                if(cli.getVisitDate().getDay()==numDay){
+                if(cli.getDate().getDay()==numDay){
                     clientList2.add(cli);
                 }
             }
@@ -100,7 +97,7 @@ public class ScheduledClientFragment extends Fragment {
                         clientDetails.put("address", client.getAddress());
                         clientDetails.put("city", client.getCity());
                         clientDetails.put("state", client.getState());
-                        clientDetails.put("visitDate", String.valueOf(client.getVisitDate()));
+                        clientDetails.put("date", String.valueOf(client.getLongDate()));
                         Intent intent = new Intent(context, DetailsActivity.class);
                         intent.putExtra("client", clientDetails);
                         startActivity(intent);

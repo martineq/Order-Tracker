@@ -1,6 +1,5 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -13,9 +12,7 @@ import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
-import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
-import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
@@ -25,7 +22,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -149,7 +145,7 @@ public class RestService implements IRestService {
      */
     @Override
     public void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context){
-        String url = Constants.getClientsServiceUrl();
+        /*String url = Constants.getClientsServiceUrl();
 
         JSONObject jsonOrder = order.toJSONObject();
 
@@ -184,6 +180,6 @@ public class RestService implements IRestService {
         };
 
         // add the request object to the queue to be executed
-        Request response = Volley.newRequestQueue(context).add(req);
+        Request response = Volley.newRequestQueue(context).add(req);*/
     }
 }

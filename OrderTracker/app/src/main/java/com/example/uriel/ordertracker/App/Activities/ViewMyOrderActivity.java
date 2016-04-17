@@ -19,20 +19,17 @@ import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Model.OrderLine;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
 import com.example.uriel.ordertracker.App.Services.Impl.OrderService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
-import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -68,10 +65,12 @@ public class ViewMyOrderActivity extends DrawerActivity {
         setTitle("Su pedido");
         configDrawerAfterCreate(savedInstanceState);
 
+        User user = SessionInformation.getEditor().loadUserInformation();
+
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        userId = Integer.valueOf(sharedPref.getString(RestService.LOGIN_RESPONSE_ID, ""));
-        username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
-        token = sharedPref.getString(RestService.LOGIN_TOKEN, "");
+        userId = user.getId();
+        username = user.getUsername();
+        token = user.getToken();
 
         Intent intent = getIntent();
         order = (HashMap<Integer, String>)intent.getSerializableExtra("order");
@@ -203,14 +202,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
         //agregar registro de pedido
         try{
             User seller = userService.getById(userId);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date visitDate = null;
-            try {
-                visitDate = format.parse(clientDetails.get("visitDate"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), visitDate);
+            Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
             Order order = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
             orderService.sendOrder(username, token, order, this);
         }catch(Exception e){

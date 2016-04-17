@@ -2,7 +2,6 @@ package com.example.uriel.ordertracker.App.Model;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +40,11 @@ public class ScheduledClientsAdapter extends ArrayAdapter<Client> {
         nameText.setText(client.getName());
         String state = client.getState();
 
-        min=String.valueOf(client.getVisitDate().getMinutes());
+        min=String.valueOf(client.getDate().getMinutes());
         if(min.length()==1) {
             min=min+"0";
         }
-        String hour=String.valueOf((client.getVisitDate().getHours()))+":"+min;
+        String hour=String.valueOf((client.getDate().getHours()))+":"+min;
         hourText.setText(hour);
 
         if(state.equals(Constants.VISITADO)){
