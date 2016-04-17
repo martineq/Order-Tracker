@@ -50,9 +50,9 @@
 <div class="table-responsive">
   <table class="table">
      <tr>
-    <th class="tg-yw4l">Cliente</th>
-    <th class="tg-yw4l">Día</th>
-    <th class="tg-yw4l">Horario</th>
+    <th class="col-md-8">Cliente</th>
+    <th class="col-md-1">Día</th>
+    <th class="col-md-1">Horario</th>
   </tr>
   
 
@@ -96,7 +96,7 @@ Sábado
 
 <g:elseif test="${dayr != '-1'}">
 <br>
-<p><b>No hay clientes agendados...</b></p>
+<p><b>No hay clientes agendados para mostrar</b></p>
 </g:elseif>
 
 </body>
