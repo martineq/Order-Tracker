@@ -2,10 +2,7 @@ package com.example.uriel.ordertracker.App.Model;
 
 import java.util.Date;
 
-/**
- * Created by Uriel on 25-Mar-16.
- */
-public class Client {
+public class Client implements Comparable<Client>  {
     private int id;
     private String name;
     private String address;
@@ -20,6 +17,21 @@ public class Client {
         this.city = city;
         this.state = state;
         this.visitDate = visitDate;
+    }
+
+    //Ordenar los clientes segun a quien tengo que visitar mas temprano
+    public int compareTo(Client comparecli) {
+        int compareage=((Client)comparecli).getVisitDate().getHours();
+        int myHours=getVisitDate().getHours();
+
+        if( compareage!=myHours ) {
+            return myHours - compareage;
+        }
+        else {
+            int comparemin=((Client)comparecli).getVisitDate().getMinutes();
+            int myMins=getVisitDate().getMinutes();
+            return myMins - comparemin;
+        }
     }
 
     public int getId() {
@@ -69,4 +81,5 @@ public class Client {
     public void setVisitDate(Date visitDate) {
         this.visitDate = visitDate;
     }
+
 }

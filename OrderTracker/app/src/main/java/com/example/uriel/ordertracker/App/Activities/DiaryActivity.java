@@ -131,10 +131,14 @@ public class DiaryActivity extends DrawerActivity {
             for (Client cli: clientListPrueba) {
 
                 if ( i<3) {
-                    Date d = new Date(116, 3, 16, 15, 0, 0); //año 2016, domingo 17 de abril
+                    Date d = new Date(116, 3, 16, 15, 40, 0); //año 2016, domingo 17 de abril
                     cli.setVisitDate(d);
                 }
                 else if(i>3 && i<20){
+                    Date d = new Date(116, 3, 16, 15, 30, 0);
+                    cli.setVisitDate(d);
+                }
+                else if(i>10 && i<20){
                     Date d = new Date(116, 3, 19, 15, 0, 0);
                     cli.setVisitDate(d);
                 }

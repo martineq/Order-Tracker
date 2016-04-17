@@ -22,6 +22,7 @@ import com.example.uriel.ordertracker.R;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class ScheduledClientFragment extends Fragment {
@@ -74,13 +75,16 @@ public class ScheduledClientFragment extends Fragment {
         if (rootView != null && clientList!=null) {
             final ListView listView = (ListView) rootView.findViewById(R.id.listViewSch);
 
-
+            //Solo selecciono los clientes del dia
             final ArrayList<Client> clientList2=new ArrayList<Client>();
             for (Client cli: clientList) {
                 if(cli.getVisitDate().getDay()==numDay){
                     clientList2.add(cli);
                 }
             }
+            // Ordeno la lista para pasarla al fragmento
+            Collections.sort(clientList2);
+
             if(!clientList2.isEmpty()) {
                 ScheduledClientsAdapter clientsAdapter = new ScheduledClientsAdapter(getActivity(), clientList2);
                 listView.setAdapter(clientsAdapter);
