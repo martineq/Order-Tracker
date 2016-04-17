@@ -31,12 +31,13 @@
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seleccione el dia...
     <span class="caret"></span></button>
     <ul class="dropdown-menu center"  align="center">
-      <li><g:link action="show" params="[day: 1 ]"  id="${se.id}">Lunes</g:link></li>
-     <li><g:link action="show" params="[day: 2 ]"  id="${se.id}">Martes</g:link></li>
-      <li><g:link action="show" params="[day: 3 ]"  id="${se.id}">Miércoles</g:link></li>
-       <li><g:link action="show" params="[day: 4 ]"  id="${se.id}">Jueves</g:link></li>
-      <li><g:link action="show" params="[day: 5 ]"  id="${se.id}">Viernes</g:link></li>
-      <li><g:link action="show" params="[day: 6 ]"  id="${se.id}">Sábado</g:link></li>
+      <li><g:link action="show" params="[day: 1 ]"  id="${se.id}">Domingo</g:link></li>
+     <li><g:link action="show" params="[day: 2 ]"  id="${se.id}">Lunes</g:link></li>
+      <li><g:link action="show" params="[day: 3 ]"  id="${se.id}">Martes</g:link></li>
+       <li><g:link action="show" params="[day: 4 ]"  id="${se.id}">Miércoles</g:link></li>
+      <li><g:link action="show" params="[day: 5 ]"  id="${se.id}">Jueves</g:link></li>
+      <li><g:link action="show" params="[day: 6 ]"  id="${se.id}">Viernes</g:link></li>
+      <li><g:link action="show" params="[day: 7 ]"  id="${se.id}">Sábado</g:link></li>
       <li><g:link action="show" params="[day: 0 ]"  id="${se.id}">Todos</g:link></li>
     </ul>
   </div>
@@ -62,21 +63,24 @@
     <td class="tg-yw4l">${res[1]}</td>
     <td class="tg-yw4l">
     <g:if test="${res[2]==1}" >
-Lunes
+Domingo
 </g:if>
 <g:if test="${res[2]==2}" >
-Martes
+Lunes
 </g:if>
 <g:if test="${res[2]==3}" >
-Miércoles
+Martes
 </g:if>
 <g:if test="${res[2]==4}" >
-Jueves
+Miércoles
 </g:if>
 <g:if test="${res[2]==5}" >
-Viernes
+Jueves
 </g:if>
 <g:if test="${res[2]==6}" >
+Viernes
+</g:if>
+<g:if test="${res[2]==7}" >
 Sábado
 </g:if></td>
     <td class="tg-yw4l">${res[3]}</td>
@@ -86,14 +90,14 @@ Sábado
   </g:each>
   </table>
   
-  </g:if>
-
-
-
-
-
-  </table>
 </div>
+
+</g:if>
+
+<g:elseif test="${dayr != '-1'}">
+<br>
+<p><b>No hay clientes agendados...</b></p>
+</g:elseif>
 
 </body>
 </html>

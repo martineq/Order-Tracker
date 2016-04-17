@@ -20,7 +20,7 @@ class AgendaController {
         
         def resul= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} and (${dayr} = t1.day or ${dayr} =0 ) order by t1.day asc , t1.time asc")
 
-        [sell:sell,resul:resul]
+        [sell:sell,resul:resul,dayr:dayr]
     }
 
 }
