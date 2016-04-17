@@ -22,6 +22,7 @@
         android:layout_below="@id/textSch"
         android:id="@+id/listViewSch"
         android:dividerHeight="10dp"
+        android:layout_margin="15dp"
         android:layout_alignParentLeft="true" />
 
 
