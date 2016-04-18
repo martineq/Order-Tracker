@@ -26,6 +26,14 @@ class BootStrap {
             new OrderDetailLoader().load()
             new UserTypeLoader().load()
 
+
+        String productImages = ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
+        String productTmpImages = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
+        String compressedImages = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_COMPRESS_DIR.toString() + ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
+
+        Log.info("Compressing images")
+        new ImageResizer( productImages, productTmpImages, compressedImages).resize()
+
         Log.info("DB UP!")
     }
 

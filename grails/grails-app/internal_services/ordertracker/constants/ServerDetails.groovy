@@ -3,6 +3,7 @@ package ordertracker.constants
 enum ServerDetails {
 
     SERVER_TMP_DIR('tmp/'),
+    SERVER_COMPRESS_DIR('cmp/'),
     SERVER_ERROR_IMAGE_DIR('images/errors/'),
     SERVER_PRODUCTS_IMAGE_DIR('images/products/'),
     SERVER_LOGS_PATH('logs/'),
