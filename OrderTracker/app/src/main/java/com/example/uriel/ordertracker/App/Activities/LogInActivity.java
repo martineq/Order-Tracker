@@ -110,13 +110,13 @@ public class LogInActivity extends AppCompatActivity {
         intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         intent.putExtra(RestService.LOGIN_TOKEN, user.getToken());
         intent.putExtra(RestService.LOGIN_PASSWORD, password.getText().toString());
+        intent.putExtra("FIRST", true);
         startActivity(intent);
 
         TextView passwordView =(TextView) findViewById(R.id.password_id_startup);
         user.setPassword(passwordView.getText().toString());
         SessionInformation.getEditor().saveUserInformation(user);
 
-        startActivity(new Intent(this, DiaryActivity.class));
         finish();
     }
 

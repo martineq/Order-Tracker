@@ -136,7 +136,10 @@ public class DrawerActivity extends AppCompatActivity {
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-                startActivity(new Intent(this, DiaryActivity.class));
+                Intent intent2;
+                intent2 = new Intent(this, DiaryActivity.class);
+                intent2.putExtra("FIRST", false);
+                startActivity(intent2);
                 break;
 
             case 1:
