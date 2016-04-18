@@ -1,6 +1,7 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -227,6 +228,13 @@ public class DiaryActivity extends DrawerActivity {
             args.putString(RestService.LOGIN_TOKEN, token);
             fragment.setArguments(args);
             return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
+            setRetainInstance(true);
+
         }
 
         @Override
