@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textSch"
         android:id="@+id/listViewSch"
-        android:dividerHeight="10dp"
+        android:dividerHeight="5dp"
         android:layout_margin="15dp"
         android:layout_alignParentLeft="true" />
 

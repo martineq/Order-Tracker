@@ -52,12 +52,14 @@
         <activity
             android:name=".App.Activities.OrderActivity"
             android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_order"
             />
         <activity android:name=".App.Activities.DrawerActivity" />
         <activity
             android:name=".App.Activities.ViewMyOrderActivity"
-            android:label="@string/title_activity_view_my_order" ></activity>
+            android:label="@string/title_activity_view_my_order">
+        </activity>
     </application>
 
 </manifest>

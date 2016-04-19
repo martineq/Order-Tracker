@@ -1,7 +1,6 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
