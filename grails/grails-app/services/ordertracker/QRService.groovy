@@ -3,6 +3,8 @@ package ordertracker
 import ordertracker.constants.HttpProtocol
 import ordertracker.protocol.Data
 import ordertracker.protocol.ProtocolJsonBuilder
+import ordertracker.protocol.Result
+import ordertracker.protocol.Status
 import ordertracker.protocol.builder.JsonObjectBuilder
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
@@ -11,10 +13,12 @@ import ordertracker.tranmission.TransmissionMedium
 
 class QRService implements Queryingly{
 
-    private String qr;
+    private String qr
+    private boolean queryResult
 
     QRService() {
-        this.qr = new String();
+        this.qr = new String()
+        this.queryResult = false
     }
 
     @Override
@@ -32,15 +36,17 @@ class QRService implements Queryingly{
 
     @Override
     def generateQuery() {
-        return true
+        this.queryResult = true
+        return this.queryResult
     }
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        return new ProtocolJsonBuilder()
-    }
+        if ( queryResult == false )
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Código QR inválido"))
 
-    private Data generateData() {
-
+        def productsService = new AvailableProductsService()
+        productsService.generateQuery()
+        productsService.obtainResponse(transmissionMedium)
     }
 }
