@@ -5,7 +5,9 @@ enum HttpProtocol {
 
     HTTP("http"),
     GET("GET"),
+    POST("POST"),
     PUT("PUT"),
+    BODY("BODY"),
     METHOD("method"),
     REQUEST_URI("requestURI"),
 
