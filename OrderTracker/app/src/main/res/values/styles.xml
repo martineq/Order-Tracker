@@ -22,5 +22,9 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <style name="RaisedButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#26A69A</item>
+        <item name="colorButtonNormal">#80CBC4</item>
+    </style>
 
 </resources>

@@ -19,5 +19,6 @@
     <string name="drawer_close">Cerrar menu</string>
     <string name="action_1">Acerca de...</string>
     <string name="title_activity_view_my_order">ViewMyOrderActivity</string>
+    <string name="title_activity_qrreader">QRReaderActivity</string>
 
 </resources>

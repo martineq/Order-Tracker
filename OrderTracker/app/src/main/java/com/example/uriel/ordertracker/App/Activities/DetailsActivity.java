@@ -107,8 +107,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
         pedidoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OrderActivity.class);
-                intent.putExtra("ReadOnly", false);
+                Intent intent = new Intent(context, QRReaderActivity.class);
                 intent.putExtra("client", clientDetails);
                 startActivity(intent);
             }

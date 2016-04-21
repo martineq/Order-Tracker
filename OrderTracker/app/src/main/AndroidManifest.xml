@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permissino.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -31,8 +32,8 @@
         </activity>
         <activity
             android:name=".App.Activities.DiaryActivity"
-            android:label="@string/title_activity_diary"
             android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_diary"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -45,21 +46,26 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
 
         <activity
             android:name=".App.Activities.DetailsActivity"
             android:label="@string/title_activity_details" />
         <activity
             android:name=".App.Activities.OrderActivity"
-            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_order"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".App.Activities.DrawerActivity" />
         <activity
             android:name=".App.Activities.ViewMyOrderActivity"
-            android:label="@string/title_activity_view_my_order">
-        </activity>
+            android:label="@string/title_activity_view_my_order"></activity>
+        <activity
+            android:name=".App.Activities.QRReaderActivity"
+            android:label="@string/title_activity_qrreader"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

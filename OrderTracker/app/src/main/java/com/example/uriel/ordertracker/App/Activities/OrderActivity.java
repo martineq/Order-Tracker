@@ -15,6 +15,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -126,6 +127,27 @@ public class OrderActivity extends DrawerActivity {
             });
         }
 
+
+        final SearchView searchView = (SearchView) findViewById(R.id.searchView);
+        //permite modificar el hint que el EditText muestra por defecto
+        searchView.setQueryHint("Busque su marca");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                try {
+                    setBrand(query);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+
+
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             order = (HashMap<Integer, String>)savedInstanceState.getSerializable("order");
@@ -214,7 +236,7 @@ public class OrderActivity extends DrawerActivity {
     public void setBrand(String brand) throws JSONException {
         ArrayList<Product> products;
 
-        if(brand.equals("TODAS")){
+        if(brand.equals("TODAS") || brand.equals("")){
             if(allProducts.size() > 0){
                 populateProducts(allProducts, true);
             }else{
