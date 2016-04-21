@@ -14,6 +14,7 @@ enum Keywords {
     ADDRESS("address"),
     BRAND("brand"),
     CATEGORY("category"),
+    CLIENT('client'),
     CITY("city"),
     CHARACTERISTIC("characteristic"),
     DATE("date"),
@@ -21,13 +22,22 @@ enum Keywords {
     ID("id"),
     IMAGE("image"),
     IMAGE_BASE_64("imageBase64"),
+    LINES('lines'),
     NAME("name"),
+    ORDER('order'),
     PRICE("price"),
+    PRODUCT('product'),
+    QUANTITY('quantity'),
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
+
     AR_TIMEZONE("GMT-3:00"),
-    PRODUCT("product"),
+
+    DATE_ES('fecha'),
+    STATE_ES('estado'),
+    TOTAL_AMOUNT_ES('importeTotal'),
+    SELLER_ES('vendedor'),
 
     private final String value
 

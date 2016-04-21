@@ -35,17 +35,28 @@ abstract class QueryProtocol {
         try {
             String body = ""
             try {
-                String bodyLine
-                BufferedReader bufferedReader = request.getReader()
-                while( ( bodyLine = bufferedReader.readLine() ) != null ) {
-                    body += '\n' + bodyLine
-                }
-            } catch (IOException e ) {}
+                body = this.readBody(request.getReader())
+            }
+
+            catch (IOException e ) {}
 
             this.requester.addProperty( HttpProtocol.BODY, body )
         }
         catch ( UnsupportedEncodingException e ) {}
         catch ( IllegalStateException e ) {}
         catch ( IOException e ) {}
+    }
+
+    private String readBody(BufferedReader bufferedReader) {
+        String body = ""
+        String bodyLine
+
+        if ( ( bodyLine = bufferedReader.readLine() ) != null )
+            body += bodyLine
+
+        while( ( bodyLine = bufferedReader.readLine() ) != null )
+            body += '\n' + bodyLine
+
+        return body
     }
 }
