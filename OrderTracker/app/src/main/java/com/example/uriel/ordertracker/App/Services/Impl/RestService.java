@@ -11,8 +11,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
+import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
@@ -147,7 +149,7 @@ public class RestService implements IRestService {
      */
     @Override
     public void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context){
-        /*String url = Constants.getClientsServiceUrl();
+        String url = Constants.sendOrderServiceUrl();
 
         JSONObject jsonOrder = order.toJSONObject();
 
@@ -182,6 +184,54 @@ public class RestService implements IRestService {
         };
 
         // add the request object to the queue to be executed
-        Request response = Volley.newRequestQueue(context).add(req);*/
+        Request response = Volley.newRequestQueue(context).add(req);
+    }
+
+    /**
+     * @param username
+     * @param token
+     * @param qr
+     * @param context
+     */
+    @Override
+    public void sendQR(final String username, final String token, final String qr, final QRReaderActivity context) throws JSONException {
+        String url = Constants.sendOrderServiceUrl();
+
+        HashMap<String,String> params = new HashMap<String,String>();
+        params.put("qr", qr);
+        JSONObject jsonqr = new JSONObject(params);
+
+        JsonObjectRequest req = new JsonObjectRequest(url, jsonqr,
+                new Response.Listener<JSONObject> () {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        BaseDTO baseContainer =
+                                new Gson().fromJson(response.toString(), BaseDTO.class);
+                        if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
+                            context.validQR();
+                        } else {
+                            context.handleUnexpectedError(baseContainer.getStatus().getDescription());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+                int a = 0;
+                //handle error
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", username);
+                headers.put("token", token);
+                return headers;
+            }
+        };
+
+        // add the request object to the queue to be executed
+        Request response = Volley.newRequestQueue(context).add(req);
     }
 }

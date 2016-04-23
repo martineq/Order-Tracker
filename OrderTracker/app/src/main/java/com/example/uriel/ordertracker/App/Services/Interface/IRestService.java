@@ -1,11 +1,11 @@
 package com.example.uriel.ordertracker.App.Services.Interface;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Order;
 
@@ -32,4 +32,5 @@ public interface IRestService {
     void getClients(final String username, final String token, final DiaryActivity act, final AppCompatActivity context);
     void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context) throws JSONException;
     void getProducts(final String username, final String token, final OrderActivity context) throws JSONException;
+    void sendQR(final String username, final String token, final String qr, final QRReaderActivity context) throws JSONException;
 }

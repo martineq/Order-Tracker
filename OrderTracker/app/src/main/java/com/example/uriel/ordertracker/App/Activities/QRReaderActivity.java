@@ -1,7 +1,6 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,34 +14,55 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
+import com.example.uriel.ordertracker.App.Model.User;
+import com.example.uriel.ordertracker.App.Services.Impl.OrderService;
+import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.HashMap;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class QRReaderActivity extends AppCompatActivity {
+
+    String username;
+    String token;
+    private IOrderService orderService;
+    private QRReaderActivity context;
+    private HashMap<String, String> clientDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrreader);
 
+        orderService = new OrderService();
+        context = this;
+
+        User user = SessionInformation.getEditor().loadUserInformation();
+        username = user.getUsername();
+        token = user.getToken();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Lector QR");
 
-        final HashMap<String, String> clientDetails = (HashMap<String, String>) getIntent().getExtras().getSerializable("client");
+        clientDetails = (HashMap<String, String>) getIntent().getExtras().getSerializable("client");
         boolean readOnly = false;
 
         final SurfaceView cameraView = (SurfaceView) findViewById(R.id.camera_view);
         final TextView barcodeInfo = (TextView) findViewById(R.id.code_info);
         final TextView textView = (TextView) findViewById(R.id.textView);
 
-        final Activity context = this;
         FloatingActionButton confirmar = (FloatingActionButton) findViewById(R.id.confirmar);
         confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +121,11 @@ public class QRReaderActivity extends AppCompatActivity {
 
                     textView.post(new Runnable() {
                         public void run() {
-                            textView.setText(
-                                    value
-                            );
+                            try {
+                                orderService.sendQR(username, token, value, context);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -111,4 +133,15 @@ public class QRReaderActivity extends AppCompatActivity {
         });
     }
 
+    public void validQR(){
+        Intent intent = new Intent(context, OrderActivity.class);
+        intent.putExtra("readOnly", false);
+        intent.putExtra("client", clientDetails);
+        startActivity(intent);
+    }
+
+    public void handleUnexpectedError(String error){
+        SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la lectura del código QR", error);
+        dialog.show();
+    }
 }

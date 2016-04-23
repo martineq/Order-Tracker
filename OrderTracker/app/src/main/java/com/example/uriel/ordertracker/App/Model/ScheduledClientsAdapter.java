@@ -57,4 +57,8 @@ public class ScheduledClientsAdapter extends ArrayAdapter<Client> {
 
         return rowView;
     }
+
+    public List<Client> getClients(){
+        return clients;
+    }
 }

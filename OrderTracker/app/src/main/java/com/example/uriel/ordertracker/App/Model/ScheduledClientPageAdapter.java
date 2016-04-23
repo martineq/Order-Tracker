@@ -3,9 +3,9 @@ package com.example.uriel.ordertracker.App.Model;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by poly on 15/04/16.
@@ -59,6 +59,26 @@ public class ScheduledClientPageAdapter extends FragmentStatePagerAdapter {
         fragments.add(fragment6);
     }
 
+    public List<Client> getList(int position){
+        switch (position) {
+            case(0):
+                return fragment0.getList();
+            case(1):
+                return fragment1.getList();
+            case(2):
+                return fragment2.getList();
+            case(3):
+                return fragment3.getList();
+            case(4):
+                return fragment4.getList();
+            case(5):
+                return fragment5.getList();
+            case(6):
+                return fragment6.getList();
+            default:
+                return null;
+        }
+    }
 
     public void populateClients(final ArrayList<Client> clientList) {
 
@@ -69,7 +89,6 @@ public class ScheduledClientPageAdapter extends FragmentStatePagerAdapter {
         if( clientList!=null && !clientList.isEmpty() ) list=clientList;
 
     }
-
 
     @Override
     public Fragment getItem(int position) {

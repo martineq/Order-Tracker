@@ -18,13 +18,10 @@ import android.widget.TextView;
 import com.example.uriel.ordertracker.App.Activities.DetailsActivity;
 import com.example.uriel.ordertracker.R;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class ScheduledClientFragment extends Fragment {
 
@@ -56,8 +53,13 @@ public class ScheduledClientFragment extends Fragment {
     public void setTitle(){
 
         TextView t=(TextView)getView().findViewById(R.id.textSch);
-        t.setText("Agenda para el dia "+day);
+        t.setText("Agenda para el dia " + day);
 
+    }
+
+    public List<Client> getList() {
+        final ListView listView = (ListView) rootView.findViewById(R.id.listViewSch);
+        return ((ScheduledClientsAdapter)listView.getAdapter()).getClients();
     }
 
     public void setList(final ArrayList<Client> clients) {
@@ -69,8 +71,6 @@ public class ScheduledClientFragment extends Fragment {
         day=c;
         numDay=num;
     }
-
-
 
     public void populateClients() {
         if (rootView != null && clientList!=null) {

@@ -3,6 +3,7 @@ package com.example.uriel.ordertracker.App.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -84,6 +85,19 @@ public class DiaryActivity extends DrawerActivity {
 
     }
 
+    public void setButton(final ArrayList<String> adresses){
+        final Activity context = this;
+        FloatingActionButton routeButton = (FloatingActionButton) findViewById(R.id.routeButton);
+        routeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RouteActivity.class);
+                intent.putExtra("adresses", adresses);
+                startActivity(intent);
+            }
+        });
+    }
+
     public void handleUnexpectedError(String error){
         SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la obtención de clientes", error);
         dialog.show();
@@ -103,7 +117,6 @@ public class DiaryActivity extends DrawerActivity {
 
         }
 
-
         public static DiaryFragment newInstance(int sellerId, String username, String token) {
             DiaryFragment fragment = new DiaryFragment();
             Bundle args = new Bundle();
@@ -120,49 +133,21 @@ public class DiaryActivity extends DrawerActivity {
                 dialog.show();
             }
 
-            /*ArrayList<Client> clientListPrueba;
+            adapter.populateClients(clientList);
 
-
-            //TODO: aca a adapter deberia pasarle clientList y listo. Le pongo fecha a todos para probar.
-
-            clientListPrueba=new ArrayList<Client>();
-            clientListPrueba.addAll(clientList);
-
-            int i=0;
-
-            for (Client cli: clientListPrueba) {
-
-                if ( i<3) {
-                    Date d = new Date(116, 3, 16, 15, 40, 0); //año 2016, domingo 17 de abril
-                    cli.setVisitDate(d);
-                }
-                else if(i>3 && i<20){
-                    Date d = new Date(116, 3, 16, 15, 30, 0);
-                    cli.setVisitDate(d);
-                }
-                else if(i>10 && i<20){
-                    Date d = new Date(116, 3, 19, 15, 0, 0);
-                    cli.setVisitDate(d);
-                }
-                else if(i>20 && i<30){
-                    Date d = new Date(116, 3, 19, 15, 20, 0);
-                    cli.setVisitDate(d);
-                }
-                else {
-                    Date d = new Date(116, 3, 20, 15, 20, 0);
-                    cli.setVisitDate(d);
-                }
-                i=i+1;
-            }*/
-
-            adapter.populateClients(clientList/*Prueba*/);
-
+            final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
+            ArrayList<String> adresses = new ArrayList<String>();
+            for (Client client: adapter.getList(viewPager.getCurrentItem())) {
+                adresses.add(client.getAddress() + ", " + client.getCity());
+            }
+            DiaryActivity act = (DiaryActivity) this.getActivity();
+            act.setButton(adresses);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
+            rootView = inflater.inflate(R.layout.fragment_diary, container, false);
 
             final String username = getArguments().getString(RestService.LOGIN_RESPONSE_NAME);
             final String token = getArguments().getString(RestService.LOGIN_TOKEN);
