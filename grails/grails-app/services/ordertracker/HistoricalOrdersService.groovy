@@ -4,6 +4,7 @@ import ordertracker.constants.Enums
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.database.HistoricalOrderQuery
+import ordertracker.json.HistoricalOrdersJsonResponse
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
@@ -27,9 +28,14 @@ class HistoricalOrdersService implements Queryingly {
         if ( requester.getProperty(HttpProtocol.METHOD).toString().compareTo(HttpProtocol.GET.toString()) != 0 )
             throw new QueryException("Invalid HTTP request method: must be GET")
 
-        requester.validateRequest( Enums.asList( Keywords.WEEK_DATE, Keywords.USERNAME) )
-        this.week_date = requester.getProperty(Keywords.WEEK_DATE)
-        this.username = requester.getProperty(Keywords.USERNAME)
+        try {
+            requester.validateRequest(Enums.asList(Keywords.WEEK_DATE, Keywords.USERNAME))
+            this.week_date = new Long((String) requester.getProperty(Keywords.WEEK_DATE))
+            this.username = requester.getProperty(Keywords.USERNAME)
+
+        } catch (NumberFormatException e) {
+            throw new QueryException("Invalid week_date format")
+        }
 
         return true
     }
@@ -42,6 +48,6 @@ class HistoricalOrdersService implements Queryingly {
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        return new ProtocolJsonBuilder()
+        return new HistoricalOrdersJsonResponse(this.orders).generateProtocolResponse()
     }
 }
