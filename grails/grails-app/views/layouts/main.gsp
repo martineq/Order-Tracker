@@ -69,11 +69,6 @@
 <body>
  
 
-    <div class="svg" role="presentation">
-        <div class="grails-logo-container">
-            <asset:image src="iconmap.png" class="grails-logo"/>
-        </div>
-    </div>
 
     <div id="content" role="main">
         <section class="row colset-2-its">
