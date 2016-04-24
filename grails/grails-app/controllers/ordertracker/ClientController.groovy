@@ -1,12 +1,30 @@
 package ordertracker
 
 import ordertracker.queries.QueryFacade
+import ordertracker.constants.ClientStates
 
 class ClientController {
 
     def index() {
         def clients = Client.list()
         [clients:clients]
+    }
+        
+    def up() {
+    }
+    
+    def save() {
+        def client = new Client()
+        client.name=params.name
+        client.city=params.city
+        client.email=params.mail
+        client.address=params.address
+        client.state=ClientStates.VISITADO.toString()
+        
+        //TODO: Aca cargar un qr de verdad!
+        client.qrcode="PRUEBA"
+        client.save(failOnError: true)
+        [clientn:client.name]
     }
 
     def help() {

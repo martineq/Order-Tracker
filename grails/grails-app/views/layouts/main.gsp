@@ -43,7 +43,9 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="/client/index">Listado</a></li>
-                <li><a href="#">Alta</a></li>
+                <li><a href="/client/up">Alta</a></li>
+                <li><a href="#">Modificación</a></li>
+                <li><a href="#">Baja</a></li>
             </ul>
         </li>
         <li class="dropdown">
