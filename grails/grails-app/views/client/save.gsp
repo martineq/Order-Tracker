@@ -7,7 +7,7 @@
 <body>
             <h1>Nuevo cliente registrado</h1>
 
-Se registró el usuario ${clientn}
+Se registró el cliente ${clientn}
 
 
   </table>
