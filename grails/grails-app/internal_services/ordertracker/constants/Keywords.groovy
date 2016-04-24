@@ -31,6 +31,7 @@ enum Keywords {
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
+    WEEK_DATE('week_date'),
 
     AR_TIMEZONE("GMT-3:00"),
 

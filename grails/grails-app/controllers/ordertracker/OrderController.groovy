@@ -15,4 +15,8 @@ class OrderController {
     def request() {
         response << new QueryFacade(orderRequestService).solve(request)
     }
+
+    def historical() {
+        response << new QueryFacade(new HistoricalOrdersService()).solve(request)
+    }
 }
