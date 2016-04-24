@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Clientes</title>
+    <title>Confirmación: Borrar a ${params.name}</title>
 </head>
 <body>
 

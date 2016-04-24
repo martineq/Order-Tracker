@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Clientes</title>
+    <title>Datos del cliente ${client.name} modificados</title>
 </head>
 <body>
 
@@ -26,6 +26,11 @@
   </tr>
 
   </table>
+</div>
+
+</br>
+<div align="center">
+<a href="/client/listedit"><button type="button" class="btn btn-default">Editar otro cliente</button></a>
 </div>
 
 

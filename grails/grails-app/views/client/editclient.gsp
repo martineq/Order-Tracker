@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Clientes</title>
+    <title>Edición del cliente: ${params.name}</title>
 </head>
 <body>
 
-<h1>Edición del cliente ${params.name}</h1>
+<h1>Edición del cliente: ${params.name}</h1>
 
-<div align="center">Modifique los campos que desee</div>
+<div>Modifique los campos que desee</div>
 
 
 <g:form  id="${client.id}" controller="client" action="updateclient">
