@@ -6,7 +6,7 @@ import ordertracker.constants.ClientStates
 class ClientController {
 
     def index() {
-        def clients = Client.list()
+        def clients = Client.list(sort:"name", order:"des")
         [clients:clients]
     }
         
@@ -26,6 +26,21 @@ class ClientController {
         client.save(failOnError: true)
         [clientn:client.name]
     }
+    
+    def listdelete() {
+        def clients = Client.list(sort:"name", order:"des")
+        [clients:clients]
+    }
+    
+    def deleteconfirm() {
+    }
+    
+    def delete() {
+        def pid=params.id
+        Client.executeUpdate("delete Client where id=${pid}")
+        [clients:params.id]
+    }
+    
 
     def help() {
         def renderer = new Renderer()

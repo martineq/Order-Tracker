@@ -45,7 +45,7 @@
                 <li><a href="/client/index">Listado</a></li>
                 <li><a href="/client/up">Alta</a></li>
                 <li><a href="#">Modificación</a></li>
-                <li><a href="#">Baja</a></li>
+                <li><a href="/client/listdelete">Baja</a></li>
             </ul>
         </li>
         <li class="dropdown">
