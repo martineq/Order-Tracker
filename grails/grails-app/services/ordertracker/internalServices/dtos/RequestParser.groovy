@@ -26,12 +26,12 @@ class RequestParser {
         }
         catch( NullPointerException e ) {
             // It is throw when an empty message is received
-            throw new QueryException("No se recibió un objeto json válido.")
+            throw new QueryException("No se recibió un objeto json válido")
         }
 
         catch ( ConverterException e ) {
             // It is throw when an empty message is received
-            throw new QueryException("No se recibió un objeto json válido.")
+            throw new QueryException("No se recibió un objeto json válido")
         }
 
         catch ( JSONException e) {

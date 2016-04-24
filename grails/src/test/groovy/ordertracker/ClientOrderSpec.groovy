@@ -35,74 +35,34 @@ class ClientOrderSpec extends Specification {
     void "test wrongSelledID"() {
         given:
             def clientOrder = new ClientOrder(seller_id: 0, client_id: 1, state: ClientStates.VISITADO.toString(), date:0, total_price:1.0)
-            def exceptionType = ""
 
-        when:
-            try{
-                clientOrder.save()
-            }
-
-            catch ( Exception e ) {
-                exceptionType = e.getClass().getSimpleName()
-            }
-
-        then:
-            exceptionType == "ConstraintException"
+        expect:
+            clientOrder.validate() == false
     }
 
     void "test negativeTotalPrice"() {
         given:
             def clientOrder = new ClientOrder(seller_id: 1, client_id: 1, state: ClientStates.VISITADO.toString(), date:0, total_price:-1.0)
-            def exceptionType = ""
 
-        when:
-            try{
-                clientOrder.save()
-            }
-
-            catch( ConstraintException e ) {
-                exceptionType = e.getClass().getSimpleName()
-            }
-
-        then:
-            exceptionType == "ConstraintException"
+        expect:
+            clientOrder.validate() == false
     }
 
 
     void "test negativeClient_ID"() {
         given:
-        def clientOrder = new ClientOrder(seller_id: -1, client_id: 1, state: ClientStates.VISITADO.toString(), date:0, total_price:1.0)
-        def exceptionType = ""
+        def clientOrder = new ClientOrder(seller_id: 1, client_id: -1, state: ClientStates.VISITADO.toString(), date:0, total_price:1.0)
 
-        when:
-        try{
-            clientOrder.save()
-        }
-
-        catch( ConstraintException e ) {
-            exceptionType = e.getClass().getSimpleName()
-        }
-
-        then:
-        exceptionType == "ConstraintException"
+        expect:
+            clientOrder.validate() == false
     }
 
     void "test wrongState"() {
         given:
             def clientOrder = new ClientOrder(seller_id: 0, client_id: 1, state: "pepe", date:0, total_price:1.0)
-            def exceptionType = ""
 
-        when:
-            try{
-                clientOrder.save()
-            }
-
-            catch ( Exception e ) {
-                exceptionType = e.getClass().getSimpleName()
-            }
-
-        then:
-            exceptionType == "ConstraintException"
+        expect:
+            clientOrder.validate() == false
     }
 
 }

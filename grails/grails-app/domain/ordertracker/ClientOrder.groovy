@@ -1,15 +1,15 @@
 package ordertracker
 
-import ordertracker.constants.ClientStates
+import ordertracker.constants.OrderStates
 
 class ClientOrder {
 
     static constraints = {
         seller_id min:1
         client_id min:1
-        state inList: [ClientStates.NO_VISITADO.toString(), ClientStates.PENDIENTE.toString(), ClientStates.VISITADO.toString()]
-        date min:0
-        total_price min:0.0
+        state inList: [OrderStates.SOLICITADO.toString(), OrderStates.CANCELADO.toString(), OrderStates.DESPACHADO.toString()]
+        date min: (long) 0
+        total_price min: (double) 0.0
     }
 
     int seller_id
