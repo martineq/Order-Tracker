@@ -19,7 +19,7 @@ class ClientController {
         client.city=params.city
         client.email=params.mail
         client.address=params.address
-        client.state=ClientStates.VISITADO.toString()
+        client.state=ClientStates.PENDIENTE.toString()
         
         //TODO: Aca cargar un qr de verdad!
         client.qrcode="PRUEBA"
@@ -27,7 +27,35 @@ class ClientController {
         [clientn:client.name]
     }
     
+    def editclient() {
+
+        def client = Client.findById(params.id)
+        
+        [client:client]
+
+    }
+    
+    def updateclient() {
+    
+        def client = Client.get(params.id)
+        
+        client.name=params.name
+        client.city=params.city
+        client.email=params.mail
+        client.address=params.address
+        
+        client.save(failOnError: true)
+        
+        [client:client]
+
+    }
+    
     def listdelete() {
+        def clients = Client.list(sort:"name", order:"des")
+        [clients:clients]
+    }
+    
+    def listedit() {
         def clients = Client.list(sort:"name", order:"des")
         [clients:clients]
     }

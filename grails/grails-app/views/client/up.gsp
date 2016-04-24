@@ -15,25 +15,25 @@
     <td><label>Nombre: </label></td>
   </tr>
   <tr>
-    <td><g:textField type="text" required="" name="name"/></td>
+    <td><g:textField size="100%" type="text" required="" name="name"/></td>
   </tr>
   <tr>
-    <td><label>Ciudad</label></td>
+    <td><label>Ciudad: </label></td>
   </tr>
   <tr>
-    <td><g:textField type="text" required="" name="city"/></td>
+    <td><g:textField type="text" size="100%"  required="" name="city"/></td>
   </tr>
   <tr>
     <td><label>Direccion: </label></td>
   </tr>
     <tr>
-    <td><g:textField type="text" required="" name="address"/></td>
+    <td><g:textField type="text" size="100%"  required="" name="address"/></td>
   </tr>
     <tr>
     <td><label>E-mail: </label></td>
   </tr>
       <tr>
-    <td><g:textField type="email" required="" name="mail"/></td>
+    <td><g:textField type="email" size="100%"  required="" name="mail"/></td>
   </tr>
 
 
@@ -42,7 +42,7 @@
 
   </table>
   </div>
-   <div align="center"><g:actionSubmit value="Save"/></div>
+   <div align="center"><g:actionSubmit value="Guardar" action="save"/></div>
     </g:form>
         
 	</body>

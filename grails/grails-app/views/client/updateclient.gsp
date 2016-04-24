@@ -2,36 +2,32 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Eliminar Clientes</title>
+    <title>Clientes</title>
 </head>
 <body>
-            <h1>Eliminar un Cliente</h1>
 
-Seleccione el cliente que desea borrar
-            
+<h1>Datos del cliente ${client.name} modificados</h1>
 
+<div> Nuevos datos: </div>
 <div class="table-responsive">
   <table class="table">
      <tr>
     <th class="tg-yw4l">Nombre</th>
     <th class="tg-yw4l">Dirección</th>
     <th class="tg-yw4l">Ciudad</th>
-    <th class="tg-yw4l">Borrar</th>
+    <th class="tg-yw4l">E-mail</th>
   </tr>
   
-    <g:each in="${clients}" var="client" status="i">
-
   <tr>
     <td class="tg-yw4l">${client.name}</td>
     <td class="tg-yw4l">${client.address}</td>
     <td class="tg-yw4l">${client.city}</td>
-    <td class="tg-yw4l"><g:link action="deleteconfirm" id="${client.id}" params="[name: ("${client.name}") ]" ><button type="button" class="btn btn-default">Borrar</button></g:link></td>
+    <td class="tg-yw4l">${client.email}</td>
   </tr>
-</g:each>
-
 
   </table>
 </div>
+
 
 </body>
 </html>
