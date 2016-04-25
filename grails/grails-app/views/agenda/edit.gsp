@@ -6,7 +6,7 @@
 </head>
 <body>
             <h1>Edición de agenda de ${params.name}</h1>
-
+<p>Edite los campos que desee</p>
             
 <g:if test="${resula}">
 
@@ -14,10 +14,11 @@
 <div class="table-responsive">
   <table class="table">
      <tr>
-    <th class="col-md-7">Cliente</th>
+    <th class="col-md-5">Cliente</th>
     <th class="col-md-1">Día</th>
     <th class="col-md-1">Horario</th>
     <th class="col-md-1">Editar</th>
+    <th class="col-md-1">Borrar</th>
   </tr>
   
 
@@ -49,6 +50,15 @@ Viernes
 Sábado
 </g:if></td>
     <td class="tg-yw4l">${res[3]}</td>
+
+  <td class="tg-yw4l">
+  <g:link action="editagenda" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${params.name}" ]"><button type="button" class="btn btn-default">Editar</button></g:link>
+  </td>
+  
+  <td class="tg-yw4l">
+  <g:link action="show"><button type="button" class="btn btn-default">Borrar</button></g:link>
+  </td>
+  
   </tr>
 
   
@@ -58,7 +68,16 @@ Sábado
 </div>
 
 </g:if>
-<g:else>La agenda para este cliente está vacía.</g:else>
+
+<g:else>
+
+<div align="center">
+
+La agenda para este cliente está vacía.
+</br>
+<a href="/agenda/editlist"><button type="button" class="btn btn-default">Volver</button></a>
+</div>
+</g:else>
 
 </body>
 </html>

@@ -20,9 +20,18 @@ class AgendaController {
         
         def numsell=params.id
         
-        def resula= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} order by t1.day asc , t1.time asc")
+        def resula= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time,t1.id,t2.id from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} order by t1.day asc , t1.time asc")
         
         [seller:seller,resula:resula]
+
+    }
+    
+     def editagenda() {
+
+
+    }
+    
+    def savechanges() {
 
     }
     
