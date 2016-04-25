@@ -5,7 +5,7 @@
     <title>Agenda de vendedores</title>
 
     <style>
-    .dropdown-menu {
+    .dropdown-menu-2 {
   left: 50%;
   right: auto;
   text-align: center;
@@ -30,7 +30,7 @@
   <div class="dropdown" align="center">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seleccione el dia...
     <span class="caret"></span></button>
-    <ul class="dropdown-menu center"  align="center">
+    <ul class="dropdown-menu-2 dropdown-menu center"  align="center">
       <li><g:link action="show" params="[day: 1 ]"  id="${se.id}">Domingo</g:link></li>
      <li><g:link action="show" params="[day: 2 ]"  id="${se.id}">Lunes</g:link></li>
       <li><g:link action="show" params="[day: 3 ]"  id="${se.id}">Martes</g:link></li>
