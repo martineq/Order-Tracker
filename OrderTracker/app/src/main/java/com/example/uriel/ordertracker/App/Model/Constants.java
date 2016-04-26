@@ -24,7 +24,8 @@ public class Constants {
     public static final String LOGOUT_SERVICE = "logout";
     public static final String CLIENT_SERVICE = "seller/weeklySchedule";
     public static final String PRODUCT_SERVICE = "product/list";
-    public static final String GET_ORDER_SERVICE = "order/qr";
+    public static final String GET_ORDER_SERVICE = "order/historical";
+    public static final String SEND_QR_SERVICE = "order/qr";
     public static final String SEND_ORDER_SERVICE = "order/request";
     public static final String SHARED_PREFERENCES = "commonKey";
     public static final long MINIMUM_REQUEST_IP_TIME = 300000; // 5 min = 300s = 300000ms
@@ -34,6 +35,7 @@ public class Constants {
     public static String getClientsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + CLIENT_SERVICE); }
     public static String getProductsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + PRODUCT_SERVICE); }
     public static String sendOrderServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + SEND_ORDER_SERVICE); }
+    public static String sendQRServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + SEND_QR_SERVICE); }
     public static String getOrdersServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + GET_ORDER_SERVICE); }
 
     //Response

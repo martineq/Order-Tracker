@@ -195,7 +195,7 @@ public class RestService implements IRestService {
      */
     @Override
     public void sendQR(final String username, final String token, final String qr, final QRReaderActivity context) throws JSONException {
-        String url = Constants.sendOrderServiceUrl();
+        String url = Constants.sendQRServiceUrl();
 
         HashMap<String,String> params = new HashMap<String,String>();
         params.put("qr", qr);

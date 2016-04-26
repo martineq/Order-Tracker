@@ -85,13 +85,13 @@ public class DiaryActivity extends DrawerActivity {
 
     }
 
-    public void setButton(final ArrayList<String> adresses){
+    public void setButton(final HashMap<Integer, String> adresses){
         final Activity context = this;
         FloatingActionButton routeButton = (FloatingActionButton) findViewById(R.id.routeButton);
         routeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RouteActivity.class);
+                Intent intent = new Intent(context, ViewRouteActivity.class);
                 intent.putExtra("adresses", adresses);
                 startActivity(intent);
             }
@@ -136,9 +136,11 @@ public class DiaryActivity extends DrawerActivity {
             adapter.populateClients(clientList);
 
             final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
-            ArrayList<String> adresses = new ArrayList<String>();
+            HashMap<Integer, String> adresses = new HashMap<>();
+            int i = 1;
             for (Client client: adapter.getList(viewPager.getCurrentItem())) {
-                adresses.add(client.getAddress() + ", " + client.getCity());
+                adresses.put(i, client.getAddress() + ", " + client.getCity());
+                i++;
             }
             DiaryActivity act = (DiaryActivity) this.getActivity();
             act.setButton(adresses);

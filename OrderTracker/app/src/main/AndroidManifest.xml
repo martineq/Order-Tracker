@@ -15,6 +15,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <permission
+        android:name="com.example.uriel.ordertracker.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.uriel.ordertracker.permission.MAPS_RECEIVE" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -69,8 +75,12 @@
             android:label="@string/title_activity_qrreader"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".App.Activities.RouteActivity"
-            android:label="@string/title_activity_route"
+            android:name=".App.Activities.OrderHistoryActivity"
+            android:label="@string/title_activity_order_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".App.Activities.ViewRouteActivity"
+            android:label="@string/title_activity_view_route"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
