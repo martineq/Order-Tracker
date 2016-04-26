@@ -5,6 +5,8 @@ import grails.test.mixin.TestFor
 import ordertracker.AvailableProductsService
 import ordertracker.Brand
 import ordertracker.BrandLoader
+import ordertracker.Client
+import ordertracker.ClientLoader
 import ordertracker.Product
 import ordertracker.ProductLoader
 import ordertracker.QRService
@@ -19,22 +21,24 @@ import ordertracker.tranmission.TransmissionMedium
 import org.apache.tools.ant.taskdefs.condition.Http
 import spock.lang.Specification
 
-@Mock([User, Product, Brand])
+@Mock([User, Product, Brand, Client])
 @TestFor(ordertracker.QRService)
 class QRServiceTest extends Specification {
 
     def setup() {
         new UserLoader().load()
+        new ClientLoader().load()
     }
 
     private Requester generateMartinRequester(Enum httpMethod) {
-        String qr = "iVBORw0KGgoAAAANSUhEUgAAAdAAAAHQAQMAAAArk6lDAAAABlBMVEX///8AAABVwtN+AAABNUlEQVR4nO3UO27DQAwFwL3/pTeFQZNc2UCKRFQxD7CwH85TJa8lIiIi/5Ld8trHTezOGRRFp+hq61pRSz7Moyg6QHM8rvr+nEFR9Bk0zqIARdEn0/1OnqAo+hR61sTz2wyKolO0Jvj56zMois7QM3H1i1EURQdojORnXYvy5EMViqI30r07TJDwUymKovfTGM2acx9n+URRdIb2T7qva13uUBSdoonzmeNR9Nr3GhRF76Z9GyOVZekRFEVvp/kxB+ufdeX1NSiKTtHcZ0mvyHkURedor8jh/jeQpSiKztAzwWN9rUZRdIrulhzLm2C9CkXRCbqOdS+51qEoOkljONZ5d02+CEXRZ9FaUM9QFH0GXeWugihCUXSS9vV+J/D180dRdIbWrC/JPwQUReeoiIiI/Gl+AF5BmKjyMZFTAAAAAElFTkSuQmCC"
+        String qrCode = '"1-a@a.com"'
+        String qrJson = '{"'+Keywords.QR.toString()+'":'+qrCode+'}'
 
         Requester requester = new Requester()
         requester.addProperty(HttpProtocol.METHOD, httpMethod)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
-        requester.addProperty(HttpProtocol.BODY, qr)
+        requester.addProperty(HttpProtocol.BODY, qrJson)
         return requester
     }
 
@@ -145,7 +149,55 @@ class QRServiceTest extends Specification {
 
         then:
         def qrServiceResponse = qrService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
-        qrServiceResponse == '{\"status\":{\"result\":\"error\",\"description\":\"Código QR inválido\"}}'
+        qrServiceResponse == '{\"status\":{\"result\":\"error\",\"description\":\"Invalid QR Code\"}}'
     }
 
+    void "test validQRCode"() {
+        given:
+            def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
+
+        and:
+            def qrService = new QRService()
+
+        when:
+            qrService.validate(qrRequester)
+            def result = qrService.generateQuery()
+
+        then:
+            result == true
+    }
+
+    void "test invalidClientQRCode"() {
+        given:
+        String body = '{"qr":"100000-a@a.com"}'
+        def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
+        qrRequester.addProperty(HttpProtocol.BODY.toString(), body)
+
+        and:
+        def qrService = new QRService()
+
+        when:
+        qrService.validate(qrRequester)
+        def result = qrService.generateQuery()
+
+        then:
+        result == false
+    }
+
+    void "test invalidMailInCorrectClientQRCode"() {
+        given:
+        String body = '{"qr":"1-a@ab.com"}'
+        def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
+        qrRequester.addProperty(HttpProtocol.BODY.toString(), body)
+
+        and:
+        def qrService = new QRService()
+
+        when:
+        qrService.validate(qrRequester)
+        def result = qrService.generateQuery()
+
+        then:
+        result == false
+    }
 }

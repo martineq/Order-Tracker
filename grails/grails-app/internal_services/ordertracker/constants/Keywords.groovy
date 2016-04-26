@@ -28,6 +28,7 @@ enum Keywords {
     PRICE("price"),
     PRODUCT('product'),
     QUANTITY('quantity'),
+    QR('qr'),
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
