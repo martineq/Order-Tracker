@@ -12,9 +12,9 @@ class HistoricalOrderQuery {
     private long startingDate
     private long endingDate
 
-    public HistoricalOrderQuery(long date) {
-        this.startingDate = this.calculateStartingDate(date)
-        this.endingDate = this.calculateEndingDate(date)
+    public HistoricalOrderQuery(long dateFrom, long dateUpto) {
+        this.startingDate = dateFrom
+        this.endingDate = dateUpto
     }
 
     private long calculateStartingDate(long date) {

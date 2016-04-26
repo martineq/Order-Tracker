@@ -18,6 +18,8 @@ enum Keywords {
     CITY("city"),
     CHARACTERISTIC("characteristic"),
     DATE("date"),
+    DATE_FROM("date_from"),
+    DATE_UPTO("date_upto"),
     DESCRIPTION("description"),
     ID("id"),
     IMAGE("image"),

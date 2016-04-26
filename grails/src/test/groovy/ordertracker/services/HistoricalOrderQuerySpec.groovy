@@ -24,10 +24,11 @@ class HistoricalOrderQuerySpec extends Specification {
 
     void "test validTest"() {
         given:
-            def date = CalendarDate.currentDate()
+            def startingDate = CalendarDate.fromCurrentDate(-4)
+            def endingDate = CalendarDate.fromCurrentDate(+3)
 
         and:
-            def query = new HistoricalOrderQuery(date)
+            def query = new HistoricalOrderQuery(startingDate, endingDate)
 
         when:
             def orders = query.search('martin')
@@ -38,10 +39,11 @@ class HistoricalOrderQuerySpec extends Specification {
 
     void "test validTestUriel"() {
         given:
-            def date = CalendarDate.currentDate()
+            def startingDate = CalendarDate.fromCurrentDate(-4)
+            def endingDate = CalendarDate.fromCurrentDate(+3)
 
         and:
-            def query = new HistoricalOrderQuery(date)
+            def query = new HistoricalOrderQuery(startingDate, endingDate)
 
         when:
             def orders = query.search('uriel')
@@ -53,10 +55,11 @@ class HistoricalOrderQuerySpec extends Specification {
 
     void "test validEmptyTest"() {
         given:
-            def date = CalendarDate.fromCurrentDate(-20)
+            def startingDate = CalendarDate.fromCurrentDate(-20)
+            def endingDate = CalendarDate.fromCurrentDate(-10)
 
         and:
-            def query = new HistoricalOrderQuery(date)
+            def query = new HistoricalOrderQuery(startingDate, endingDate)
 
         when:
             def orders = query.search('martin')

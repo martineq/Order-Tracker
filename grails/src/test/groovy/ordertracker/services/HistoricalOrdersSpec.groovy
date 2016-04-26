@@ -2,17 +2,32 @@ package ordertracker.services
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import ordertracker.Client
+import ordertracker.ClientLoader
 import ordertracker.ClientOrder
+import ordertracker.ClientOrderLoader
 import ordertracker.HistoricalOrdersService
+import ordertracker.User
+import ordertracker.UserLoader
+import ordertracker.UserType
+import ordertracker.UserTypeLoader
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
+import ordertracker.util.CalendarDate
 import spock.lang.Specification
 
-@Mock( [ClientOrder])
+@Mock( [Client, ClientOrder, User, UserType])
 @TestFor(HistoricalOrdersService)
 class HistoricalOrdersSpec extends Specification {
+
+    def setup() {
+        new ClientLoader().load()
+        new UserLoader().load()
+        new UserTypeLoader().load()
+        new ClientOrderLoader().load()
+    }
 
     private Requester generateRequester(Enum httpProtocol) {
         Requester requester = new Requester()
@@ -63,7 +78,8 @@ class HistoricalOrdersSpec extends Specification {
     void "test validRequest"() {
         given:
             def requester = this.generateRequester(HttpProtocol.GET)
-            requester.addProperty(Keywords.WEEK_DATE, Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis())
+            requester.addProperty(Keywords.DATE_FROM, CalendarDate.fromCurrentDate(-7))
+            requester.addProperty(Keywords.DATE_UPTO, CalendarDate.fromCurrentDate(+7))
 
         when:
             def service = new HistoricalOrdersService()
@@ -72,6 +88,21 @@ class HistoricalOrdersSpec extends Specification {
             service.validate(requester) == true
     }
 
+    void "test completeValidRequest"() {
+        given:
+            def requester = this.generateRequester(HttpProtocol.GET)
+            requester.addProperty(Keywords.DATE_FROM, CalendarDate.fromCurrentDate(-8))
+            requester.addProperty(Keywords.DATE_UPTO, CalendarDate.fromCurrentDate(-6))
 
+        when:
+            def service = new HistoricalOrdersService()
 
+        and:
+            service.validate(requester)
+            service.generateQuery()
+            String response = service.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
+
+        then:
+            response.contains('{"status":{"result":"ok","description":"Query succeded"},"data":[{"id":') == true
+    }
 }

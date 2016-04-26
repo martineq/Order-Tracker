@@ -13,12 +13,14 @@ import ordertracker.tranmission.TransmissionMedium
 
 class HistoricalOrdersService implements Queryingly {
 
-    private long week_date
+    private long date_from
+    private long date_upto
     private String username
     private List<ClientOrder> orders
 
     HistoricalOrdersService() {
-        this.week_date = 0
+        this.date_from = 0
+        this.date_upto = 0
         this.username = ""
         this.orders = null
     }
@@ -29,8 +31,9 @@ class HistoricalOrdersService implements Queryingly {
             throw new QueryException("Invalid HTTP request method: must be GET")
 
         try {
-            requester.validateRequest(Enums.asList(Keywords.WEEK_DATE, Keywords.USERNAME))
-            this.week_date = new Long((String) requester.getProperty(Keywords.WEEK_DATE))
+            requester.validateRequest(Enums.asList(Keywords.DATE_FROM, Keywords.DATE_UPTO, Keywords.USERNAME))
+            this.date_from = new Long((String) requester.getProperty(Keywords.DATE_FROM))
+            this.date_upto = new Long((String) requester.getProperty(Keywords.DATE_UPTO))
             this.username = requester.getProperty(Keywords.USERNAME)
 
         } catch (NumberFormatException e) {
@@ -42,7 +45,7 @@ class HistoricalOrdersService implements Queryingly {
 
     @Override
     def generateQuery() {
-        orders = new HistoricalOrderQuery(this.week_date).search(this.username)
+        orders = new HistoricalOrderQuery(this.date_from, this.date_upto).search(this.username)
         return true
     }
 
