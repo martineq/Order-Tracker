@@ -67,6 +67,18 @@ spring:
 
 ---
 grails:
+    mail:
+        host : smtp.gmail.com
+        port : 587
+        username : ordertracker.grupo4@gmail.com
+        password : OrderTrackerG4
+        protocol: smtp
+        tls: true
+        props.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
+
     mime:
         disable:
             accept:
