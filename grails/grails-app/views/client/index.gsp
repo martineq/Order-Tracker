@@ -28,8 +28,8 @@
     <td class="tg-yw4l">${client.address}</td>
     <td class="tg-yw4l">${client.city}</td>
     <td class="tg-yw4l">${client.email}</td>
-    <td class="tg-yw4l"><g:link action="editclient" id="${client.id}" params="[name: ("${client.name}") ]" ><asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/> </g:link> </td>
-    <td class="tg-yw4l"><g:link action="deleteconfirm" id="${client.id}" params="[name: ("${client.name}") ]" ><asset:image src="delete.png" alt="Borrar" style="width:20px;height:20px;"/></g:link></td>
+    <td class="tg-yw4l"><g:link action="editclient" id="${client.id}" params="[name: ("${client.name}") ]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link> </td>
+    <td class="tg-yw4l"><g:link action="deleteconfirm" id="${client.id}" params="[name: ("${client.name}") ]" ><asset:image src="delete.png" title="Borrar" alt="Borrar" style="width:20px;height:20px;"/></g:link></td>
   </tr>
 </g:each>
 

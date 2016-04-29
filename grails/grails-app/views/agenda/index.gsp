@@ -15,7 +15,7 @@
      <tr>
     <th class="tg-yw4l">Documento</th>
     <th class="tg-yw4l">Nombre</th>
-    <th class="tg-yw4l">Ver agenda</th>
+    <th class="tg-yw4l"><div align="center">Ver agenda</div></th>
   </tr>
   
     <g:each in="${sellers}" var="seller" status="i">
@@ -23,7 +23,7 @@
   <tr>
     <td class="tg-yw4l"> ${seller.document_number}</td>
     <td class="tg-yw4l">${seller.name}</td>
-    <td class="tg-yw4l"><g:link action="show" id="${seller.id}" params="[day: -1 ]"><button type="button" class="btn btn-default">Ver</button></g:link></td>
+    <td class="tg-yw4l"><div align="center"><g:link action="show" id="${seller.id}" params="[day: -1 ]"> <asset:image  src="view.png" alt="Editar" style="width:20px;height:20px;"/> </g:link></div></td>
   </tr>
 </g:each>
 

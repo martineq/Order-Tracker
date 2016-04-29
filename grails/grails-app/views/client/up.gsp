@@ -3,46 +3,40 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Alta de Clientes</title>
+<style>
+
+
+</style>
 </head>
+
 <body>
             <h1>Ingrese los datos del nuevo cliente</h1>
 
             <g:form controller="client" action="save">
-              <div class="table-responsive">          
-  <table class="table table-striped">
-  
-    <tr>
-    <td><label>Nombre: </label></td>
-  </tr>
-  <tr>
-    <td><g:textField size="100%" type="text" required="" name="name"/></td>
-  </tr>
-  <tr>
-    <td><label>Ciudad: </label></td>
-  </tr>
-  <tr>
-    <td><g:textField type="text" size="100%"  required="" name="city"/></td>
-  </tr>
-  <tr>
-    <td><label>Direccion: </label></td>
-  </tr>
-    <tr>
-    <td><g:textField type="text" size="100%"  required="" name="address"/></td>
-  </tr>
-    <tr>
-    <td><label>E-mail: </label></td>
-  </tr>
-      <tr>
-    <td><g:textField type="email" size="100%"  required="" name="mail"/></td>
-  </tr>
+<div  style="form">          
+<br>
+<label>Nombre: </label>
+<br>
+<g:textField type="text" required="" name="name"/>
+<br>
+<label>Ciudad: </label>
+<br>
+<g:textField type="text" required="" name="city"/>
+<br>
+<label>Direccion: </label>
+<br>
+<g:textField type="text" required="" name="address"/>
+<br>
 
+<label>E-mail: </label>
 
-    </tbody>
-           
+<br>
+<g:textField type="email" required="" name="mail"/>
 
-  </table>
+<br>
   </div>
-   <div align="center"><g:actionSubmit value="Guardar" action="save"/></div>
+  <br>
+   <g:actionSubmit class="buttona"  value="Guardar" action="save"/>
     </g:form>
         
 	</body>

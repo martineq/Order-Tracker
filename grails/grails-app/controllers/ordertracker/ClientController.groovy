@@ -35,6 +35,11 @@ class ClientController {
 
     }
     
+     def listdelete() {
+-        def clients = Client.list(sort:"name", order:"des")
+-        [clients:clients]
+-    }
+    
     def updateclient() {
     
         def client = Client.get(params.id)
@@ -56,6 +61,10 @@ class ClientController {
     def delete() {
         def pid=params.id
         Client.executeUpdate("delete Client where id=${pid}")
+        
+        //borrar todas las entradas de la agenda para este cliente.
+        Agenda.executeUpdate("delete Agenda where client_id=${pid}")
+        
         [clients:params.id]
     }
     

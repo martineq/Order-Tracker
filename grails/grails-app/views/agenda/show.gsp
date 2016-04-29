@@ -24,6 +24,7 @@
 
  ${se.name}
  </h1>
+
 </br>
 <p>¿Para qué día desea ver el calendario del vendedor?</p> 
 
@@ -44,15 +45,18 @@
   
 </g:each>
 
+ <div align="right"><g:link action="up"><b>Agregar entrada</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
+
+ 
 <g:if test="${resul}">
 
 
 <div class="table-responsive">
   <table class="table">
      <tr>
-    <th class="col-md-8">Cliente</th>
-    <th class="col-md-1">Día</th>
-    <th class="col-md-1">Horario</th>
+    <th class="col-md-7">Cliente</th>
+    <th class="col-md-2">Día y Horario</th>
+    <th class="col-md-1">Borrar</th>
   </tr>
   
 
@@ -60,8 +64,9 @@
 
 
   <tr>
-    <td class="tg-yw4l">${res[1]}</td>
+    <td class="tg-yw4l">${res[1]} <a title="Editar cliente"><asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/></a></td>
     <td class="tg-yw4l">
+    ${res[3]} - 
     <g:if test="${res[2]==1}" >
 Domingo
 </g:if>
@@ -82,11 +87,17 @@ Viernes
 </g:if>
 <g:if test="${res[2]==7}" >
 Sábado
-</g:if></td>
-    <td class="tg-yw4l">${res[3]}</td>
+</g:if>
+<g:link title="Editar día y horario" action="editagenda" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${params.name}" ]">
+<asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+</td>
+
+   <td class="tg-yw4l"><a title="Borrar entrada"><asset:image src="delete.png" alt="Borrar" style="width:20px;height:20px;"/></a></td>
+   
+   
   </tr>
 
-  
+
   </g:each>
   </table>
   

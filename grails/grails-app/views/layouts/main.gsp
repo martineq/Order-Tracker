@@ -36,11 +36,7 @@
         </li>
         <li class="dropdown">
             <a href="/agenda/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Agenda</a>
-            <ul class="dropdown-menu">
-                <li><a href="/agenda/index">Ver Agenda</a></li>
-                <li><a href="/agenda/editlist">Editar entradas</a></li>
-                <li role="separator" class="divider"></li>
-            </ul>
+
         </li>
         <li class="dropdown">
             <a href="/client/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Clientes</a>
