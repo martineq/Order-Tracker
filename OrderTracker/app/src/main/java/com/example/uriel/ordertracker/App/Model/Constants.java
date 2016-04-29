@@ -15,7 +15,7 @@ public class Constants {
     public static String NO_VISITADO = "NO_VISITADO";
 
     //RestApi
-    public static String BASE_URL = "190.31.6.157";
+    public static String BASE_URL = "";
     public static final String SERVER_URL_PROPERTY = "SERVER_URL";
     public static final String SERVER_IP_REQUEST = "http://martinhernan.xyz/ip";
     public static final String LOCALHOST_PORT = ":8080/";
@@ -28,7 +28,7 @@ public class Constants {
     public static final String SEND_QR_SERVICE = "order/qr";
     public static final String SEND_ORDER_SERVICE = "order/request";
     public static final String SHARED_PREFERENCES = "commonKey";
-    public static final long MINIMUM_REQUEST_IP_TIME = 300000; // 5 min = 300s = 300000ms
+    public static final long MINIMUM_REQUEST_IP_TIME = 5000; // 5s = 5000ms
 
     public static String getLoginServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGIN_SERVICE); }
     public static String getLogoutServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + LOGOUT_SERVICE); }

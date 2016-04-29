@@ -3,7 +3,11 @@ package com.example.uriel.ordertracker.App.Services.Impl;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.text.format.Formatter;
 import android.util.Patterns;
 
 import com.android.volley.Request;
@@ -20,11 +24,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.Date;
+import java.util.Enumeration;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class ConnectionService implements Response.Listener<String>, Response.ErrorListener {
 
-    public enum URLServerSource { START, STATIC_HOST, LAST_USED, IP_REQUESTED };
+    public enum URLServerSource { START, STATIC_HOST, LAST_USED, IP_REQUESTED }
 
     public static URLServerSource urlServerSource = URLServerSource.START;
     public static long lastServerIPRequest = 0;
@@ -34,7 +45,6 @@ public class ConnectionService implements Response.Listener<String>, Response.Er
 
     // ConnectionService should be used as task, created used and discarded not as a state of an object.
     public static ConnectionService newTask(Context context) {
-        ConnectionService.writeIPtoFile(Constants.BASE_URL, false);
         return new ConnectionService(context);
     }
 
@@ -71,18 +81,10 @@ public class ConnectionService implements Response.Listener<String>, Response.Er
         this.context = context;
     }
 
-    private boolean loadLastSavedServerAddress() {
+    private void loadLastSavedServerAddress() {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String serverIP = sharedPreferences.getString(Constants.SERVER_URL_PROPERTY, Constants.BASE_URL);
-        boolean ipAdressModified = false;
-
-        if ( serverIP.compareTo(Constants.BASE_URL) != 0 ) {
-            Constants.BASE_URL = serverIP;
-            ipAdressModified = true;
-            this.clean();
-        }
-
-        return ipAdressModified;
+        Constants.BASE_URL = serverIP;
     }
 
     private boolean requestServerURLUpdate() {
@@ -92,15 +94,21 @@ public class ConnectionService implements Response.Listener<String>, Response.Er
         try {
             if (connectivityManager.getActiveNetworkInfo().isConnected() == true) {
                 if ((now - lastServerIPRequest) > Constants.MINIMUM_REQUEST_IP_TIME) {
-                lastServerIPRequest = now;
+                    lastServerIPRequest = now;
                     this.updateServerURL();
-                } else this.clean();
-            }
+
+                } else this.displayErrorMessage();
+            } else this.displayErrorMessage();
         } catch ( NullPointerException e) {
-            this.clean();
+            this.displayErrorMessage();
         }
 
         return ( now - lastServerIPRequest ) == 0;
+    }
+
+    private void displayErrorMessage() {
+        this.callListener();
+        this.clean();
     }
 
     private void updateServerURL() {
@@ -162,8 +170,7 @@ public class ConnectionService implements Response.Listener<String>, Response.Er
     @Override
     public void onErrorResponse(VolleyError error) {
         urlServerSource = URLServerSource.START;
-        this.callListener();
-        this.clean();
+        this.displayErrorMessage();
     }
 
     private void callListener() {

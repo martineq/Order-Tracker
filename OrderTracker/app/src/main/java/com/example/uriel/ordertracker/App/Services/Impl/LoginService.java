@@ -56,26 +56,22 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
                 return headers;
             }
         };
-
-        /* jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)); */
     }
 
     private void loginIntent() {
-        urlServerSource = ConnectionService.newTask(logInActivity.getApplicationContext()).requestServerAddress(this);
+        if ( waitingUpdate )
+            urlServerSource = ConnectionService.newTask(logInActivity.getApplicationContext()).requestServerAddress(this);
 
-        if ( urlServerSource != ConnectionService.URLServerSource.IP_REQUESTED || waitingUpdate == false ) {
+        if ( urlServerSource != ConnectionService.URLServerSource.IP_REQUESTED  || waitingUpdate == false || Constants.BASE_URL.length() != 0)
             Volley.newRequestQueue(logInActivity).add(this.generateJsonLoginRequest());
-        }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
-        if ( urlServerSource != ConnectionService.URLServerSource.IP_REQUESTED ) {
+        if ( waitingUpdate && urlServerSource != ConnectionService.URLServerSource.IP_REQUESTED )
             this.loginIntent();
-        }
 
-        else if ( waitingUpdate == false ) {
+        else if ( waitingUpdate == false && logInActivity != null ) {
             logInActivity.handleUnexpectedError("Error en la conexión");
             this.clearLoginActivityLink();
         }
@@ -84,12 +80,12 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
     @Override
     public void onResponse(JSONObject response) {
         UserDTO userContainer = new Gson().fromJson(response.toString(), UserDTO.class);
-        if(Constants.OK_RESPONSE.equals(userContainer.getStatus().getResult())) {
+
+        if( Constants.OK_RESPONSE.equals(userContainer.getStatus().getResult()) )
             logInActivity.processLoginResponse(userContainer.getData());
-        } else {
+
+        else
             logInActivity.handleUnexpectedError(userContainer.getStatus().getDescription());
-            logInActivity.showProgress(false);
-        }
 
         this.clearLoginActivityLink();
     }
