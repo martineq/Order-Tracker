@@ -61,3 +61,5 @@ logs/
 # otros
 grails/tmp/
 grails/.gradle/
+OrderTracker/.idea/
+OrderTracker/.gradle/
