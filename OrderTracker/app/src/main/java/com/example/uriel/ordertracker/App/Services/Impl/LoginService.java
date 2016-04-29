@@ -8,6 +8,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.UserDTO;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -25,9 +26,6 @@ interface ServerURLUpdateListener {
 public class LoginService implements Response.Listener<JSONObject>, Response.ErrorListener, ServerURLUpdateListener {
 
     private LogInActivity logInActivity;
-    private JsonObjectRequest jsonObjectRequest;
-    private String username;
-    private String password;
     private boolean waitingUpdate;
     private ConnectionService.URLServerSource urlServerSource;
 
@@ -40,10 +38,7 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
         this.logInActivity = logInActivity;
     }
 
-    public void login(final String username, final String password) {
-        this.username = username;
-        this.password = password;
-        this.jsonObjectRequest = null;
+    public void login() {
         this.waitingUpdate = true;
         ConnectionService.urlServerSource = ConnectionService.URLServerSource.START;
         this.loginIntent();
@@ -56,8 +51,8 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("username", username);
-                headers.put("password", password);
+                headers.put("username", SessionInformation.getSessionUsername());
+                headers.put("password", SessionInformation.getSessionPassword());
                 return headers;
             }
         };
@@ -68,10 +63,8 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
     private void loginIntent() {
         urlServerSource = ConnectionService.newTask(logInActivity.getApplicationContext()).requestServerAddress(this);
 
-        this.jsonObjectRequest = this.generateJsonLoginRequest();
-
         if ( urlServerSource != ConnectionService.URLServerSource.IP_REQUESTED || waitingUpdate == false ) {
-            Volley.newRequestQueue(logInActivity).add(jsonObjectRequest);
+            Volley.newRequestQueue(logInActivity).add(this.generateJsonLoginRequest());
         }
     }
 
@@ -103,9 +96,6 @@ public class LoginService implements Response.Listener<JSONObject>, Response.Err
 
     private void clearLoginActivityLink() {
         this.logInActivity = null;
-        this.jsonObjectRequest = null;
-        this.username = "";
-        this.password = "";
     }
 
     @Override

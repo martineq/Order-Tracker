@@ -24,7 +24,6 @@ import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
 import com.example.uriel.ordertracker.App.Services.Impl.OrderService;
 import com.example.uriel.ordertracker.App.Services.Impl.ProductService;
-import com.example.uriel.ordertracker.App.Services.Impl.UserService;
 import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
 
@@ -44,7 +43,6 @@ public class ViewMyOrderActivity extends DrawerActivity {
     String token;
     double total;
     Button confirmarButton;
-    private UserService userService;
     private ClientService clientService;
     private ProductService productService;
     private IOrderService orderService;
@@ -56,7 +54,6 @@ public class ViewMyOrderActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_my_order);
-        userService = new UserService();
         clientService = new ClientService();
         productService = new ProductService();
         orderService = new OrderService();
@@ -201,7 +198,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
     public void Confirmar(){
         //agregar registro de pedido
         try{
-            User seller = userService.getById(userId);
+            User seller = SessionInformation.getEditor().loadUserInformation();
             Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
             Order order = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
             orderService.sendOrder(username, token, order, this);

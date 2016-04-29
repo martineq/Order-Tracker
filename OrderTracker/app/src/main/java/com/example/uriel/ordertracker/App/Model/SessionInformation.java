@@ -52,6 +52,34 @@ public class SessionInformation {
         this.copyUserInformation(userCopy);
     }
 
+    public void updateUserInformation(User userInfo) {
+        user = null;
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+
+        try {
+            if (userInfo.getId() != 0)
+                editor.putInt(RestService.LOGIN_RESPONSE_ID, userInfo.getId());
+        } catch (NullPointerException e) {}
+
+        try {
+            if ( userInfo.getUsername().length() != 0 )
+                editor.putString(RestService.LOGIN_RESPONSE_NAME, userInfo.getUsername());
+        } catch (NullPointerException e) {}
+
+        try {
+            if ( userInfo.getPassword().length() != 0 )
+                editor.putString(RestService.LOGIN_PASSWORD, userInfo.getPassword());
+        } catch (NullPointerException e) {}
+
+        try {
+            if ( userInfo.getToken().length() != 0 )
+                editor.putString(RestService.LOGIN_TOKEN, userInfo.getToken());
+        } catch (NullPointerException e) {}
+
+        editor.commit();
+    }
+
+
     public void saveUserInformation(User userInfo) {
         user = null;
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -112,10 +140,10 @@ public class SessionInformation {
 
     public static String getSessionPassword() {
         try {
-            return user.getUsername();
+            return user.getPassword();
         } catch (NullPointerException e ) {
             SessionInformation.sessionInformation.loadSavedUser();
-            return user.getUsername();
+            return user.getPassword();
         }
     }
 

@@ -43,17 +43,6 @@ public class RestService implements IRestService {
 
     /**
      * @param username
-     * @param password
-     * @param context
-     * @throws JSONException
-     */
-    @Override
-    public void login(final String username, final String password, final LogInActivity context) throws JSONException {
-        LoginService.newRequest(context).login(username, password);
-    }
-
-    /**
-     * @param username
      * @param token
      * @param context
      */

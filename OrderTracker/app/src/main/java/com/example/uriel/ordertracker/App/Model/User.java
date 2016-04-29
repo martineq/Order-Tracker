@@ -13,6 +13,7 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.token = "";
     }
 
     public String getPassword() {
@@ -36,7 +37,7 @@ public class User {
     }
 
     public void setId(int id) {
-        id = id;
+        this.id = id;
     }
 
     public String getToken() {

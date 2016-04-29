@@ -28,7 +28,6 @@ public interface IRestService {
     public final static String CHAT_RECEPTOR_LOCATION = "com.example.uriel.ordertracker.App.Services.RestService.CHAT_RECEPTOR_LOCATION";
     public final static String CHAT_RECEPTOR_STATE = "com.example.uriel.ordertracker.App.Services.RestService.CHAT_RECEPTOR_STATE";
 
-    void login(final String username, final String password, final LogInActivity context) throws JSONException;
     void getClients(final String username, final String token, final DiaryActivity act, final AppCompatActivity context);
     void sendOrder(final String username, final String token, final Order order, final ViewMyOrderActivity context) throws JSONException;
     void getProducts(final String username, final String token, final OrderActivity context) throws JSONException;
