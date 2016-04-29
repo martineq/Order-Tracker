@@ -25,9 +25,6 @@ class ResizeImageService {
     public ResizeImageService(String inputDir, String outputDir) {
         this.inputDir = inputDir
         this.outputDir = outputDir
-
-        println(inputDir)
-        println(outputDir)
     }
 
     // compression parameters
@@ -78,7 +75,6 @@ class ResizeImageService {
             // input file
             String inputFileLocation = inputDir + fileName
 
-            println(inputDir + fileName)
             BufferedImage image = ImageIO.read(new File(inputFileLocation));
 
             Image scaledImage = null
@@ -109,8 +105,6 @@ class ResizeImageService {
 
             graphics.dispose();
             IIOImage iioImage = new IIOImage(newScaledImage, null, null);
-
-            println(outputDir+fileName)
 
             // output file
             String outputFileLocation = outputDir + fileName
