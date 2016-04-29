@@ -12,7 +12,7 @@
 Se eliminó el registro del cliente ${params.name}</div>
 </br>
 <div align="center">
-<g:link action="listdelete" ><button type="button" class="btn btn-default">Volver</button></g:link>
+<g:link action="index" ><button type="button" class="btn btn-default">Volver</button></g:link>
 </div>
 
 </body>

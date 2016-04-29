@@ -32,17 +32,10 @@
             <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
                 <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vendedores <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="/seller/index">Listado</a></li>
-                <li><a href="#">Alta</a></li>
-                <li><a href="#">Modificación</a></li>
-                <li><a href="#">Baja</a></li>
-                <li role="separator" class="divider"></li>
-            </ul>
+            <a href="/seller/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Vendedores</a>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agenda<span class="caret"></span></a>
+            <a href="/agenda/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Agenda</a>
             <ul class="dropdown-menu">
                 <li><a href="/agenda/index">Ver Agenda</a></li>
                 <li><a href="/agenda/editlist">Editar entradas</a></li>
@@ -50,27 +43,15 @@
             </ul>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="/client/index">Listado</a></li>
-                <li><a href="/client/up">Alta</a></li>
-                <li><a href="/client/listedit">Modificación</a></li>
-                <li><a href="/client/listdelete">Baja</a></li>
-            </ul>
+            <a href="/client/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Clientes</a>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Listado</a></li>
-                <li><a href="#">Editar listado</a></li>
-            </ul>
+            <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
         </li>
                 <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descuentos</a>
 
         </li>
-    
-                </ul>
             </div>
         </div>
     </div>

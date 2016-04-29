@@ -10,7 +10,7 @@
 <div align="center"><p>Se registró el cliente ${clientn}</p></div>
 </br>
 <div align="center">
-<a href="/client/up"><button type="button" class="btn btn-default">Registrar otro cliente</button></a>
+<a href="/client/index"><button type="button" class="btn btn-default">Volver</button></a>
 </div>
 
   </table>

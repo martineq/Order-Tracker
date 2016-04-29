@@ -30,7 +30,7 @@
 
 </br>
 <div align="center">
-<a href="/client/listedit"><button type="button" class="btn btn-default">Editar otro cliente</button></a>
+<a href="/client/index"><button type="button" class="btn btn-default">Volver</button></a>
 </div>
 
 
