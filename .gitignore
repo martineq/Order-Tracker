@@ -63,3 +63,6 @@ grails/tmp/
 grails/.gradle/
 OrderTracker/.idea/
 OrderTracker/.gradle/
+
+# otros archivos
+OrderTracker/local.properties
