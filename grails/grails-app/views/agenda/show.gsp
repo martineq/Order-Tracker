@@ -54,9 +54,10 @@
 <div class="table-responsive">
   <table class="table">
      <tr>
-    <th class="col-md-7">Cliente</th>
+    <th class="col-md-6">Cliente</th>
     <th class="col-md-2">Día y Horario</th>
     <th class="col-md-1">Borrar</th>
+    <th class="col-md-1">Delegar</th>
   </tr>
   
 
@@ -64,7 +65,15 @@
 
 
   <tr>
-    <td class="tg-yw4l">${res[1]} <a title="Editar cliente"><asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/></a></td>
+    <td class="tg-yw4l">${res[1]} 
+    
+    
+    
+    <g:link title="Editar cliente" action="selectnewclient" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${sell.name}" ]">
+    <asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/></g:link>
+    
+    
+    </td>
     <td class="tg-yw4l">
     ${res[3]} - 
     <g:if test="${res[2]==1}" >
@@ -88,12 +97,16 @@ Viernes
 <g:if test="${res[2]==7}" >
 Sábado
 </g:if>
-<g:link title="Editar día y horario" action="editagenda" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${params.name}" ]">
+<g:link title="Editar día y horario" action="editagenda" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${sell.name}" ]">
 <asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/> </g:link>
 </td>
 
-   <td class="tg-yw4l"><a title="Borrar entrada"><asset:image src="delete.png" alt="Borrar" style="width:20px;height:20px;"/></a></td>
+   <td class="tg-yw4l">
+   <g:link title="Borrar entrada" action="deleteconfirm" id="${res[4]}" params="[hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${sell.name}" ]" ><asset:image src="delete.png" alt="Borrar" style="width:20px;height:20px;"/></g:link>
+   </td>
    
+   
+   <td class="tg-yw4l"><a title="Asignar esta visita a otro vendedor"><asset:image src="delegat.png" alt="Delegar" style="width:25px;height:25px;"/></a></td>
    
   </tr>
 
