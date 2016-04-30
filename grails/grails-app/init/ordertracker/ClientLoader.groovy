@@ -65,6 +65,8 @@ class ClientLoader {
         new Client(name: 'Robert Woodrow Wilson',  address: 'Av. Corrientes 2750',city: 'Ciudad de Buenos Aires', state: ClientStates.VISITADO.toString(), qrcode: 'H', email: 'RobertWoodrowWilson@gmail.com').save()
 
 
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
         // String de ejemplo para pasar a Código QR
         String stringForQr = "8-mail@mail.com"
@@ -82,9 +84,10 @@ class ClientLoader {
 
         // Pasar imagen a Base64 (por si hace falta)
         String png_base64 = output_stream_png.toByteArray().encodeAsBase64().toString()
-        print 'Base64 del PNG: '+ png_base64 + '\n'
+        //print 'Base64 del PNG: '+ png_base64 + '\n'
 
-
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
     }
 }
