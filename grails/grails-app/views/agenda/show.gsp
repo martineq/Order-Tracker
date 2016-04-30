@@ -43,10 +43,11 @@
     </ul>
   </div>
   
-</g:each>
 
- <div align="right"><g:link action="up"><b>Agregar entrada</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
 
+ <div align="right"><g:link action="up" params="[sellerid: "${se.id}" , nameseller: "${se.name}" ]"><b>Agregar entrada</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
+
+ </g:each>
  
 <g:if test="${resul}">
 
@@ -106,7 +107,10 @@ Sábado
    </td>
    
    
-   <td class="tg-yw4l"><a title="Asignar esta visita a otro vendedor"><asset:image src="delegat.png" alt="Delegar" style="width:25px;height:25px;"/></a></td>
+   <td class="tg-yw4l">
+   <g:link title="Asignar esta visita a otro vendedor" action="changeseller" params="[agendaid: "${res[4]}" , day: "${res[2]}" , hour: "${res[3]}", nameclient: "${res[1]}" , nameseller: "${sell.name}" ]" >
+   
+   <asset:image src="delegat.png" alt="Delegar" style="width:25px;height:25px;"/></g:link></td>
    
   </tr>
 
