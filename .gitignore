@@ -65,4 +65,6 @@ OrderTracker/.idea/
 OrderTracker/.gradle/
 
 # otros archivos
+grails/.asscache
 OrderTracker/local.properties
+
