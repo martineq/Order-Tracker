@@ -20,10 +20,9 @@ class ClientController {
         client.email=params.mail
         client.address=params.address
         client.state=ClientStates.PENDIENTE.toString()
-        
-        //TODO: Aca cargar un qr de verdad!
-        client.qrcode="PRUEBA"
+        client.qrcode=""
         client.save(failOnError: true)
+
         [clientn:client.name]
     }
     
@@ -41,7 +40,7 @@ class ClientController {
     }
     
     def updateclient() {
-    
+
         def client = Client.get(params.id)
         
         client.name=params.name
@@ -50,7 +49,7 @@ class ClientController {
         client.address=params.address
         
         client.save(failOnError: true)
-        
+
         [client:client]
 
     }
