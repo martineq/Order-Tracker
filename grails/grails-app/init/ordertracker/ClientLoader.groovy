@@ -1,5 +1,6 @@
 package ordertracker
 
+import grails.plugins.qrcode.QrCodeService
 import ordertracker.constants.ClientStates
 
 class ClientLoader {
@@ -62,5 +63,28 @@ class ClientLoader {
         new Client(name: 'Pierre-Gilles de Gennes',  address: 'Av. Corrientes 2650',city: 'Ciudad de Buenos Aires', state: ClientStates.VISITADO.toString(), qrcode: 'H', email: 'Pierre-GillesdeGennes@gmail.com').save()
         new Client(name: 'Subramanyan Chandrasekhar',  address: 'Av. Corrientes 2700',city: 'Ciudad de Buenos Aires', state: ClientStates.VISITADO.toString(), qrcode: 'H', email: 'SubramanyanChandrasekhar@gmail.com').save()
         new Client(name: 'Robert Woodrow Wilson',  address: 'Av. Corrientes 2750',city: 'Ciudad de Buenos Aires', state: ClientStates.VISITADO.toString(), qrcode: 'H', email: 'RobertWoodrowWilson@gmail.com').save()
+
+
+
+        // String de ejemplo para pasar a Código QR
+        String stringForQr = "8-mail@mail.com"
+
+        // Archivo png
+        OutputStream file_output_stream_png = new FileOutputStream("/tmp/salida_png");
+
+        // Stream del archivo png
+        OutputStream output_stream_png = new ByteArrayOutputStream()
+
+        // Pasar a Código QR
+        QrCodeService qrcs = new QrCodeService()
+        qrcs.renderPng(stringForQr,60,file_output_stream_png) // renderPng(string,tamaño_en_pixeles,OutputStream)
+        qrcs.renderPng(stringForQr,60,output_stream_png)
+
+        // Pasar imagen a Base64 (por si hace falta)
+        String png_base64 = output_stream_png.toByteArray().encodeAsBase64().toString()
+        print 'Base64 del PNG: '+ png_base64 + '\n'
+
+
+
     }
 }

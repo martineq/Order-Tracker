@@ -36,9 +36,9 @@ class ClientController {
     }
     
      def listdelete() {
--        def clients = Client.list(sort:"name", order:"des")
--        [clients:clients]
--    }
+        def clients = Client.list(sort:"name", order:"des")
+        [clients:clients]
+    }
     
     def updateclient() {
     
