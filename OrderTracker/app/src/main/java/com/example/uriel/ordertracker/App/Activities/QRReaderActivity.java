@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,10 +31,9 @@ import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class QRReaderActivity extends AppCompatActivity {
+public class QRReaderActivity extends AppCompatActivity implements SweetAlertDialog.OnSweetClickListener {
 
-    String username;
-    String token;
+    boolean qrCodeSent;
     private IOrderService orderService;
     private QRReaderActivity context;
     private HashMap<String, String> clientDetails;
@@ -45,10 +45,7 @@ public class QRReaderActivity extends AppCompatActivity {
 
         orderService = new OrderService();
         context = this;
-
-        User user = SessionInformation.getEditor().loadUserInformation();
-        username = user.getUsername();
-        token = user.getToken();
+        qrCodeSent = false;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +71,7 @@ public class QRReaderActivity extends AppCompatActivity {
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
+
                 try {
                     //checkear si tengo permisos para la camara
                     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -103,13 +101,18 @@ public class QRReaderActivity extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
-                if (barcodes.size() != 0) {
+                if ( qrCodeSent == false && barcodes.size() != 0) {
+
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(100);
+
                     final String value = barcodes.valueAt(0).displayValue;
+                    qrCodeSent = true;
 
                     textView.post(new Runnable() {
                         public void run() {
                             try {
-                                orderService.sendQR(username, token, value, context);
+                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), clientDetails.get("ID"), value, context);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -129,6 +132,13 @@ public class QRReaderActivity extends AppCompatActivity {
 
     public void handleUnexpectedError(String error){
         SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la lectura del código QR", error);
+        dialog.setConfirmClickListener(this);
         dialog.show();
+    }
+
+
+    @Override
+    public void onClick(SweetAlertDialog sweetAlertDialog) {
+        this.finish();
     }
 }
