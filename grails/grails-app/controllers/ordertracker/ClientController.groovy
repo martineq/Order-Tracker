@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.queries.QueryFacade
 import ordertracker.constants.ClientStates
+import ordertracker.MapService
 
 class ClientController {
 
@@ -81,5 +82,11 @@ class ClientController {
 
     def description() {
         response << new QueryFacade(new ClientDescriptionService()).solve(request)
+    }
+    
+    def clientdetails(){
+        String add = params.address+","+params.city
+        [address:add]
+
     }
 }
