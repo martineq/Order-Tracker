@@ -109,6 +109,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Intent intent = new Intent(context, QRReaderActivity.class);
                 intent.putExtra("client", clientDetails);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });

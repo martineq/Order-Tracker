@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Helpers;
@@ -102,6 +103,9 @@ public class QRReaderActivity extends AppCompatActivity implements SweetAlertDia
 
                 if ( qrCodeSent == false && barcodes.size() != 0) {
 
+                    findViewById(R.id.qr_request_screen).setVisibility( View.VISIBLE );
+                    findViewById(R.id.qr_capture_screen).setVisibility( View.GONE );
+
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
 
@@ -111,7 +115,7 @@ public class QRReaderActivity extends AppCompatActivity implements SweetAlertDia
                     textView.post(new Runnable() {
                         public void run() {
                             try {
-                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), value, context);
+                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), clientDetails.get("id"), value, context);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
