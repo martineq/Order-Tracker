@@ -12,63 +12,78 @@
     tools:context="com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity"
     tools:showIn="@layout/activity_order_history">
 
-    <android.support.v7.widget.RecyclerView
-        android:visibility="invisible"
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView"
+            android:layout_alignParentBottom="true" >
+
+
+        <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv" />
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha desde"
-        android:id="@+id/desde"
-        android:textSize="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+            <android.support.v7.widget.RecyclerView
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rv" />
 
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarDesde"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/desde" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha desde"
+                android:id="@+id/desde"
+                android:textSize="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Fecha Hasta"
-        android:id="@+id/hasta"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/calendarDesde" />
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calendarDesde"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/desde" />
 
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarHasta"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/calendarDesde" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Fecha Hasta"
+                android:id="@+id/hasta"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/calendarDesde" />
 
-    <Button
-        android:id="@+id/buscarButton"
-        android:text="Buscar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:theme="@style/RaisedButton"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/calendarHasta" />
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calendarHasta"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/calendarDesde" />
 
-    <Button
-        android:id="@+id/volverButton"
-        android:visibility="invisible"
-        android:text="Volver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:theme="@style/RaisedButton"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/rv" />
+            <Button
+                android:id="@+id/buscarButton"
+                android:text="Buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:theme="@style/RaisedButton"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/calendarHasta" />
+
+            <Button
+                android:id="@+id/volverButton"
+                android:visibility="invisible"
+                android:text="Volver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:theme="@style/RaisedButton"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/rv" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
