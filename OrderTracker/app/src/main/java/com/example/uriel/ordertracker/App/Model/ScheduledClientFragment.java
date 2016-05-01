@@ -7,6 +7,7 @@ package com.example.uriel.ordertracker.App.Model;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Activities.DetailsActivity;
+import com.example.uriel.ordertracker.App.Activities.ViewRouteActivity;
 import com.example.uriel.ordertracker.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ScheduledClientFragment extends Fragment {
 
@@ -37,9 +41,35 @@ public class ScheduledClientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.scheduled_client_tab_fragment, container, false);
 
+        ArrayList<Client> clients = new ArrayList<>();
         if(clientList!=null) {
-            populateClients();
+            clients = populateClients();
         }
+
+        final HashMap<Integer, String> adresses = new HashMap<>();
+        int i = 1;
+        for (Client client: clients) {
+            adresses.put(i, client.getAddress() + ", " + client.getCity());
+            i++;
+        }
+        //DiaryActivity act = (DiaryActivity) this.getActivity();
+        //act.setButton(adresses);
+
+        final Activity context = this.getActivity();
+        FloatingActionButton routeButton = (FloatingActionButton) rootView.findViewById(R.id.routeButton);
+        routeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adresses.size() > 0) {
+                    Intent intent = new Intent(context, ViewRouteActivity.class);
+                    intent.putExtra("adresses", adresses);
+                    startActivity(intent);
+                } else {
+                    SweetAlertDialog dialog = Helpers.getErrorDialog(context, "Atencion", "No hay clientes el dia seleccionado");
+                    dialog.show();
+                }
+            }
+        });
 
         return rootView;
     }
@@ -72,12 +102,12 @@ public class ScheduledClientFragment extends Fragment {
         numDay=num;
     }
 
-    public void populateClients() {
+    public ArrayList<Client> populateClients() {
+        final ArrayList<Client> clientList2=new ArrayList<Client>();
         if (rootView != null && clientList!=null) {
             final ListView listView = (ListView) rootView.findViewById(R.id.listViewSch);
 
             //Solo selecciono los clientes del dia
-            final ArrayList<Client> clientList2=new ArrayList<Client>();
             for (Client cli: clientList) {
                 if(cli.getDate().getDay()==numDay){
                     clientList2.add(cli);
@@ -109,5 +139,6 @@ public class ScheduledClientFragment extends Fragment {
                 });
             }
         }
+        return clientList2;
     }
 }

@@ -31,31 +31,31 @@ public class ScheduledClientPageAdapter extends FragmentStatePagerAdapter {
         fragments=new ArrayList<ScheduledClientFragment>();
 
         fragment0 = new ScheduledClientFragment();
-        fragment0.setDay("Domingo",6);
+        fragment0.setDay("Domingo",0);
         fragments.add(fragment0);
 
         fragment1 = new ScheduledClientFragment();
-        fragment1.setDay("Lunes", 0);
+        fragment1.setDay("Lunes", 1);
         fragments.add(fragment1);
 
         fragment2 = new ScheduledClientFragment();
-        fragment2.setDay("Martes", 1);
+        fragment2.setDay("Martes", 2);
         fragments.add(fragment2);
 
         fragment3= new ScheduledClientFragment();
-        fragment3.setDay("Miercoles", 2);
+        fragment3.setDay("Miercoles", 3);
         fragments.add(fragment3);
 
         fragment4= new ScheduledClientFragment();
-        fragment4.setDay("Jueves", 3);
+        fragment4.setDay("Jueves", 4);
         fragments.add(fragment4);
 
         fragment5= new ScheduledClientFragment();
-        fragment5.setDay("Viernes", 4);
+        fragment5.setDay("Viernes", 5);
         fragments.add(fragment5);
 
         fragment6= new ScheduledClientFragment();
-        fragment6.setDay("Sabado", 5);
+        fragment6.setDay("Sabado", 6);
         fragments.add(fragment6);
     }
 

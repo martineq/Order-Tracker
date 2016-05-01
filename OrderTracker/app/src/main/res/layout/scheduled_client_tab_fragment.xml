@@ -15,7 +15,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,5 +23,15 @@
         android:dividerHeight="5dp"
         android:layout_margin="15dp"
         android:layout_alignParentLeft="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/routeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_dialog_map"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

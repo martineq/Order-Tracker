@@ -3,7 +3,6 @@ package com.example.uriel.ordertracker.App.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -86,18 +85,24 @@ public class DiaryActivity extends DrawerActivity {
         } catch (NullPointerException e) {}
     }
 
-    public void setButton(final HashMap<Integer, String> adresses){
+    /*public void setButton(final HashMap<Integer, String> adresses){
         final Activity context = this;
         FloatingActionButton routeButton = (FloatingActionButton) findViewById(R.id.routeButton);
         routeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ViewRouteActivity.class);
-                intent.putExtra("adresses", adresses);
-                startActivity(intent);
+                if(adresses.size() > 0){
+                    Intent intent = new Intent(context, ViewRouteActivity.class);
+                    intent.putExtra("adresses", adresses);
+                    startActivity(intent);
+                }
+                else {
+                    SweetAlertDialog dialog = Helpers.getErrorDialog(context, "Atencion", "No hay clientes el dia seleccionado");
+                    dialog.show();
+                }
             }
         });
-    }
+    }*/
 
     public void handleUnexpectedError(String error){
         SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error en la obtención de clientes", error);
@@ -136,7 +141,7 @@ public class DiaryActivity extends DrawerActivity {
 
             adapter.populateClients(clientList);
 
-            final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
+            /*final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
             HashMap<Integer, String> adresses = new HashMap<>();
             int i = 1;
             for (Client client: adapter.getList(viewPager.getCurrentItem())) {
@@ -144,7 +149,7 @@ public class DiaryActivity extends DrawerActivity {
                 i++;
             }
             DiaryActivity act = (DiaryActivity) this.getActivity();
-            act.setButton(adresses);
+            act.setButton(adresses);*/
         }
 
         @Override

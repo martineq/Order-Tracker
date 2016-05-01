@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.uriel.ordertracker.R;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ScheduledClientsAdapter extends ArrayAdapter<Client> {
@@ -47,10 +49,17 @@ public class ScheduledClientsAdapter extends ArrayAdapter<Client> {
         String hour=String.valueOf((client.getDate().getHours()))+":"+min;
         hourText.setText(hour);
 
+        Calendar c = Calendar.getInstance();
+        Date currentDate = c.getTime();
+
         if(state.equals(Constants.VISITADO)){
             rectangle.setBackgroundColor(Color.GREEN);
         }else if(state.equals(Constants.PENDIENTE)){
-            rectangle.setBackgroundColor(Color.YELLOW);
+            if(client.getDate().getDay() >= currentDate.getDay()){
+                rectangle.setBackgroundColor(Color.YELLOW);
+            }else {
+                rectangle.setBackgroundColor(Color.RED);
+            }
         }else {
             rectangle.setBackgroundColor(Color.RED);
         }
