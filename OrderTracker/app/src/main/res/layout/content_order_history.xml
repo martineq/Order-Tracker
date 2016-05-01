@@ -19,41 +19,56 @@
         android:id="@+id/rv" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Fecha desde"
         android:id="@+id/desde"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="173dp"
-        android:layout_marginEnd="173dp" />
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
     <DatePicker
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/calendarDesde"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/desde"
-        android:layout_alignEnd="@+id/desde"
-        android:layout_marginRight="88dp"
-        android:layout_marginEnd="88dp" />
+        android:layout_below="@id/desde" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="Fecha Hasta"
         android:id="@+id/hasta"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="173dp"
-        android:layout_marginEnd="173dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/calendarDesde" />
 
     <DatePicker
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/calendarHasta"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/hasta"
-        android:layout_alignEnd="@+id/hasta"
-        android:layout_marginRight="88dp"
-        android:layout_marginEnd="88dp" />
+        android:layout_below="@id/calendarDesde" />
+
+    <Button
+        android:id="@+id/buscarButton"
+        android:text="Buscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:theme="@style/RaisedButton"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/calendarHasta" />
+
+    <Button
+        android:id="@+id/volverButton"
+        android:visibility="invisible"
+        android:text="Volver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:theme="@style/RaisedButton"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/rv" />
 
 </RelativeLayout>

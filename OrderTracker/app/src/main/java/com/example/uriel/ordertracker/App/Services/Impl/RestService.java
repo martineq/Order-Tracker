@@ -9,13 +9,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
-import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.OrderDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
@@ -216,6 +217,51 @@ public class RestService implements IRestService {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("username", username);
                 headers.put("token", token);
+                return headers;
+            }
+        };
+
+        // add the request object to the queue to be executed
+        Request response = Volley.newRequestQueue(context).add(req);
+    }
+
+    /**
+     * @param username
+     * @param token
+     * @param context
+     * @param desde
+     * @param hasta
+     *      */
+    @Override
+    public void getOrderHistory(final String username, final String token, final long desde, final long hasta, final OrderHistoryActivity context) {
+        String url = Constants.getOrdersServiceUrl();
+
+        JsonObjectRequest req = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject> () {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        OrderDTO ordersContainer =
+                                new Gson().fromJson(response.toString(), OrderDTO.class);
+                        if(Constants.OK_RESPONSE.equals(ordersContainer.getStatus().getResult())) {
+                            context.populateOrders(ordersContainer.getData());
+                        } else {
+                            context.handleUnexpectedError(ordersContainer.getStatus().getDescription());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", username);
+                headers.put("token", token);
+                headers.put("date_from", String.valueOf(desde));
+                headers.put("date_upto", String.valueOf(hasta));
                 return headers;
             }
         };

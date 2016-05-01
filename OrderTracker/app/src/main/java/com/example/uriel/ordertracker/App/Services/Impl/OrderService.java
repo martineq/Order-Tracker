@@ -1,5 +1,6 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
+import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Order;
@@ -25,6 +26,14 @@ public class OrderService implements IOrderService {
     public void sendQR(String username, String token, String qr, QRReaderActivity context){
         try {
             restService.sendQR(username, token, qr, context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getOrderHistory(String username, String token, long desde, long hasta, OrderHistoryActivity context){
+        try {
+            restService.getOrderHistory(username, token, desde, hasta, context);
         } catch (JSONException e) {
             e.printStackTrace();
         }

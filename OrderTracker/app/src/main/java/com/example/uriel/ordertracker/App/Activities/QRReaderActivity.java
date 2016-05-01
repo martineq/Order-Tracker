@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
-import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.OrderService;
 import com.example.uriel.ordertracker.App.Services.Interface.IOrderService;
 import com.example.uriel.ordertracker.R;
@@ -112,7 +111,7 @@ public class QRReaderActivity extends AppCompatActivity implements SweetAlertDia
                     textView.post(new Runnable() {
                         public void run() {
                             try {
-                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), clientDetails.get("ID"), value, context);
+                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), value, context);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
