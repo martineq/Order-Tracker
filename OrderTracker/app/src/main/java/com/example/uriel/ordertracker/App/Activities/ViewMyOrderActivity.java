@@ -19,6 +19,7 @@ import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Model.OrderLine;
+import com.example.uriel.ordertracker.App.Model.Product;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.ClientService;
@@ -200,8 +201,22 @@ public class ViewMyOrderActivity extends DrawerActivity {
         try{
             User seller = SessionInformation.getEditor().loadUserInformation();
             Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
-            Order order = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
-            orderService.sendOrder(username, token, order, this);
+            Order myOrder = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
+
+            ArrayList<OrderLine> lines = new ArrayList<>();
+            Iterator iterator = order.keySet().iterator();
+            while (iterator.hasNext()) {
+                int key = (int) iterator.next();
+                String value = order.get(key);
+
+                //agregar registro de linea pedido
+                Product product = new Product(key, value.split("&")[0], Double.valueOf(value.split("&")[2]), "", "");
+                OrderLine line = new OrderLine(0, myOrder, product, Integer.valueOf(value.split("&")[1]), Double.valueOf(value.split("&")[2]));
+                lines.add(line);
+            }
+            myOrder.setLineas(lines);
+
+            orderService.sendOrder(username, token, myOrder, this);
         }catch(Exception e){
             SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "No se pudo almacenar el pedido, intente nuevamente");
             dialog.show();

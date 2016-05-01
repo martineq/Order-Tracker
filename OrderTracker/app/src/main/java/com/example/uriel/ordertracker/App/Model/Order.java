@@ -89,7 +89,7 @@ public class Order {
     public JSONObject toJSONObject(){
         HashMap<String,String> params = new HashMap<String,String>();
         if (this.client != null) params.put("client", String.valueOf(this.client.getId()));
-        if (this.fecha != null) params.put("fecha", String.valueOf(this.fecha));
+        if (this.fecha != null) params.put("fecha", String.valueOf(this.fecha.getTime()));
         if (this.estado != "") params.put("estado", this.estado);
         if (this.importeTotal > 0) params.put("importeTotal", String.valueOf(importeTotal));
         if (this.seller != null) params.put("vendedor", String.valueOf(this.seller.getId()));
