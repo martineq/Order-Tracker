@@ -24,6 +24,10 @@ class RequestParser {
             this.validJson = dto.parse(JSON.parse(message));
             return dto
         }
+        catch (JSONException e){
+            throw new QueryException(e.getMessage())
+        }
+
         catch( NullPointerException e ) {
             // It is throw when an empty message is received
             throw new QueryException("No se recibió un objeto json válido")
