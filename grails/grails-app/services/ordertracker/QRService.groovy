@@ -1,6 +1,8 @@
 package ordertracker
 
 import grails.converters.JSON
+import ordertracker.constants.ClientStates
+import ordertracker.constants.Enums
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.protocol.Data
@@ -16,10 +18,13 @@ import org.grails.web.json.JSONObject
 
 class QRService implements Queryingly{
 
+    private long client_id
     private String qr
+    private String errorMessage
     private boolean queryResult
 
     QRService() {
+        this.errorMessage = "Código QR Inválido"
         this.qr = new String()
         this.queryResult = false
     }
@@ -28,6 +33,16 @@ class QRService implements Queryingly{
     def validate(Requester requester) {
         if ( requester.getProperty(HttpProtocol.METHOD).toString().compareTo(HttpProtocol.POST.toString()) )
             throw new QueryException("Invalid HTTP request method: must be POST")
+
+        requester.validateRequest(Enums.asList(HttpProtocol.BODY, Keywords.CLIENT_ID))
+
+        try {
+            client_id = new Long(requester.getProperty(Keywords.CLIENT_ID))
+        }
+
+        catch (NumberFormatException e) {
+            throw new QueryException("Invalid client_id type")
+        }
 
         String qr = requester.getProperty(HttpProtocol.BODY)
 
@@ -47,17 +62,14 @@ class QRService implements Queryingly{
     @Override
     def generateQuery() {
 
-        try {
-            int space = this.qr.indexOf('-')
-            String id = this.qr.substring(0, space)
-            String email = this.qr.substring(space + 1, this.qr.size())
-
-            if (Client.findByIdAndEmail(new Long(id), email) != null)
+        Client client = Client.findByIdAndQrcode(client_id, qr)
+        if ( client != null ) {
+            if ( client.getState() != ClientStates.VISITADO.toString() )
                 this.queryResult = true
-        }
 
-        catch (NumberFormatException e) {}
-        catch (IndexOutOfBoundsException e) {}
+            else
+                errorMessage = "El cliente ya se ha VISITADO"
+        }
 
         return this.queryResult
     }
@@ -65,7 +77,7 @@ class QRService implements Queryingly{
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
         if ( queryResult == false )
-            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Invalid QR Code"))
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, this.errorMessage))
 
         def productsService = new AvailableProductsService()
         productsService.generateQuery()

@@ -12,6 +12,7 @@ import ordertracker.ProductLoader
 import ordertracker.QRService
 import ordertracker.User
 import ordertracker.UserLoader
+import ordertracker.constants.ClientStates
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.queries.QueryException
@@ -28,6 +29,8 @@ class QRServiceTest extends Specification {
     def setup() {
         new UserLoader().load()
         new ClientLoader().load()
+
+        Client.findById(1).setQrCode()
     }
 
     private Requester generateMartinRequester(Enum httpMethod) {
@@ -38,6 +41,7 @@ class QRServiceTest extends Specification {
         requester.addProperty(HttpProtocol.METHOD, httpMethod)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
+        requester.addProperty(Keywords.CLIENT_ID, 1)
         requester.addProperty(HttpProtocol.BODY, qrJson)
         return requester
     }
@@ -63,6 +67,9 @@ class QRServiceTest extends Specification {
     void "test requestWithoutBody"() {
         given:
         def requester = new Requester()
+            requester.addProperty(Keywords.USERNAME, 'martin')
+            requester.addProperty(Keywords.TOKEN, 'token1')
+            requester.addProperty(Keywords.CLIENT_ID, 1)
             requester.addProperty(HttpProtocol.METHOD, HttpProtocol.POST)
 
         when:
@@ -75,7 +82,7 @@ class QRServiceTest extends Specification {
             }
 
         then:
-            message == "No se recibió el código QR en el cuerpo del HTTP request"
+            message == "Invalid request"
     }
 
     void "test emptyBodyRequest"() {
@@ -84,6 +91,7 @@ class QRServiceTest extends Specification {
         requester.addProperty(HttpProtocol.METHOD, HttpProtocol.POST)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
+        requester.addProperty(Keywords.CLIENT_ID, 1)
         requester.addProperty(HttpProtocol.BODY, "")
 
         when:
@@ -149,7 +157,7 @@ class QRServiceTest extends Specification {
 
         then:
         def qrServiceResponse = qrService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
-        qrServiceResponse == '{\"status\":{\"result\":\"error\",\"description\":\"Invalid QR Code\"}}'
+        qrServiceResponse == '{\"status\":{\"result\":\"error\",\"description\":\"Código QR Inválido\"}}'
     }
 
     void "test validQRCode"() {
@@ -165,6 +173,25 @@ class QRServiceTest extends Specification {
 
         then:
             result == true
+    }
+
+    void "test clientAlreadyVisited"() {
+        given:
+            def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
+
+        and:
+            Client.findById(1).setState(ClientStates.VISITADO.toString())
+
+        and:
+            def qrService = new QRService()
+
+        when:
+            qrService.validate(qrRequester)
+            qrService.generateQuery()
+
+        then:
+        def qrServiceResponse = qrService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
+        qrServiceResponse == '{\"status\":{\"result\":\"error\",\"description\":\"El cliente ya se ha VISITADO\"}}'
     }
 
     void "test invalidClientQRCode"() {
