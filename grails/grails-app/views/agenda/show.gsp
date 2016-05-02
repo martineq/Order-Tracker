@@ -130,8 +130,8 @@ Sábado
   </td>
   
   <g:if test="${params.day!='0'}" >
-    <td width="35%">
-    <div id="map" style="width:100%; height:500px"></div>
+    <td width="35%" >
+    <div id="map" style="width:100%; height:500px; border:1px solid black;"></div>
     </td>
     
     </g:if>
