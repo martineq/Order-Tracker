@@ -16,7 +16,7 @@
     <android.support.v7.widget.RecyclerView
             android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/rv" />
 
     <TextView
@@ -50,26 +50,5 @@
         android:id="@+id/calendarHasta"
         android:layout_centerVertical="true"
         android:layout_below="@id/calendarDesde" />
-
-    <Button
-        android:id="@+id/buscarButton"
-        android:text="Buscar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:theme="@style/RaisedButton"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/calendarHasta" />
-
-    <Button
-        android:id="@+id/volverButton"
-        android:visibility="invisible"
-        android:text="Volver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:theme="@style/RaisedButton"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/rv" />
 
 </RelativeLayout>

@@ -1,11 +1,11 @@
 package com.example.uriel.ordertracker.App.Activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -33,8 +33,8 @@ public class OrderHistoryActivity extends DrawerActivity {
     TextView textHasta;
     DatePicker calendarDesde;
     DatePicker calendarHasta;
-    Button buscarButton;
-    Button volverButton;
+    FloatingActionButton buscarButton;
+    FloatingActionButton volverButton;
     IOrderService orderService;
     String username;
     String token;
@@ -59,8 +59,8 @@ public class OrderHistoryActivity extends DrawerActivity {
         textHasta = (TextView)findViewById(R.id.hasta);
         calendarDesde = (DatePicker)findViewById(R.id.calendarDesde);
         calendarHasta = (DatePicker)findViewById(R.id.calendarHasta);
-        buscarButton = (Button)findViewById(R.id.buscarButton);
-        volverButton = (Button)findViewById(R.id.volverButton);
+        buscarButton = (FloatingActionButton)findViewById(R.id.buscarButton);
+        volverButton = (FloatingActionButton)findViewById(R.id.volverButton);
 
         rv = (RecyclerView)findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -70,8 +70,8 @@ public class OrderHistoryActivity extends DrawerActivity {
         buscarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long fechaDesde = getDate(calendarDesde).getTime();
-                long fechaHasta = getDate(calendarHasta).getTime();
+                long fechaDesde = getDate(calendarDesde, false).getTime();
+                long fechaHasta = getDate(calendarHasta, true).getTime();
 
                 try {
                     orderService.getOrderHistory(username, token, fechaDesde, fechaHasta, context);
@@ -96,13 +96,18 @@ public class OrderHistoryActivity extends DrawerActivity {
         });
     }
 
-    private Date getDate(DatePicker datePicker){
+    private Date getDate(DatePicker datePicker, Boolean finDelDia){
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year =  datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
+        if(finDelDia)
+        {
+            calendar.set(year, month, day, 23, 59, 59);
+        }else{
+            calendar.set(year, month, day, 0, 0, 0);
+        }
 
         return calendar.getTime();
     }
