@@ -147,35 +147,16 @@ Sábado
 
 
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cLMpi7vatM&callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cLMpi7vatM&callback=addPoints">
     </script>
 <script type="text/javascript">
-    var markers = [
-            {
-                "title": 'Alibaug',
-                "lat": '18.641400',
-                "lng": '72.872200',
-                "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
-            }
-        ,
-            {
-                "title": 'Mumbai',
-                "lat": '18.964700',
-                "lng": '72.825800',
-                "description": 'Mumbai formerly Bombay, is the capital city of the Indian state of Maharashtra.'
-            }
-        ,
-            {
-                "title": 'Pune',
-                "lat": '18.523600',
-                "lng": '73.847800',
-                "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
-            }
-    ];
-    window.onload = function () {
+    var markers = [];
+    
+        
+    function initMap () {
         var mapOptions = {
-            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-            zoom: 10,
+            center: {lat:markers[0].lat, lng: -58},
+            zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -234,6 +215,41 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
             }
         }
     }
+    
+    function addPoints() {
+    
+        <g:applyCodec encodeAs="none">
+            var array = ${ilist};
+        </g:applyCodec>
+        
+        var arrayLength = array.length;
+        for (var i = 0; i < arrayLength; i++) {
+            geocodeAddress(array[i]);
+        } 
+
+    }
+    
+    
+    function geocodeAddress(add) {
+    
+        <g:applyCodec encodeAs="none">
+            var array = ${ilist};
+        </g:applyCodec>
+        var address =  add;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var obj = {title:"ubic",lat:parseFloat(latitude),lng:parseFloat(longitude),description:" "}; 
+            markers.push(obj);
+            if(markers.length == array.length) initMap();
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
 </script>
     
     

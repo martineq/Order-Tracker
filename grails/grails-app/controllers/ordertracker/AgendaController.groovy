@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.queries.QueryFacade
 import ordertracker.constants.Keywords
+import grails.converters.JSON
 
 class AgendaController {
 
@@ -204,9 +205,22 @@ class AgendaController {
         
         def dayr=params.day
         
-        def resul= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time,t1.id,t2.id from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} and (${dayr} = t1.day or ${dayr} =0 ) order by t1.day asc , t1.time asc")
+        def resul= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time,t1.id,t2.id,t2.address,t2.city from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} and (${dayr} = t1.day or ${dayr} =0 ) order by t1.day asc , t1.time asc")
+        
+        def resul2= Agenda.executeQuery("select t2.address,t2.city from Agenda t1,Client t2 where t1.client_id = t2.id and t1.seller_id = ${numsell} and (${dayr} = t1.day or ${dayr} =0 ) order by t1.day asc , t1.time asc")
+        
+        List<String> resul3= [] ;
+        
+        resul2.each { coord ->
+            String c="${coord}"
+            c = c.replace("[", "");
+            c = c.replace("]", "");
+            resul3.push(c);
+            println c
+            
+        };
 
-        [sell:sell,resul:resul,dayr:dayr]
+        [sell:sell,resul:resul,dayr:dayr,ilist:resul3 as JSON]
     }
     
     def up() {
