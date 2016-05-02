@@ -58,8 +58,9 @@
 <div class="table-responsive">
   <table class="table" style="border-top: 0px solid #fff; margin:0px">
      <tr>
-    <th class="col-md-6">Cliente</th>
-    <th class="col-md-2">Día y Horario</th>
+    <th class="col-md-4">Cliente</th>
+    <th class="col-md-4">Dirección</th>
+    <th class="col-md-3">Día y Horario</th>
     <th class="col-md-1">Borrar</th>
     <th class="col-md-1">Delegar</th>
   </tr>
@@ -78,6 +79,10 @@
     
     
     </td>
+    
+     <td class="tg-yw4l">
+     ${res[6]}
+     </td>
     <td class="tg-yw4l">
     ${res[3]} - 
     <g:if test="${res[2]==1}" >
@@ -217,16 +222,17 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
     }
     
     function addPoints() {
-    
+
         <g:applyCodec encodeAs="none">
             var array = ${ilist};
         </g:applyCodec>
         
-        var arrayLength = array.length;
-        for (var i = 0; i < arrayLength; i++) {
-            geocodeAddress(array[i]);
-        } 
-
+        if(${params.day} != '0') {
+            var arrayLength = array.length;
+            for (var i = 0; i < arrayLength; i++) {
+                geocodeAddress(array[i]);
+            } 
+        }
     }
     
     
@@ -242,7 +248,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
           if (status === google.maps.GeocoderStatus.OK) {
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
-            var obj = {title:"ubic",lat:parseFloat(latitude),lng:parseFloat(longitude),description:" "}; 
+            var obj = {title:"Ubicación",lat:parseFloat(latitude),lng:parseFloat(longitude),description:address}; 
             markers.push(obj);
             if(markers.length == array.length) initMap();
           } else {
