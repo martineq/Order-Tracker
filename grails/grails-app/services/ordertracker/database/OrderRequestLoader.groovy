@@ -11,18 +11,27 @@ import ordertracker.constants.Keywords
 import ordertracker.constants.OrderStates
 import ordertracker.internalServices.dtos.OrderRequestDTO
 import ordertracker.internalServices.dtos.ProductRequestDTO
+import ordertracker.util.logger.Log
 
 class OrderRequestLoader {
 
-    private int purchasedItems
+    class ReservedItem {
+        public int id
+        public int quantity
+
+        ReservedItem(int id, int quantity) {
+            this.id = id;
+            this.quantity = quantity;
+        }
+    }
+
     private double totalAmount
     private OrderRequestDTO request
-    private List<String> missingProducts
+    private List<ReservedItem> reservedProducts
 
     OrderRequestLoader(OrderRequestDTO orderRequestDTO) {
         this.request = orderRequestDTO
-        this.missingProducts = new ArrayList<>()
-        this.purchasedItems = 0
+        this.reservedProducts = new ArrayList<>()
         this.totalAmount = 0
     }
 
@@ -77,52 +86,46 @@ class OrderRequestLoader {
         this.validateTime(agenda)
     }
 
-    private def validateProductsList() {
-        request.getProductRequests().each { productRequest ->
-            this.reserveProductItem(productRequest)
+    private def returnProducts() {
+        this.reservedProducts.each { reservedItem ->
+
+            try {
+                Product.findById(reservedItem.id).stock += reservedItem.quantity
+            }
+
+            catch( NullPointerException e ) {
+                Log.info("Product item couldn't be returned: " + reservedItem.id.toString())
+            }
         }
     }
 
-    private def productItemRunOutOfStock(Product product, ProductRequestDTO productRequest, int productStock) {
-        product.stock += productRequest.quantity
-        product.stock -= productStock
-
-        if ( product.validate() == true ) {
-            product.save(flush: true)
-            this.purchasedItems += productStock
-            this.totalAmount += product.getPrice() * productStock
-            productRequest.setReservedItems(productStock)
-            this.missingProducts.add("Product id: "+ productRequest.getProduct_id() + " not in the desired amount. ")
+    private def validateProductsList() {
+        try {
+            request.getProductRequests().each { productRequest -> this.reserveProductItem(productRequest) }
         }
 
-        else {
-            product.stock += productRequest.quantity
-            this.missingProducts.add("Product id: " + productRequest.getProduct_id() + " not in stock. ")
+        catch ( DatabaseException databaseException) {
+            this.returnProducts()
+            throw databaseException
         }
     }
 
     private def reserveProductItem(ProductRequestDTO productRequest) {
-        def productStock = 0
-        def product = null
-
         try {
-            product = Product.findById(productRequest.getProduct_id())
-            productStock = product.stock
+            Product product = Product.findById(productRequest.getProduct_id())
             product.stock -= productRequest.quantity
+            reservedProducts.add(new ReservedItem(productRequest.product_id, productRequest.quantity))
 
             if ( product.validate() == true ) {
-                this.purchasedItems += productRequest.quantity
                 this.totalAmount += product.getPrice() * productRequest.quantity
-                productRequest.setReservedItems(productRequest.quantity)
                 product.save(flush: true)
             }
-            else {
-                this.productItemRunOutOfStock(product, productRequest, productStock)
-            }
+
+            else throw new OutOfStockException("Product id: "+ productRequest.getProduct_id().toString() + " out of stock")
         }
 
         catch( NullPointerException e) {
-            this.missingProducts.add("Product id: "+ productRequest.getProduct_id() + " do not exist in database. ")
+            throw new ProductException("Product id: "+ productRequest.getProduct_id().toString() + " do not exist in database")
         }
     }
 
@@ -140,7 +143,7 @@ class OrderRequestLoader {
     }
 
     private def saveProductPurchase(int clientOrderID, ProductRequestDTO product){
-        def orderDetail = new OrderDetail(order_id: clientOrderID, product_id: product.getProduct_id(), requested_items: product.getQuantity(), number_of_items: product.getReservedItems() )
+        def orderDetail = new OrderDetail(order_id: clientOrderID, product_id: product.getProduct_id(), requested_items: product.getQuantity() )
         orderDetail.save()
     }
 
@@ -148,14 +151,10 @@ class OrderRequestLoader {
         this.validateOrderClient(seller_id)
         this.validateProductsList()
 
-        if ( this.purchasedItems > 0 )
+        if ( this.reservedProducts.size() > 0 )
             this.persistInformation(seller_id)
 
         else
-            throw new DatabaseException("No one of the products list are in stock")
-    }
-
-    public List<String> getMissingProducts() {
-        return this.missingProducts
+            throw new DatabaseException("Empty items purchase")
     }
 }

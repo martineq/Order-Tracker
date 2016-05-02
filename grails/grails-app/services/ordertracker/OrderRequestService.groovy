@@ -46,8 +46,23 @@ class OrderRequestService implements Queryingly {
             throw new QueryException("Inexistent seller")
         }
 
-        this.orderRequestDTO = new RequestParser().parse(requester.getProperty(HttpProtocol.BODY), new OrderRequestDTO())
+        try {
+            String body = requester.getProperty(HttpProtocol.BODY)
+            this.orderRequestDTO = new RequestParser().parse(this.prepareJson(body), new OrderRequestDTO())
+        }
+
+        catch (NullPointerException e) {
+            e.getMessage()
+        }
+
+
         return true
+    }
+
+    private String prepareJson(String message) {
+        message = message.replace('"[{', '[{')
+        message = message.replace('\\','')
+        return message.replace('}]"', '}]')
     }
 
     @Override
@@ -55,13 +70,7 @@ class OrderRequestService implements Queryingly {
         try {
             def orderRequestLoader = new OrderRequestLoader(this.orderRequestDTO)
             orderRequestLoader.loadRequest(this.seller_id)
-
-            if ( orderRequestLoader.getMissingProducts().size() != 0 )
-                this.messageDescription = orderRequestLoader.getMissingProducts().toArray().toArrayString()
-
-            else
-                this.messageDescription = "Request accepted"
-
+            this.messageDescription = "Request accepted"
             this.requestAccepted = true
         }
 

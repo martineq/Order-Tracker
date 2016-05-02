@@ -181,10 +181,11 @@ class OrderRequestServiceSpec extends Specification {
         when:
             orderRequesterService.validate(requester)
             orderRequesterService.generateQuery()
-            def orderDetail = OrderDetail.findById(1)
 
         then:
-            product.stock == originalStock - orderDetail.number_of_items
+            product.stock == originalStock
+            def result = '{"status":{"result":"error","description":"Product id: 1 out of stock"}}'
+            result == orderRequesterService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
     }
 
     void "test invalidClient"() {
@@ -232,7 +233,7 @@ class OrderRequestServiceSpec extends Specification {
         String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == "{\"status\":{\"result\":\"error\",\"description\":\"No one of the products list are in stock\"}}"
+        result == "{\"status\":{\"result\":\"error\",\"description\":\"Product id: 1000 do not exist in database\"}}"
     }
 
     void "test invalidTime"() {
@@ -312,7 +313,7 @@ class OrderRequestServiceSpec extends Specification {
         result == '{"status":{"result":"ok","description":"Request accepted"}}'
     }
 
-    void "test productBuyed"() {
+    void "test productNotBuyed"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
             Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
@@ -322,8 +323,6 @@ class OrderRequestServiceSpec extends Specification {
             def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100} ]'
             String time = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
             def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
-            def product = Product.findById(1)
-            def originalStock = product.stock
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -335,10 +334,10 @@ class OrderRequestServiceSpec extends Specification {
         when:
             orderRequesterService.validate(requester)
             orderRequesterService.generateQuery()
-            def order = ClientOrder.findById(1)
 
         then:
-            order.total_price == originalStock * product.price
+            def message = orderRequesterService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
+            message == '{"status":{"result":"error","description":"Product id: 1 out of stock"}}'
     }
 
     void "test validStock"() {
@@ -453,5 +452,64 @@ class OrderRequestServiceSpec extends Specification {
 
         then:
             message == '{"status":{"result":"error","description":"Order has already been taken"}}'
+    }
+
+
+    void "test clientJson"() {
+        given:
+            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00').save()
+            Client.findById(1).setState(ClientStates.PENDIENTE.toString())
+            int stock1 = Product.findById(1).getStock()
+            int stock2 = Product.findById(2).getStock()
+
+        and:
+            def body = '{"lines":"[{\"order\":\"0\",\"product\":\"1\",\"quantity\":\"1\",\"price\":\"600.0\"},{\"order\":\"0\",\"product\":\"2\",\"quantity\":\"2\",\"price\":\"150.0\"}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0"}'
+
+        and:
+            def requester = this.generateMartinRequester(HttpProtocol.POST)
+            requester.addProperty(HttpProtocol.BODY, body)
+
+        and:
+            def orderRequesterService = new OrderRequestService()
+
+        and:
+            orderRequesterService.validate(requester)
+            orderRequesterService.generateQuery()
+
+        when:
+            String message = orderRequesterService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
+
+        then:
+            Product.findById(1).getStock() == stock1 - 1
+            Product.findById(2).getStock() == stock2 - 2
+            message == '{"status":{"result":"ok","description":"Request accepted"}}'
+    }
+
+    void "test emptyPurchase"() {
+        given:
+            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00').save()
+            Client.findById(1).setState(ClientStates.PENDIENTE.toString())
+
+        and:
+            def body = '{"lines":"[{}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0"}'
+
+        and:
+            def requester = this.generateMartinRequester(HttpProtocol.POST)
+            requester.addProperty(HttpProtocol.BODY, body)
+
+        and:
+            def orderRequesterService = new OrderRequestService()
+
+        when:
+            String message = ""
+            try {
+                orderRequesterService.validate(requester)
+            }
+            catch (QueryException q) {
+                message = q.getMessage()
+            }
+
+        then:
+            message.size() != 0
     }
 }

@@ -2,7 +2,6 @@ package ordertracker
 
 import ordertracker.queries.QueryFacade
 import ordertracker.constants.ClientStates
-import ordertracker.MapService
 
 class ClientController {
 
@@ -21,7 +20,7 @@ class ClientController {
         client.email=params.mail
         client.address=params.address
         client.state=ClientStates.PENDIENTE.toString()
-        client.qrcode=client.setQrCode()
+        client.qrcode=""
         client.save(failOnError: true)
 
         [clientn:client.name]
