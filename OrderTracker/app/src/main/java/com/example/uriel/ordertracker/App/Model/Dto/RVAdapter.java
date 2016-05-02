@@ -43,7 +43,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.OrderViewHolder>{
         Date orderDate = calendar.getTime();
 
         holder.clientName.setText(orders.get(position).getClient());
-        holder.date.setText(String.valueOf(orderDate));
+        holder.state.setText("Estado: " + orders.get(position).getEstado());
+        holder.date.setText(formatter.format(orderDate));
         holder.total.setText("Total: $" + String.valueOf(orders.get(position).getImporteTotal()));
     }
 
@@ -60,6 +61,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.OrderViewHolder>{
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView clientName;
+        TextView state;
         TextView date;
         TextView total;
 
@@ -67,6 +69,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.OrderViewHolder>{
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             clientName = (TextView)itemView.findViewById(R.id.client_name);
+            state = (TextView)itemView.findViewById(R.id.state);
             date = (TextView)itemView.findViewById(R.id.date);
             total = (TextView)itemView.findViewById(R.id.total);
         }
