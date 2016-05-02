@@ -21,7 +21,7 @@ class ClientController {
         client.email=params.mail
         client.address=params.address
         client.state=ClientStates.PENDIENTE.toString()
-        client.qrcode=""
+        client.qrcode=client.setQrCode()
         client.save(failOnError: true)
 
         [clientn:client.name]
