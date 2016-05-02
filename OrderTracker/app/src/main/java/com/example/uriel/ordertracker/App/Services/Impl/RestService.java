@@ -55,12 +55,16 @@ public class RestService implements IRestService {
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        ClientsDTO clientsContainer =
-                                new Gson().fromJson(response.toString(), ClientsDTO.class);
-                        if(Constants.OK_RESPONSE.equals(clientsContainer.getStatus().getResult())) {
-                            act.populateClients(clientsContainer.getData());
-                        } else {
-                            act.handleUnexpectedError(clientsContainer.getStatus().getDescription());
+                        try {
+                            ClientsDTO clientsContainer =
+                                    new Gson().fromJson(response.toString(), ClientsDTO.class);
+                            if(Constants.OK_RESPONSE.equals(clientsContainer.getStatus().getResult())) {
+                                act.populateClients(clientsContainer.getData());
+                            } else {
+                                act.handleUnexpectedError(clientsContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            act.handleUnexpectedError("Ocurrio un error");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -98,15 +102,20 @@ public class RestService implements IRestService {
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        ProductDTO productsContainer =
-                                new Gson().fromJson(response.toString(), ProductDTO.class);
-                        if(Constants.OK_RESPONSE.equals(productsContainer.getStatus().getResult())) {
-                            context.populateBrands(productsContainer.getData());
-                            context.populateProducts(productsContainer.getData(), true);
-                        } else {
-                            context.handleUnexpectedError(productsContainer.getStatus().getDescription());
+                        try {
+                            ProductDTO productsContainer =
+                                    new Gson().fromJson(response.toString(), ProductDTO.class);
+                            if(Constants.OK_RESPONSE.equals(productsContainer.getStatus().getResult())) {
+                                context.populateBrands(productsContainer.getData());
+                                context.populateProducts(productsContainer.getData(), true);
+                            } else {
+                                context.handleUnexpectedError(productsContainer.getStatus().getDescription());
+                            }
+                            context.showDownloadingCatalog(false);
+                        }catch (Exception e){
+                            context.handleUnexpectedError("Ocurrio un error");
+                            context.showDownloadingCatalog(false);
                         }
-                        context.showDownloadingCatalog(false);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -147,12 +156,16 @@ public class RestService implements IRestService {
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        BaseDTO baseContainer =
-                                new Gson().fromJson(response.toString(), BaseDTO.class);
-                        if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
-                            context.savedOrder();
-                        } else {
-                            context.handleUnexpectedError(baseContainer.getStatus().getDescription());
+                        try{
+                            BaseDTO baseContainer =
+                                    new Gson().fromJson(response.toString(), BaseDTO.class);
+                            if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
+                                context.savedOrder();
+                            } else {
+                                context.handleUnexpectedError(baseContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            context.handleUnexpectedError("Ocurrio un error");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -195,12 +208,16 @@ public class RestService implements IRestService {
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        BaseDTO baseContainer =
-                                new Gson().fromJson(response.toString(), BaseDTO.class);
-                        if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
-                            context.validQR();
-                        } else {
-                            context.handleUnexpectedError(baseContainer.getStatus().getDescription());
+                        try{
+                            BaseDTO baseContainer =
+                                    new Gson().fromJson(response.toString(), BaseDTO.class);
+                            if(Constants.OK_RESPONSE.equals(baseContainer.getStatus().getResult())) {
+                                context.validQR();
+                            } else {
+                                context.handleUnexpectedError(baseContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            context.handleUnexpectedError("Ocurrio un error");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -241,12 +258,16 @@ public class RestService implements IRestService {
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        OrderDTO ordersContainer =
-                                new Gson().fromJson(response.toString(), OrderDTO.class);
-                        if(Constants.OK_RESPONSE.equals(ordersContainer.getStatus().getResult())) {
-                            context.populateOrders(ordersContainer.getData());
-                        } else {
-                            context.handleUnexpectedError(ordersContainer.getStatus().getDescription());
+                        try{
+                            OrderDTO ordersContainer =
+                                    new Gson().fromJson(response.toString(), OrderDTO.class);
+                            if(Constants.OK_RESPONSE.equals(ordersContainer.getStatus().getResult())) {
+                                context.populateOrders(ordersContainer.getData());
+                            } else {
+                                context.handleUnexpectedError(ordersContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            context.handleUnexpectedError("Ocurrio un error");
                         }
                     }
                 }, new Response.ErrorListener() {
