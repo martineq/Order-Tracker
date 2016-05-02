@@ -267,7 +267,7 @@ public class RestService implements IRestService {
                                 context.handleUnexpectedError(ordersContainer.getStatus().getDescription());
                             }
                         }catch (Exception e){
-                            context.handleUnexpectedError("Ocurrio un error");
+                            context.handleUnexpectedError("No se encontraron pedidos para las fechas seleccionadas");
                         }
                     }
                 }, new Response.ErrorListener() {

@@ -42,8 +42,8 @@
         android:layout_alignParentBottom="true"
         android:text="Confirmar Pedido"
         android:textSize="30dp"
-        android:theme="@style/RaisedButton"
-        android:elevation="2dp"
+        android:theme="@style/Base.Widget.AppCompat.Button.Colored"
+        android:translationZ="5dp"
         android:id="@+id/confirmarButton"
         android:onClick="ConfirmarPedido" />
 

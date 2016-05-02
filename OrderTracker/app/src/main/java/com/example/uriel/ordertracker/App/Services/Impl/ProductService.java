@@ -27,7 +27,9 @@ public class ProductService implements IProductService {
     public ArrayList<Product> getByBrand(ArrayList<Product> allProducts ,String brand){
         ArrayList<Product> products = new ArrayList<>();
         for (Product product : allProducts){
-            if(product.getBrand().equalsIgnoreCase(brand)){
+            String prod = product.getBrand().toLowerCase();
+            String search = brand.toLowerCase();
+            if(prod.contains(search)){
                 products.add(product);
             }
         }
