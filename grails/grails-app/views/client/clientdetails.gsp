@@ -75,7 +75,7 @@
               position: results[0].geometry.location
             });
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            alert('Hubo un error al intentar localizar la dirección de este cliente: ' + status);
           }
         });
       }

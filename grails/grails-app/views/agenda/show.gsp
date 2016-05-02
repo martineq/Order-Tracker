@@ -151,7 +151,7 @@ Sábado
 </g:elseif>
 
 
-<script async defer
+<script defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cLMpi7vatM&callback=addPoints">
     </script>
 <script type="text/javascript">
@@ -160,7 +160,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
         
     function initMap () {
         var mapOptions = {
-            center: {lat:markers[0].lat, lng: -58},
+            center: {lat:markers[0].lat, lng: markers[0].lng},
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -200,11 +200,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
         var poly = new google.maps.Polyline({ map: map, strokeColor: '#4986E7' });
  
         //Loop and Draw Path Route between the Points on MAP
-        for (var i = 0; i < lat_lng.length; i++) {
-            if ((i + 1) < lat_lng.length) {
+        for (var i = 0; i < (lat_lng.length-1); i=i+1) {
+
                 var src = lat_lng[i];
-                var des = lat_lng[i + 1];
-                path.push(src);
+                var des = lat_lng[i+1];
+
+                //path.push(src);
                 poly.setPath(path);
                 service.route({
                     origin: src,
@@ -217,7 +218,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
                         }
                     }
                 });
-            }
+
         }
     }
     
@@ -230,13 +231,13 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
         if(${params.day} != '0') {
             var arrayLength = array.length;
             for (var i = 0; i < arrayLength; i++) {
-                geocodeAddress(array[i]);
+                geocodeAddress(array[i],i);
             } 
         }
     }
     
     
-    function geocodeAddress(add) {
+    function geocodeAddress(add,i) {
     
         <g:applyCodec encodeAs="none">
             var array = ${ilist};
@@ -248,11 +249,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW_OGVqAx3mK-bk4WrdMsu5cL
           if (status === google.maps.GeocoderStatus.OK) {
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
-            var obj = {title:"Ubicación",lat:parseFloat(latitude),lng:parseFloat(longitude),description:address}; 
-            markers.push(obj);
+            var obj = {title:latitude+" "+longitude,lat:parseFloat(latitude),lng:parseFloat(longitude),description:address}; 
+            markers[i]=obj;
             if(markers.length == array.length) initMap();
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            alert('Hubo un error al intentar localizar la dirección de un cliente: ' + status);
           }
         });
       }

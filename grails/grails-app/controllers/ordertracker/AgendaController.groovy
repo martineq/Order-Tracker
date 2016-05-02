@@ -216,8 +216,6 @@ class AgendaController {
             c = c.replace("[", "");
             c = c.replace("]", "");
             resul3.push(c);
-            println c
-            
         };
 
         [sell:sell,resul:resul,dayr:dayr,ilist:resul3 as JSON]
