@@ -27,6 +27,7 @@ public class Constants {
     public static final String GET_ORDER_SERVICE = "order/historical";
     public static final String SEND_QR_SERVICE = "order/qr";
     public static final String SEND_ORDER_SERVICE = "order/request";
+    public static final String GET_NOTIFICATION_SERVICE = "notifications";
     public static final String SHARED_PREFERENCES = "commonKey";
     public static final long MINIMUM_REQUEST_IP_TIME = 5000; // 5s = 5000ms
 
@@ -37,6 +38,7 @@ public class Constants {
     public static String sendOrderServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + SEND_ORDER_SERVICE); }
     public static String sendQRServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + SEND_QR_SERVICE); }
     public static String getOrdersServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + GET_ORDER_SERVICE); }
+    public static String getNotificationsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + GET_NOTIFICATION_SERVICE); }
 
     //Response
     public static final String ERROR_RESPONSE = "error";

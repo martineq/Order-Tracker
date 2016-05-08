@@ -18,6 +18,7 @@ import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.OrderDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
+import com.example.uriel.ordertracker.App.Model.Notification;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.google.gson.Gson;
@@ -25,6 +26,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -290,5 +292,51 @@ public class RestService implements IRestService {
 
         // add the request object to the queue to be executed
         Request response = Volley.newRequestQueue(context).add(req);
+    }
+
+    public void getNotifications(final String username, final String token, final PushService context) {
+        ArrayList<Notification> notifications = new ArrayList<>();
+
+        Notification n1 = new Notification();n1.setTitle("Notificacion 1");n1.setBody("Body 1");
+        notifications.add(n1);
+        context.showNotification(notifications);
+
+        /*String url = Constants.getNotificationsServiceUrl();
+
+        JsonObjectRequest req = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject> () {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            NotificationDTO notificationsContainer =
+                                    new Gson().fromJson(response.toString(), NotificationDTO.class);
+                            if(Constants.OK_RESPONSE.equals(notificationsContainer.getStatus().getResult())) {
+                                context.showNotification(notificationsContainer.getData());
+                            } else {
+                                //context.handleUnexpectedError(ordersContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            //context.handleUnexpectedError("No se encontraron pedidos para las fechas seleccionadas");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", username);
+                headers.put("token", token);
+                return headers;
+            }
+        };
+
+        // add the request object to the queue to be executed
+        Request response = Volley.newRequestQueue(context).add(req);*/
+
     }
 }

@@ -84,6 +84,9 @@
             android:name=".App.Activities.ViewRouteActivity"
             android:label="@string/title_activity_view_route"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <service
+            android:name=".App.Services.Impl.PushService"
+            android:exported="false"/>
     </application>
 
 </manifest>
