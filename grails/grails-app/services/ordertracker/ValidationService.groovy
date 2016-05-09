@@ -1,6 +1,7 @@
 package ordertracker
 
 import ordertracker.constants.Enums
+import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
@@ -26,6 +27,7 @@ class ValidationService implements Queryingly{
 
         this.user.username = requester.getProperty(Keywords.USERNAME)
         this.user.token = requester.getProperty(Keywords.TOKEN)
+        this.user.ip = requester.getProperty(HttpProtocol.REMOTE_HOST)
         return true
     }
 
@@ -35,6 +37,11 @@ class ValidationService implements Queryingly{
 
         if ( user == null || this.user.token.compareTo(user.token) != 0 )
             throw new QueryException("Invalid request - user rejected")
+
+        if ( user.ip != this.user.ip ) {
+            user.ip = this.user.ip
+            user.save()
+        }
 
         return this.validationResult = true
     }

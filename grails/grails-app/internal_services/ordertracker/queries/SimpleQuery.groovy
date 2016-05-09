@@ -1,6 +1,8 @@
 package ordertracker.queries
 
-import ordertracker.ValidationService
+import ordertracker.protocol.ProtocolJsonBuilder
+import ordertracker.protocol.Result
+import ordertracker.protocol.Status
 import ordertracker.tranmission.DefaultTransmission
 
 class SimpleQuery extends QueryProtocol {
@@ -14,19 +16,9 @@ class SimpleQuery extends QueryProtocol {
         this.requester = new Requester()
     }
 
-    private boolean validateRequester() {
-        // User authentication in request discarded
-/*        def validationService = new ValidationService()
-        validationService.validate(this.requester)
-
-        if ( validationService.generateQuery() == false )
-            throw new QueryException("Invalid token - access permission denied")
-*/    }
-
     @Override
     QueryProtocol run() {
         try {
-            this.validateRequester()
             this.query.validate(this.requester)
             this.query.generateQuery()
             this.builder = query.obtainResponse(DefaultTransmission.obtainDefaultTransmission())
@@ -45,8 +37,8 @@ class SimpleQuery extends QueryProtocol {
     @Override
     def buildResponse() {
         if ( error == true )
-            return ""
+            return new ProtocolJsonBuilder(new Status(Result.ERROR, this.queryExceptionMessage)).build()
 
-        return this.query.obtainResponse(DefaultTransmission.obtainDefaultTransmission())
+        return this.builder.build()
     }
 }
