@@ -17,4 +17,8 @@ class NotificationsController {
     def notification() {
         response << new RawQueryFacade(new CreatePushNotificationService()).solve(request)
     }
+
+    def ack(){
+        response << new QueryFacade(new ACKPushService()).solve(request)
+    }
 }
