@@ -10,6 +10,7 @@ enum HttpProtocol {
     BODY("BODY"),
     METHOD("method"),
     REQUEST_URI("requestURI"),
+    REMOTE_HOST("remote_host"),
 
     private final String value
 

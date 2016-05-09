@@ -17,6 +17,7 @@ abstract class QueryProtocol {
         this.getBody(request)
         this.requester.addProperty( HttpProtocol.METHOD, request.method )
         this.requester.addProperty( HttpProtocol.REQUEST_URI, request.requestURI )
+        this.requester.addProperty( HttpProtocol.REMOTE_HOST, request.remoteHost )
         request.headerNames.each { header -> this.requester.addProperty( header, request.getHeader(header)) }
 
         return this

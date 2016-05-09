@@ -12,6 +12,7 @@ enum Keywords {
     PRODUCT_ID("product_id"),
 
     ADDRESS("address"),
+    BODY("body"),
     BRAND("brand"),
     CATEGORY("category"),
     CLIENT('client'),
@@ -34,6 +35,7 @@ enum Keywords {
     QRCODE("qrcode"),
     STATE("state"),
     STOCK("stock"),
+    TITLE("title"),
     WEEK_DATE('week_date'),
 
     AR_TIMEZONE("GMT-3:00"),
