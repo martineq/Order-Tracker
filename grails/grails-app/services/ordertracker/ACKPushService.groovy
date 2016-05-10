@@ -46,7 +46,6 @@ class ACKPushService implements Queryingly {
     @Override
     def generateQuery() {
 
-        println(Distribution.count)
         try {
             def user_message = Distribution.findByMessage_idAndSeller(message_id, seller_id)
 
@@ -60,13 +59,6 @@ class ACKPushService implements Queryingly {
             }
 
         } catch ( Exception e ) {}
-
-        Distribution.findAll().each { Distribution distribution ->
-            println(distribution.id + ' '+ distribution.message_id + ' ' +distribution.seller)}
-
-        Push_message.findAll().each { Push_message m ->
-            println( m.id + ' '+ m.description + ' ' + m.properties)
-        }
 
         return message_deleted
     }

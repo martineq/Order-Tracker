@@ -31,8 +31,6 @@ class PushMessageCreator {
                 this.distributions = null
             }
 
-            println(this.distributions)
-
             distributions.each { Distribution distribution ->
                 try {
                     this.sendMessage(createJson(distribution), obtainIP(distribution))

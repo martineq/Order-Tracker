@@ -14,7 +14,6 @@ class NotificationService {
 
         Seller.findAll().each {
             Seller seller ->
-                println(seller)
                 if ( UserType.findByType_idAndType(seller.id, Seller.getTypeName()) != null )
                     new Distribution(message_id: push_message.id, seller: seller.id).save()
         }
