@@ -14,10 +14,7 @@ import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
-import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
-import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
-import com.example.uriel.ordertracker.App.Model.Dto.OrderDTO;
-import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.*;
 import com.example.uriel.ordertracker.App.Model.Notification;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
@@ -301,7 +298,7 @@ public class RestService implements IRestService {
         notifications.add(n1);
         context.showNotification(notifications);
 
-        /*String url = Constants.getNotificationsServiceUrl();
+        String url = Constants.getNotificationsServiceUrl();
 
         JsonObjectRequest req = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject> () {
@@ -336,7 +333,7 @@ public class RestService implements IRestService {
         };
 
         // add the request object to the queue to be executed
-        Request response = Volley.newRequestQueue(context).add(req);*/
+        Request response = Volley.newRequestQueue(context).add(req);
 
     }
 }

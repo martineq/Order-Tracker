@@ -87,6 +87,10 @@
         <service
             android:name=".App.Services.Impl.PushService"
             android:exported="false"/>
+
+        <service
+                android:name=".App.Services.Impl.NotificationsService"
+                android:exported="false"/>
     </application>
 
 </manifest>
