@@ -5,10 +5,11 @@ import ordertracker.*
 import ordertracker.notifications.NotificationService
 import spock.lang.Specification
 
-@Mock( [Seller, Distribution, Push_message])
+@Mock( [UserType, Seller, Distribution, Push_message])
 class NotificationServiceSpec extends Specification {
 
     def setup() {
+        new UserTypeLoader().load()
         new SellerLoader().load()
     }
 
@@ -40,6 +41,6 @@ class NotificationServiceSpec extends Specification {
             notificationService.add(title, message)
 
         then:
-            Distribution.count == Seller.count
+            Distribution.count == UserType.countByType(Seller.getTypeName())
     }
 }

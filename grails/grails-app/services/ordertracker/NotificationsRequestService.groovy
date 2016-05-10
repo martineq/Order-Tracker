@@ -55,21 +55,19 @@ class NotificationsRequestService implements Queryingly {
     def obtainResponse(TransmissionMedium transmissionMedium) {
 
         try {
-            if (messages.size() != 0) {
-                def data = new Data(this.generateData())
-                return new ProtocolJsonBuilder(new Status(Result.OK, "Permitted access"), data)
-            } else {
-                def data = new Data(new JsonObjectBuilder().addJsonableItem(new JsonObjectBuilder()))
-                return new ProtocolJsonBuilder(new Status(Result.OK, "No notifications available"), data)
-            }
+            def data = new Data(this.generateData())
+            return new ProtocolJsonBuilder(new Status(Result.OK, "Permitted access"), data)
         }
 
         catch (NullPointerException e) {
-            return new ProtocolJsonBuilder(new Status(Result.ERROR, "Server error"))
+            def data = new Data(new JsonObjectBuilder().addJsonableItem(new JsonObjectBuilder()))
+            return new ProtocolJsonBuilder(new Status(Result.OK, "No notifications available"), data)
         }
     }
 
     private def generateData() {
+        if ( messages == null ) throw new NullPointerException()
+
         def jsonObjectBuilder = new JsonObjectBuilder()
 
         messages.each { Distribution distribution ->

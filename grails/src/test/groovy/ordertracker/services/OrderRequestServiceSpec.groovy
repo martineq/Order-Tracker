@@ -23,6 +23,7 @@ import ordertracker.constants.OrderStates
 import ordertracker.queries.QueryException
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
+import ordertracker.util.CalendarDate
 import spock.lang.Specification
 
 @Mock( [User, Product, Client, Seller, ClientOrder, OrderDetail, UserType, Agenda] )
@@ -457,13 +458,15 @@ class OrderRequestServiceSpec extends Specification {
 
     void "test clientJson"() {
         given:
-            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00').save()
+            long today = CalendarDate.currentDate()
+
+            new Agenda(seller_id: 1, client_id: 1, date: today, day:1, time: '00:00').save()
             Client.findById(1).setState(ClientStates.PENDIENTE.toString())
             int stock1 = Product.findById(1).getStock()
             int stock2 = Product.findById(2).getStock()
 
         and:
-            def body = '{"lines":"[{\"order\":\"0\",\"product\":\"1\",\"quantity\":\"1\",\"price\":\"600.0\"},{\"order\":\"0\",\"product\":\"2\",\"quantity\":\"2\",\"price\":\"150.0\"}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0"}'
+            def body = '{"lines":"[{\"order\":\"0\",\"product\":\"1\",\"quantity\":\"1\",\"price\":\"600.0\"},{\"order\":\"0\",\"product\":\"2\",\"quantity\":\"2\",\"price\":\"150.0\"}]","estado":"","client":"1","fecha":'+today+',"importeTotal":"900.0"}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)

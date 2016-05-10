@@ -8,6 +8,7 @@ import ordertracker.util.logger.SecurityLog
 class BootStrap {
 
     def pushService
+    def remoteUdpTranslationService
 
     def init = { servletContext ->
 
@@ -17,9 +18,14 @@ class BootStrap {
         Log.info("Loading server on url: "+ Server.getURL())
 
         pushService = PushService.getInstance()
+        remoteUdpTranslationService = RemoteUdpTranslationService.getInstance()
 
         Thread.start {
             pushService.run()
+        }
+
+        Thread.start {
+            remoteUdpTranslationService.run()
         }
 
 		new UserLoader().load()
@@ -47,6 +53,7 @@ class BootStrap {
 
     def destroy = {
         pushService.stop()
+        remoteUdpTranslationService.stop()
         Log.info("Server DOWN!")
     }
 }

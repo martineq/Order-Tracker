@@ -52,7 +52,7 @@ class OrderRequestService implements Queryingly {
         }
 
         catch (NullPointerException e) {
-            e.getMessage()
+            throw new QueryException("No se recibió un objeto json válido")
         }
 
 

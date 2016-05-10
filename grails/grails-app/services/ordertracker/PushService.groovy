@@ -17,9 +17,9 @@ class PushService {
     private synchronized void waitForPushOrder(boolean wait) {
 
         if ( wait == true ) {
-            Log.info("Push service sleeping")
+            Log.info("Push Service sleeping")
             this.wait()
-            Log.info("Waking up push service")
+            Log.info("Waking up Push Service")
         }
 
         else {

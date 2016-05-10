@@ -17,7 +17,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
-import com.example.uriel.ordertracker.App.Model.Dto.NotificationDTO;
 import com.example.uriel.ordertracker.App.Model.Notification;
 import com.example.uriel.ordertracker.App.Model.NotificationsReceiver;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;

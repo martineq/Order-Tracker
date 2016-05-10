@@ -4,6 +4,7 @@ import ordertracker.Distribution
 import ordertracker.Push_message
 import ordertracker.Seller
 import ordertracker.User
+import ordertracker.UserSocket
 import ordertracker.UserType
 import ordertracker.constants.Keywords
 import ordertracker.protocol.builder.JsonObjectBuilder
@@ -14,11 +15,9 @@ class PushMessageCreator {
 
     def datagramSocket
     def distributions
-    int port
 
     PushMessageCreator(DatagramSocket datagramSocket) {
         this.datagramSocket = datagramSocket
-        this.port = 2222
     }
 
     public void send() {
@@ -33,33 +32,29 @@ class PushMessageCreator {
 
             distributions.each { Distribution distribution ->
                 try {
-                    this.sendMessage(createJson(distribution), obtainIP(distribution))
+                    UserSocket socket = obtainUserSocket(distribution)
+                    this.sendMessage(createJson(distribution), InetAddress.getByName(socket.remote_ip), socket.remote_port)
                 }
                 catch (Exception e) {}
             }
         }
     }
 
-    private InetAddress obtainIP(Distribution distribution) {
+    private UserSocket obtainUserSocket(Distribution distribution) {
         def userType = UserType.findByType_idAndType(distribution.seller, Seller.getTypeName())
-        def seller_ip = User.findById( userType.user_id ).ip
-
-        if ( seller_ip == "0" )
-            throw new NullPointerException()
-
-        return InetAddress.getByName(seller_ip);
+        return UserSocket.findByUser_id(userType.user_id)
     }
 
-    private void sendMessage(String json, InetAddress address) {
+    private void sendMessage(String json, InetAddress address, int port) {
         DatagramPacket datagramPacket = new DatagramPacket(json.bytes, json.length(), address, port);
 
         try {
             datagramSocket.send(datagramPacket);
-            Log.info("Mensaje enviado a: "+ address.toString() + " [" + json + "] ")
+            Log.info("Mensaje enviado a: "+ address.toString() + ':' + port +" [" + json + "] ")
         }
 
         catch ( Exception e) {
-            Log.warn("Mensaje no pudo ser enviado a: "+ address.toString() +" // " + e.getMessage() )
+            Log.warn("Mensaje no pudo ser enviado a: "+ address.toString() +':'+port.toString() + ' ' + e.getMessage() )
         }
     }
 
