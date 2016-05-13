@@ -9,7 +9,8 @@
 
 
             
-<div align="right"><g:link action="up"><b>Agregar</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
+<div align="right"><g:link action="upproduct"><b>Agregar descuento por producto</b><asset:image src="add.png" alt="Agregar" style="width:38px;height:38px;"/></g:link></div>
+<div align="right"><g:link action="upbrand"><b>Agregar descuento por marca y/o categoría</b><asset:image src="add.png" alt="Agregar" style="width:38px;height:38px;"/></g:link></div>
 <div class="table-responsive">
   <table class="table">
      <tr>
@@ -31,7 +32,7 @@
     <g:else>
     Todos los de la marca  ${brands[i].name}
     <g:if test="${discount.category!= 'none'}" >
-       dentro de la categoria ${discount.category}
+       dentro de la categoría ${discount.category}
     </g:if>
     </g:else>
 

@@ -27,6 +27,32 @@ class DiscountController {
     def editdiscount() {
     }
     
-    def up() {
+    def upbrand() {
     }
+    
+    def upproduct() {
+    
+            def products = Product.list(sort:"name", order:"des")
+            def brands = []
+            
+            products.each { prod ->
+                def discc=prod;
+                def brand=Brand.get(discc.brand_id)
+                brands.add(brand)
+            };
+        
+            [products:products,brands:brands]
+    }
+    
+    def selectproduct() {
+        String c=params.range
+        
+        int numrange=c.toInteger()
+        [numrange:numrange]
+    
+    }
+    
+     def upentryproduct() {
+
+     }
 }
