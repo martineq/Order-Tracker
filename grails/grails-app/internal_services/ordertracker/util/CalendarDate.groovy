@@ -6,6 +6,8 @@ class CalendarDate {
 
     private Calendar calendar
     private int first_day_of_the_week
+    private static String[] daysES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+    private static String[] days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
     CalendarDate(long date) {
         this.first_day_of_the_week = Calendar.SUNDAY
@@ -46,5 +48,21 @@ class CalendarDate {
         def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
         calendar.add(Calendar.DATE, deviationFromCurrentDay)
         return calendar.getTimeInMillis()
+    }
+
+    public static String getWeekDay(int value) {
+        return CalendarDate.days[value-1]
+    }
+
+    public static String getWeekDayInSpanish(int value) {
+        return CalendarDate.daysES[value-1]
+    }
+
+    public static int getWeekNumberDay(String value) {
+        return CalendarDate.days.findIndexOf { it == value }
+    }
+
+    public static int getWeekNumberDayInSpanish(String value) {
+        return CalendarDate.daysES.findIndexOf { it == value }
     }
 }

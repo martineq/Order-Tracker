@@ -21,6 +21,17 @@ class Agenda {
     int day
     String time
 
+    def afterInsert() {
+        new NewVisitNotification(this).addNotification()
+        PushService.getInstance().push()
+    }
+
+    def afterUpdate() {
+        new ModifiedVisitNotification(this).addNotification()
+        PushService.getInstance().push()
+    }
+
+
     Agenda(long seller_id, long client_id, long date) {
         def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
 
