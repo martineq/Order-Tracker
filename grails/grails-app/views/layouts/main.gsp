@@ -45,7 +45,7 @@
             <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
         </li>
                 <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descuentos</a>
+            <a href="/discount/index" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">Descuentos</a>
 
         </li>
             </div>

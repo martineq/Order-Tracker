@@ -15,7 +15,8 @@
      <tr>
     <th class="tg-yw4l">Documento</th>
     <th class="tg-yw4l">Nombre</th>
-    <th class="tg-yw4l">zona</th>
+     <th class="tg-yw4l">Teléfono</th>
+    <th class="tg-yw4l">Zona</th>
   </tr>
   
     <g:each in="${sellers}" var="seller" status="i">
@@ -23,6 +24,7 @@
   <tr>
     <td class="tg-yw4l"> ${seller.document_number}</td>
     <td class="tg-yw4l">${seller.name}</td>
+    <td class="tg-yw4l">${seller.phone}</td>
     <td class="tg-yw4l">${seller.zone}</td>
   </tr>
 </g:each>

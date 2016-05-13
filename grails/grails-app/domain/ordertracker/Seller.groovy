@@ -6,7 +6,10 @@ class Seller {
     }
 
     int document_number
+
     String name
     String zone
+        
+    int phone
 
 }

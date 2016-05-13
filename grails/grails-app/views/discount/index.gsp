@@ -23,7 +23,19 @@
     <g:each in="${discounts}" var="discount" status="i">
 
   <tr>
-    <td class="tg-yw4l">${products[i].name}</td>
+    <td class="tg-yw4l">
+    
+    <g:if test="${discount.product_id!= -1}" >
+        ${products[i].name}
+    </g:if>
+    <g:else>
+    Todos los de la marca  ${brands[i].name}
+    <g:if test="${discount.category!= 'none'}" >
+       dentro de la categoria ${discount.category}
+    </g:if>
+    </g:else>
+
+</td>
     <td class="tg-yw4l">${brands[i].name}</td>
     <td class="tg-yw4l">${discount.percentage}  %</td>
 
