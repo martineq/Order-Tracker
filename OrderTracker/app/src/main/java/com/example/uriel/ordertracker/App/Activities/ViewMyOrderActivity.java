@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Client;
 import com.example.uriel.ordertracker.App.Model.Constants;
+import com.example.uriel.ordertracker.App.Model.Discount;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Model.OrderLine;
@@ -126,6 +127,12 @@ public class ViewMyOrderActivity extends DrawerActivity {
         headerPrice.setTextSize(25);
         headerPrice.setLines(1);
 
+        TextView headerDiscount = new TextView(this);
+        headerDiscount.setText("Dto");
+        headerDiscount.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        headerDiscount.setTextSize(25);
+        headerDiscount.setLines(1);
+
         TextView headerTotal = new TextView(this);
         headerTotal.setText("Total");
         headerTotal.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -138,6 +145,8 @@ public class ViewMyOrderActivity extends DrawerActivity {
         header.addView(headerDescripcion);
         header.addView(createDivider());
         header.addView(headerPrice);
+        header.addView(createDivider());
+        header.addView(headerDiscount);
         header.addView(createDivider());
         header.addView(headerTotal);
 
@@ -165,8 +174,14 @@ public class ViewMyOrderActivity extends DrawerActivity {
         priceText.setTextSize(25);
         priceText.setGravity(Gravity.RIGHT);
 
+        TextView discountText = new TextView(this);
+        discountText.setText("$" + product.split("&")[3]);
+        discountText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        discountText.setTextSize(25);
+        discountText.setGravity(Gravity.RIGHT);
+
         TextView totalText = new TextView(this);
-        totalText.setText("$" + String.format("%.2f", Integer.valueOf(product.split("&")[1]) * Double.valueOf(product.split("&")[2])));
+        totalText.setText("$" + String.format("%.2f", (Integer.valueOf(product.split("&")[1]) * Double.valueOf(product.split("&")[2])) - Double.valueOf(product.split("&")[3])));
         totalText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         totalText.setTextSize(25);
         totalText.setGravity(Gravity.RIGHT);
@@ -177,6 +192,8 @@ public class ViewMyOrderActivity extends DrawerActivity {
         tr.addView(descriptionText);
         tr.addView(createDivider());
         tr.addView(priceText);
+        tr.addView(createDivider());
+        tr.addView(discountText);
         tr.addView(createDivider());
         tr.addView(totalText);
 
@@ -210,8 +227,8 @@ public class ViewMyOrderActivity extends DrawerActivity {
                 String value = order.get(key);
 
                 //agregar registro de linea pedido
-                Product product = new Product(key, value.split("&")[0], Double.valueOf(value.split("&")[2]), "", "");
-                OrderLine line = new OrderLine(0, myOrder, product, Integer.valueOf(value.split("&")[1]), Double.valueOf(value.split("&")[2]));
+                Product product = new Product(key, value.split("&")[0], Double.valueOf(value.split("&")[2]), "", "", new ArrayList<Discount>());
+                OrderLine line = new OrderLine(0, myOrder, product, Integer.valueOf(value.split("&")[1]), Double.valueOf(value.split("&")[2]), Double.valueOf(value.split("&")[3]));
                 lines.add(line);
             }
             myOrder.setLineas(lines);

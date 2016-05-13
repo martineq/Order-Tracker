@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Constants;
+import com.example.uriel.ordertracker.App.Model.Discount;
 import com.example.uriel.ordertracker.App.Model.GridAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Product;
@@ -260,7 +261,8 @@ public class OrderActivity extends DrawerActivity {
                 quantity = Integer.valueOf(qtt);
             }
             if (quantity > 0) {
-                order.put(productId, product + "&" + String.valueOf(quantity) + "&" + String.valueOf(price));
+                double discount = productService.calculateDiscount(allProducts, productId, quantity);
+                order.put(productId, product + "&" + String.valueOf(quantity) + "&" + String.valueOf(price) + "&" + String.valueOf(discount));
             }
         }
     }
@@ -269,7 +271,7 @@ public class OrderActivity extends DrawerActivity {
         double total = 0;
         for(Map.Entry<Integer, String> item : order.entrySet()) {
             String value = item.getValue();
-            total += Integer.valueOf(value.split("&")[1]) * Double.valueOf(value.split("&")[2]);
+            total += (Integer.valueOf(value.split("&")[1]) * Double.valueOf(value.split("&")[2])) - Double.valueOf(value.split("&")[3]);
         }
 
         return total;
@@ -285,17 +287,19 @@ public class OrderActivity extends DrawerActivity {
         if(all){
             allProducts = products;
         }
+
+        //TODO: para simular descuentos -> borrar cuando se reciban del server
+        for (Product prod: products) {
+            ArrayList<Discount> discounts = new ArrayList<Discount>();
+            Discount discount1 = new Discount(1, 5, 0, 10); discounts.add(discount1);
+            Discount discount2 = new Discount(1, 10, 11); discounts.add(discount2);
+            prod.setDiscounts(discounts);
+        }
+
         grid=(GridView)findViewById(R.id.gridView);
         obtenerPedido();
         gridAdapter = new GridAdapter(OrderActivity.this, products, order, readOnly);
         grid.setAdapter(gridAdapter);
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-            }
-        });
     }
 
     public void handleUnexpectedError(String error){

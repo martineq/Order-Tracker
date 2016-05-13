@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,6 +7,8 @@
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:padding="5dp"
         android:scaleType="centerCrop"/>
 
@@ -21,19 +23,30 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:lines="2"
+        android:layout_below="@id/itemImage"
         android:id="@+id/descripcionText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:layout_below="@id/descripcionText"
         android:id="@+id/brandText" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:layout_below="@id/brandText"
         android:id="@+id/priceText" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/brandText"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/porcentaje"
+        android:id="@+id/discountImage" />
 
     <EditText
         android:layout_width="match_parent"
@@ -42,6 +55,7 @@
         android:maxLength="3"
         android:textSize="20dp"
         android:hint="Cantidad"
+        android:layout_below="@id/priceText"
         android:id="@+id/quantityText" />
 
-</LinearLayout>
+</RelativeLayout>

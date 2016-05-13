@@ -17,6 +17,8 @@ import com.example.uriel.ordertracker.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Uriel on 06-Jan-16.
  */
@@ -34,7 +36,6 @@ public class GridAdapter extends ArrayAdapter<Product>{
         this.order = order;
         this.readOnly = readOnly;
     }
-
 
     @Override
     public int getCount() {
@@ -68,16 +69,24 @@ public class GridAdapter extends ArrayAdapter<Product>{
         TextView priceText = (TextView) gridItem.findViewById(R.id.priceText);
         final ImageView imageView = (ImageView) gridItem.findViewById(R.id.itemImage);
         EditText qttText = (EditText) gridItem.findViewById(R.id.quantityText);
+        final ImageView discountImage = (ImageView) gridItem.findViewById(R.id.discountImage);
         idText.setText(String.valueOf(products.get(position).getId()));
         descripcionText.setText(products.get(position).getDescription());
         brandText.setText(products.get(position).getBrand());
         priceText.setText("$" + String.format("%.2f", products.get(position).getPrice()));
+
         if (readOnly) {
             qttText.setVisibility(View.INVISIBLE);
         }
+
         if (order.get(products.get(position).getId()) != null) {
             qttText.setText(order.get(products.get(position).getId()).split("&")[1]);
         }
+
+        if(products.get(position).getDiscounts().size() == 0){
+            discountImage.setVisibility(View.INVISIBLE);
+        }
+
         imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
 
         final Bitmap bitmap = Product.decodeBase64(products.get(position).getImageBase64());
@@ -85,6 +94,28 @@ public class GridAdapter extends ArrayAdapter<Product>{
             @Override
             public void onClick(View view) {
                 ((OrderActivity) context).zoomImageFromThumb(imageView, bitmap);
+            }
+        });
+
+        gridItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ArrayList<Discount> discounts = products.get(position).getDiscounts();
+                if (discounts.size() > 0) {
+                    String content = "";
+                    for (Discount discount : discounts) {
+                        String rangeTo = "sin limite";
+                        if(discount.getRangeTo() > 0){
+                            rangeTo = String.valueOf(discount.getRangeTo());
+                        }
+                        content += "Desde " + String.valueOf(discount.getRangeFrom()) + " a " + rangeTo + ": %" + String.valueOf(discount.getPercentage()) + "\n";
+                    }
+
+                    SweetAlertDialog dialog = Helpers.getBasicDialog(context, "Descuentos", content);
+                    dialog.show();
+                }
+
+                return true;
             }
         });
 

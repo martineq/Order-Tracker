@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Uriel on 27-Mar-16.
@@ -15,13 +16,15 @@ public class Product {
     private double price;
     private String imageBase64;
     private String brand;
+    private ArrayList<Discount> discounts;
 
-    public Product(int id, String description, double price, String brand, String imageBase64){
+    public Product(int id, String description, double price, String brand, String imageBase64, ArrayList<Discount> discounts){
         this.id = id;
         this.description = description;
         this.price = price;
         this.brand = brand;
         this.imageBase64 = imageBase64;
+        this.discounts = discounts;
     }
 
     public String getImageBase64() {
@@ -63,6 +66,10 @@ public class Product {
     public void setBrand(String brand) {
         this.brand = brand;
     }
+
+    public ArrayList<Discount> getDiscounts() { return discounts; }
+
+    public void setDiscounts(ArrayList<Discount> discounts) { this.discounts = discounts; }
 
     public static String encodeTobase64(Bitmap image)
     {

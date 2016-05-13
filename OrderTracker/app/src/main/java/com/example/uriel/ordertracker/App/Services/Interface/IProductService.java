@@ -13,4 +13,5 @@ import java.util.ArrayList;
 public interface IProductService {
     void getAll(String username, String token, OrderActivity context) throws JSONException;
     ArrayList<Product> getByBrand(ArrayList<Product> allProducts, String brand);
+    double calculateDiscount(ArrayList<Product> allProducts, int productId, int quantity);
 }

@@ -13,13 +13,15 @@ public class OrderLine {
     private Product product;
     private int quantity;
     private double price;
+    private double discount;
 
-    public OrderLine(int id, Order order, Product product, int quantity, double price){
+    public OrderLine(int id, Order order, Product product, int quantity, double price, double discount){
         this.id = id;
         this.order = order;
         this.product = product;
         this.quantity = quantity;
         this.price = price;
+        this.discount = discount;
     }
 
     public int getId() {
@@ -58,12 +60,21 @@ public class OrderLine {
         this.price = price;
     }
 
+    public double getDiscount() {
+        return Double.valueOf(String.format("%.2f", price));
+    }
+
+    public void setDiscount(double price) {
+        this.price = price;
+    }
+
     public JSONObject toJSONObject(){
         HashMap<String,Object> params = new HashMap<String,Object>();
         if (this.order != null) params.put("order",String.valueOf(this.order.getId()));
         if (this.product != null) params.put("product", String.valueOf(this.product.getId()));
         if (this.quantity > 0) params.put("quantity", String.valueOf(this.quantity));
         if (this.price > 0) params.put("price", String.valueOf(price));
+        params.put("discount", String.valueOf(discount));
         return new JSONObject(params);
     }
 }

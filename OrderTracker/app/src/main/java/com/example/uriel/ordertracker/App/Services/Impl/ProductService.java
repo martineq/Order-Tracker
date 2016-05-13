@@ -1,6 +1,7 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Model.Discount;
 import com.example.uriel.ordertracker.App.Model.Product;
 import com.example.uriel.ordertracker.App.Services.Interface.IProductService;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
@@ -36,4 +37,22 @@ public class ProductService implements IProductService {
 
         return products;
     }
+
+    public double calculateDiscount(ArrayList<Product> allProducts, int productId, int quantity){
+        Product myProduct = null;
+        for (Product product: allProducts) {
+            if(product.getId() == productId){
+                myProduct = product;
+                break;
+            }
+        }
+
+        for (Discount discount: myProduct.getDiscounts()) {
+            if(quantity >= discount.getRangeFrom() && (discount.getRangeTo() == 0 || quantity <= discount.getRangeTo())){
+                return (myProduct.getPrice() * quantity) * discount.getPercentage() / 100;
+            }
+        }
+        return 0;
+    }
+
 }

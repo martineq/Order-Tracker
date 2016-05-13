@@ -97,4 +97,12 @@ public class Helpers {
 
         return dialog;
     }
+
+    public static SweetAlertDialog getBasicDialog(Activity context, String title, String content){
+        SweetAlertDialog dialog = new SweetAlertDialog(context);
+        dialog.setTitleText(title);
+        dialog.setContentText(content);
+
+        return dialog;
+    }
 }
