@@ -6,6 +6,8 @@ class Discount {
     }
 
     int product_id
+    int brand_id
+    String category
     double percentage
 
 }
