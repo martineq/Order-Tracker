@@ -12,8 +12,8 @@ class Discount {
     String category
     double percentage
     
-    long    date_beg
-    long    date_end
+    long    datebeg
+    long    dateend
     
 
 }
