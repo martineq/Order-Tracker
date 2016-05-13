@@ -16,9 +16,12 @@ import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
 import org.grails.web.json.JSONObject
 
+import javax.validation.constraints.Null
+
 class QRService implements Queryingly{
 
-    private long client_id
+    private long seller_id
+    private long visit_id
     private String qr
     private String errorMessage
     private boolean queryResult
@@ -34,14 +37,21 @@ class QRService implements Queryingly{
         if ( requester.getProperty(HttpProtocol.METHOD).toString().compareTo(HttpProtocol.POST.toString()) )
             throw new QueryException("Invalid HTTP request method: must be POST")
 
-        requester.validateRequest(Enums.asList(HttpProtocol.BODY, Keywords.CLIENT_ID))
+        requester.validateRequest(Enums.asList(HttpProtocol.BODY, Keywords.VISIT_ID))
 
         try {
-            client_id = new Long(requester.getProperty(Keywords.CLIENT_ID))
+            def user = User.findByUsername(requester.getProperty(Keywords.USERNAME))
+            def userType = UserType.findByUser_idAndType(user.id, Seller.getTypeName())
+            seller_id = userType.type_id
+            visit_id = new Long(requester.getProperty(Keywords.VISIT_ID))
         }
 
         catch (NumberFormatException e) {
-            throw new QueryException("Invalid client_id type")
+            throw new QueryException("Invalid visit_id type")
+        }
+
+        catch (NullPointerException e) {
+            throw new QueryException("Invalid query")
         }
 
         String qr = requester.getProperty(HttpProtocol.BODY)
@@ -62,16 +72,30 @@ class QRService implements Queryingly{
     @Override
     def generateQuery() {
 
-        Client client = Client.findByIdAndQrcode(client_id, qr)
-        if ( client != null ) {
-            if ( client.getState() != ClientStates.VISITADO.toString() )
+        Client client = Client.findByQrcode(qr)
+
+        if (client == null) {
+            errorMessage = "No existe cliente asociado al código QR"
+            return false
+        }
+
+        try {
+            Agenda agenda = Agenda.findByIdAndSeller_idAndClient_id(visit_id, seller_id, client.getId())
+
+            if (agenda.getState() != ClientStates.VISITADO.toString())
                 this.queryResult = true
 
             else
                 errorMessage = "El cliente ya se ha VISITADO"
+
+            return this.queryResult
         }
 
-        return this.queryResult
+        catch( NullPointerException e) {
+            errorMessage = "No tiene una visita agendada a ese cliente"
+            return false
+        }
+
     }
 
     @Override

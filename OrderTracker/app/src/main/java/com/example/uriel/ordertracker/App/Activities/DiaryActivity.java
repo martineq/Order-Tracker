@@ -257,6 +257,7 @@ public class DiaryActivity extends DrawerActivity {
                     Client client = clientList.get(position);
                     HashMap<String, String> clientDetails = new HashMap<String, String>();
                     clientDetails.put("id", String.valueOf(client.getId()));
+                    clientDetails.put("visit_id", String.valueOf(client.getVisit_id()));
                     clientDetails.put("name", client.getName());
                     clientDetails.put("address", client.getAddress());
                     clientDetails.put("city", client.getCity());

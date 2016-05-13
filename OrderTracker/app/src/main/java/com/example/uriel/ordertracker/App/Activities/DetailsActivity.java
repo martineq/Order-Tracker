@@ -63,7 +63,7 @@ public class DetailsActivity extends DrawerActivity implements OnMapReadyCallbac
 
         clientService = new ClientService();
 
-        client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
+        client = new Client(Integer.valueOf(clientDetails.get("id")), Integer.valueOf(clientDetails.get("visit_id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
         name = client.getName();
 
         setTitle("Info del cliente: " + name);

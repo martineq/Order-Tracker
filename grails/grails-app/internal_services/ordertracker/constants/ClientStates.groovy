@@ -2,9 +2,9 @@ package ordertracker.constants
 
 enum ClientStates {
 
-    VISITADO("VISITADO"),
-    PENDIENTE("PENDIENTE"),
-    NO_VISITADO("NO_VISITADO")
+    VISITADO("Visitado"),
+    PENDIENTE("Pendiente"),
+    NO_VISITADO("No visitado")
 
     private final String value
 

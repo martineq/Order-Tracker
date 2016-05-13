@@ -12,6 +12,6 @@ import org.json.JSONException;
  */
 public interface IOrderService {
     void sendOrder(String username, String token, Order order, ViewMyOrderActivity context) throws JSONException;
-    void sendQR(String username, String token, String client_id, String qr, QRReaderActivity context) throws JSONException;
+    void sendQR(String username, String token, String visit_id, String qr, QRReaderActivity context) throws JSONException;
     void getOrderHistory(String username, String token, long desde, long hasta, OrderHistoryActivity context) throws JSONException;
 }

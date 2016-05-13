@@ -10,9 +10,9 @@ public class Constants {
     public static String PASSWORD_INVALID = "PASSWORD_INVALID";
 
     //estados de clientes
-    public static String VISITADO = "VISITADO";
-    public static String PENDIENTE = "PENDIENTE";
-    public static String NO_VISITADO = "NO_VISITADO";
+    public static String VISITADO = "Visitado";
+    public static String PENDIENTE = "Pendiente";
+    public static String NO_VISITADO = "No visitado";
 
     //RestApi
     public static String BASE_URL = "";

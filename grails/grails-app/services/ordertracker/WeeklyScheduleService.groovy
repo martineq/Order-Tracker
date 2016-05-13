@@ -43,7 +43,6 @@ class WeeklyScheduleService implements Queryingly{
             def user = User.findByUsername(this.sellerUsername)
             def userType = UserType.findByUser_idAndType(user.id, Seller.getTypeName())
             def query = Agenda.where { seller_id == userType.type_id && date > firstScheduledDay && date < lastScheduledDay }
-
             weeklySchedule = query.list(sort:'date')
 
             return true
@@ -76,10 +75,11 @@ class WeeklyScheduleService implements Queryingly{
 
         JsonObjectBuilder jsonClientObject = new JsonObjectBuilder()
         jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, client.id));
+        jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.VISIT_ID, item.id));
         jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, (String) client.name));
         jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.ADDRESS, client.address));
         jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.CITY, client.city));
-        jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, client.state));
+        jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, item.state));
         jsonClientObject.addJsonableItem(new JsonPropertyFactory(Keywords.DATE, item.date));
 
         return jsonClientObject
@@ -99,26 +99,20 @@ class WeeklyScheduleService implements Queryingly{
     }
 
     private long startingDateOfThisWeek(Calendar calendar) {
-        int week = calendar.get(Calendar.WEEK_OF_YEAR)
-        int year = calendar.get(Calendar.YEAR)
-
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.WEEK_OF_YEAR, week)
-        calendar.setFirstDayOfWeek(Calendar.SATURDAY)
-        calendar.set(Calendar.HOUR_OF_DAY, 00)
-        calendar.set(Calendar.MINUTE, 00)
-        calendar.set(Calendar.SECOND, 00)
+        calendar.set(Calendar.DATE, Calendar.SATURDAY)
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
 
         return calendar.getTimeInMillis()
     }
 
     private long finishingDateOfThisWeek(Calendar calendar) {
         int week = calendar.get(Calendar.WEEK_OF_YEAR)
-        int year = calendar.get(Calendar.YEAR)
 
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.WEEK_OF_YEAR, week+1)
+        calendar.set(Calendar.WEEK_OF_YEAR, week+2)
         calendar.setFirstDayOfWeek(Calendar.SUNDAY)
+        calendar.set(Calendar.DAY_OF_WEEK, 1)
         calendar.set(Calendar.HOUR_OF_DAY, 00)
         calendar.set(Calendar.MINUTE, 00)
         calendar.set(Calendar.SECOND, 00)

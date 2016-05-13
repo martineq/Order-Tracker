@@ -115,7 +115,7 @@ public class QRReaderActivity extends AppCompatActivity implements SweetAlertDia
                     textView.post(new Runnable() {
                         public void run() {
                             try {
-                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), clientDetails.get("id"), value, context);
+                                orderService.sendQR(SessionInformation.getSessionUsername(), SessionInformation.getSessionToken(), clientDetails.get("visit_id"), value, context);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

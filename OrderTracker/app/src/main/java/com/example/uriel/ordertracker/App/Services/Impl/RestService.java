@@ -196,7 +196,7 @@ public class RestService implements IRestService {
      * @param context
      */
     @Override
-    public void sendQR(final String username, final String token, final String client_id, final String qr, final QRReaderActivity context) throws JSONException {
+    public void sendQR(final String username, final String token, final String visit_id, final String qr, final QRReaderActivity context) throws JSONException {
         String url = Constants.sendQRServiceUrl();
 
         HashMap<String,String> params = new HashMap<String,String>();
@@ -233,7 +233,7 @@ public class RestService implements IRestService {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("username", username);
                 headers.put("token", token);
-                headers.put("client_id", client_id);
+                headers.put("visit_id", visit_id);
                 return headers;
             }
         };

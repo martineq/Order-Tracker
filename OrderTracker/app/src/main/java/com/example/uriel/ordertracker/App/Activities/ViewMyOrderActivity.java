@@ -200,7 +200,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
         //agregar registro de pedido
         try{
             User seller = SessionInformation.getEditor().loadUserInformation();
-            Client client = new Client(Integer.valueOf(clientDetails.get("id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
+            Client client = new Client(Integer.valueOf(clientDetails.get("id")), Integer.valueOf(clientDetails.get("visit_id")), clientDetails.get("name"), clientDetails.get("address"), clientDetails.get("city"), clientDetails.get("state"), Long.valueOf(clientDetails.get("date")));
             Order myOrder = new Order(0, client, Calendar.getInstance().getTime(), total, seller, new ArrayList<OrderLine>());
 
             ArrayList<OrderLine> lines = new ArrayList<>();

@@ -61,6 +61,7 @@
     <th class="col-md-4">Cliente</th>
     <th class="col-md-4">Dirección</th>
     <th class="col-md-3">Día y Horario</th>
+    <th class="col-md-3">Estado</th>
     <th class="col-md-1">Borrar</th>
     <th class="col-md-1">Delegar</th>
   </tr>
@@ -109,6 +110,8 @@ Sábado
 <g:link title="Editar día y horario" action="editagenda" params="[agendaid: "${res[4]}" , clientid: "${res[5]}" ,  hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${sell.name}" ]">
 <asset:image src="edit.png" alt="Editar" style="width:20px;height:20px;"/> </g:link>
 </td>
+
+   <td class="tg-yw4l">${res[8]}</td>
 
    <td class="tg-yw4l">
    <g:link title="Borrar entrada" action="deleteconfirm" id="${res[4]}" params="[hour: "${res[3]}" , nameclient: "${res[1]}" , day: "${res[2]}" , nameseller: "${sell.name}" ]" ><asset:image src="delete.png" alt="Borrar" style="width:20px;height:20px;"/></g:link>

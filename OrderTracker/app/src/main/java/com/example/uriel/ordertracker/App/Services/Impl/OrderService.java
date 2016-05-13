@@ -23,9 +23,9 @@ public class OrderService implements IOrderService {
         }
     }
 
-    public void sendQR(String username, String token, String client_id, String qr, QRReaderActivity context){
+    public void sendQR(String username, String token, String visit_id, String qr, QRReaderActivity context){
         try {
-            restService.sendQR(username, token, client_id, qr, context);
+            restService.sendQR(username, token, visit_id, qr, context);
         } catch (JSONException e) {
             e.printStackTrace();
         }

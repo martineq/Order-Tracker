@@ -6,14 +6,16 @@ import java.util.Date;
 
 public class Client implements Comparable<Client>  {
     private int id;
+    private int visit_id;
     private String name;
     private String address;
     private String city;
     private String state;
     private long date;
 
-    public Client(int id, String name, String address, String city, String state, long date){
+    public Client(int id, int visit_id, String name, String address, String city, String state, long date){
         this.id = id;
+        this.visit_id = visit_id;
         this.name = name;
         this.address = address;
         this.city = city;
@@ -93,4 +95,12 @@ public class Client implements Comparable<Client>  {
     }
 
     public void setDate(long date) { this.date = date; }
+
+    public int getVisit_id() {
+        return visit_id;
+    }
+
+    public void setVisit_id(int visit_id) {
+        this.visit_id = visit_id;
+    }
 }

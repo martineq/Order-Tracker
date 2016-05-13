@@ -2,15 +2,14 @@ package ordertracker
 
 class SellerLoader {
     def load() {
-        new Seller(document_number:33457893, name:'Martin Horacio Gainsborough', zone:'buenos aires', phone:42129322).save()
-        new Seller(document_number:31546458, name:'Martin Edgardo Quesnel', zone:'zona oeste', phone:42139322).save()
-        new Seller(document_number:37876012, name:'Barbara Armantrout', zone:'zona sur',phone:42129322).save()
-        new Seller(document_number:39856134, name:'Uriel Kahn', zone:'zona norte',phone:42122321).save()
+        new Seller(document_number:23457893, name:'Martin Horacio Gainsborough', zone:'buenos aires', phone:42129322).save()
+        new Seller(document_number:21546458, name:'Martin Edgardo Quesnel', zone:'zona oeste', phone:42139322).save()
+        new Seller(document_number:25876012, name:'Barbara Armantrout', zone:'zona sur',phone:42129322).save()
+        new Seller(document_number:27856134, name:'Uriel Kahn', zone:'zona norte',phone:42122321).save()
         new Seller(document_number:30123456, name:'Jose Vasconcelos', zone:'zona oeste',phone:42133322).save()
         new Seller(document_number:29876012, name:'Gabriele Picco', zone:'zona sur',phone:42118322).save()
         new Seller(document_number:27856134, name:'Mark Haddon', zone:'zona norte',phone:42133388).save()
-        new Seller(document_number:29846527, name:'Adolfo Perez Esquivel', zone:'zona oeste',
-        ,phone:42131111).save()
+        new Seller(document_number:29846527, name:'Adolfo Perez Esquivel', zone:'zona oeste',phone:42131111).save()
         new Seller(document_number:28456791, name:'Al Gore', zone:'zona norte',phone:42223322).save()
         new Seller(document_number:28456862, name:'Albert Lutuli', zone:'zona norte',phone:42133399).save()
         new Seller(document_number:28456933, name:'Albert Schweitzer', zone:'zona norte',phone:42188322).save()

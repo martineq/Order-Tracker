@@ -36,6 +36,7 @@ enum Keywords {
     STATE("state"),
     STOCK("stock"),
     TITLE("title"),
+    VISIT_ID('visit_id'),
     WEEK_DATE('week_date'),
 
     AR_TIMEZONE("GMT-3:00"),
