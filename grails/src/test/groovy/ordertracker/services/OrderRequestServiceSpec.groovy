@@ -84,7 +84,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test validOrderRequest"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
@@ -109,7 +109,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test validTime"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
@@ -135,7 +135,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test stockDecreased"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 3
@@ -163,7 +163,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test excesiveAmountOfProducts"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 25
@@ -214,7 +214,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test invalidProduct"() {
         given:
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
         agenda.save()
 
         def lines = '[ { order: 1, product: 1000, quantity: 1, price:100} ]'
@@ -267,7 +267,7 @@ class OrderRequestServiceSpec extends Specification {
         given:
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
         calendar.add(Calendar.DATE, -7)
-        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
         agenda.save()
 
         def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
@@ -292,7 +292,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test validDate"() {
         given:
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
         agenda.save()
 
         def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
@@ -317,7 +317,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test productNotBuyed"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 25
@@ -344,7 +344,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test validStock"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 15
@@ -371,7 +371,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test twoProductsInStock"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 15
@@ -399,7 +399,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test validateAssignedState"() {
         given:
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+        Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
         agenda.save()
 
         def quantity = 15
@@ -425,7 +425,7 @@ class OrderRequestServiceSpec extends Specification {
     void "test orderAlreadyHasBeenRequested"() {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def quantity = 2
@@ -460,8 +460,7 @@ class OrderRequestServiceSpec extends Specification {
         given:
             long today = CalendarDate.currentDate()
 
-            new Agenda(seller_id: 1, client_id: 1, date: today, day:1, time: '00:00').save()
-            Client.findById(1).setState(ClientStates.PENDIENTE.toString())
+            new Agenda(seller_id: 1, client_id: 1, date: today, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString()).save()
             int stock1 = Product.findById(1).getStock()
             int stock2 = Product.findById(2).getStock()
 
@@ -490,8 +489,7 @@ class OrderRequestServiceSpec extends Specification {
 
     void "test emptyPurchase"() {
         given:
-            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00').save()
-            Client.findById(1).setState(ClientStates.PENDIENTE.toString())
+            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString()).save()
 
         and:
             def body = '{"lines":"[{}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0"}'

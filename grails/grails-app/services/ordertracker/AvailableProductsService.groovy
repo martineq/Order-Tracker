@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.database.DiscountApplier
 import ordertracker.internalServices.ImageService
 import ordertracker.protocol.Data
 import ordertracker.protocol.ProtocolJsonBuilder
@@ -53,7 +54,7 @@ class AvailableProductsService implements Queryingly {
         return new Data(clientsList)
     }
 
-    private Jsonable generateJsonProductsObject(def product) {
+    private Jsonable generateJsonProductsObject(Product product) {
         def jsonObject = new JsonObjectBuilder()
 
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) product.id))
@@ -61,8 +62,13 @@ class AvailableProductsService implements Queryingly {
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.PRICE, product.price))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.IMAGE_BASE_64, ImageService.loadImage((int) product.id)))
         jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.BRAND, this.getBrandName(product.brand_id)))
+        jsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.DISCOUNT, this.generateDiscounts(product)))
 
         return jsonObject
+    }
+
+    private Jsonable generateDiscounts(Product product) {
+        return new DiscountApplier().defineDiscounts(product).applyDiscounts()
     }
 
     private String getImageURL(String product_id) {
