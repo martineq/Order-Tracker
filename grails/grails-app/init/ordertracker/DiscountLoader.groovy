@@ -15,9 +15,6 @@ class DiscountLoader {
         calendar.set(Calendar.MINUTE, minutes)
         calendar.set(Calendar.SECOND, 0)
         
-        println "Generado desc con fecha..."
-        println calendar.time 
-        
         return calendar.getTimeInMillis()
     }
     

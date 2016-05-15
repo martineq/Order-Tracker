@@ -9,7 +9,7 @@ import ordertracker.constants.Keywords
 class DiscountController {
 
     def index() {
-        def discountsTotal = Discount.list()
+        def discountsTotal = Discount.list(sort:"dateend", order:"desc")
         
         def discountsBeg = []
         def brands = []

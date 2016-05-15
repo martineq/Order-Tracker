@@ -48,6 +48,11 @@
             <a href="/discount/index" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">Descuentos</a>
 
         </li>
+        
+        <li class="dropdown">
+            <a href="/order/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Pedidos</a>
+
+        </li>
             </div>
         </div>
     </div>

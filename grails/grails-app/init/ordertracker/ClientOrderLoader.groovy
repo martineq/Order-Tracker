@@ -50,7 +50,7 @@ class ClientOrderLoader {
         new ClientOrder(seller_id:3, client_id:40, state:OrderStates.CANCELADO.toString(), date: CalendarDate.fromCurrentDate(-3), total_price:120.19).save()
         new ClientOrder(seller_id:3, client_id:41, state:OrderStates.DESPACHADO.toString(), date: CalendarDate.fromCurrentDate(-6), total_price:128.20).save()
         new ClientOrder(seller_id:3, client_id:42, state:OrderStates.SOLICITADO.toString(), date: CalendarDate.fromCurrentDate(-7), total_price:136.21).save()
-        new ClientOrder(seller_id:3, client_id:43, state:OrderStates.CANCELADO.toString(), date: CalendarDate.fromCurrentDate(-8), total_price:144.22).save()
+        new ClientOrder(seller_id:3, client_id:40, state:OrderStates.CANCELADO.toString(), date: CalendarDate.fromCurrentDate(-8), total_price:144.22).save()
         new ClientOrder(seller_id:3, client_id:44, state:OrderStates.DESPACHADO.toString(), date: CalendarDate.fromCurrentDate(8),  total_price:152.23).save()
 
         new ClientOrder(seller_id:2, client_id:45, state:OrderStates.SOLICITADO.toString(), date: CalendarDate.fromCurrentDate(0), total_price:252.25).save()
