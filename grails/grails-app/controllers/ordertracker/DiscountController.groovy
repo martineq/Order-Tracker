@@ -9,14 +9,23 @@ import ordertracker.constants.Keywords
 class DiscountController {
 
     def index() {
-        def discounts = Discount.list()
+        def discountsTotal = Discount.list()
+        
+        def discountsBeg = []
         def brands = []
         def products = []
         def initDiscount = []
         def endDiscount = []
-        def descripcion = []
-
-        discounts.each { disc ->
+        def descriptions = []
+        
+        discountsTotal.each { desc ->
+            if(desc.range_from==1){
+                discountsBeg.add(desc)
+                descriptions.add(getDescription(desc))
+            }
+        };
+        
+        discountsBeg.each { disc ->
             def discc=disc;
             def brand=Brand.get(discc.brand_id)
             def product = Product.get(discc.product_id)
@@ -28,7 +37,37 @@ class DiscountController {
             endDiscount.add(endDisc)
         };
         
-        [discounts:discounts,products:products,brands:brands,initDiscount:initDiscount,endDiscount:endDiscount,descripcion:descripcion]
+        [discounts:discountsBeg,products:products,brands:brands,initDiscount:initDiscount,endDiscount:endDiscount,descriptions:descriptions]
+    }
+    
+    //Descripcion de un descuento dado el primer rango
+    private String getDescription(Discount discount){
+        String res;
+        //Tengo un solo descuento
+        if(discount.range_upto==-1){
+            res=discount.percentage+"% para cualquier cantidad comprada"
+        }
+        else {
+            def discountsTotal = Discount.list()
+            def myDisc = []
+            //Busco los otros descuentos de mi grupo y los guardo en myDisc
+            discountsTotal.each { desc ->
+                boolean sameCat= desc.category.equals("none") || desc.category.equals(discount.category)
+                if( desc.datebeg==discount.datebeg && desc.product_id==discount.product_id && desc.brand_id==discount.brand_id && (sameCat) ) {
+                    myDisc.add(desc);
+                }
+            };
+            //Tengo dos descuentos
+            if (myDisc[2]==null){
+                res=myDisc[0].percentage+"% entre 1 y "+myDisc[0].range_upto+", "+myDisc[1].percentage+"% de "+myDisc[1].range_from+" en adelante"
+            }
+            //Tengo tres descuentos
+            else {
+                 res=myDisc[0].percentage+"% entre 1 y "+myDisc[0].range_upto+", "+myDisc[1].percentage+"% entre "+myDisc[1].range_from+" y "+myDisc[1].range_upto+", "+myDisc[2].percentage+"% para "+myDisc[2].range_from+" o más"
+            }
+            
+        }
+        return res;
     }
     
     private String getDay(long time ){
@@ -71,14 +110,103 @@ class DiscountController {
         
         int numrange=c.toInteger()
         [numrange:numrange]
-    
     }
     
+    //Borrar conflictos para inserciones de descuento por PRODUCTO
+    private void deleteConflictProduct(int productid,long datebeg, long dateend){
+        def product = Product.get(productid)
+        def discounts = Discount.list()
+        def deleteList=[]
+        
+        discounts.each { disc ->
+                //Si existe un descuento para este producto en fechas que se superponen, hay overlap
+                if (disc.product_id==productid) {
+                        if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                            deleteList.add(disc.id)
+                        }
+                }
+                //Si existe un descuento para la marca de este producto
+                //en la misma categoria de este producto (o sin categoria) y
+                //en fechas que se superponen, hay overlap     
+                if (disc.brand_id==product.brand_id && (( disc.category.equals(product.category) ) || (disc.category.equals("none")) ) && disc.product_id==-1) {
+                        if(overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)){
+                            deleteList.add(disc.id)
+                        }
+                }
+        };
+        
+        deleteList.each { disc ->
+                Discount.executeUpdate("delete Discount where id=${disc}")
+        };
+    }
+    
+    //Nuevo descuento para inserciones por PRODUCTO
     def newdiscount() {
-    
-    }
+        def product=Product.get(params.productid)
+        
+        //Si hay superposición con otros descuentos, tengo que borrar los conflictivos
+        if(params.discountOverlap=='true'){
+            deleteConflictProduct(params.productid,Long.parseLong(params.datebeg),Long.parseLong(params.dateend));
+        }
+        
+        def discountList=[new Discount(),new Discount(),new Discount()]
+        
+        discountList.each { discount ->
+                discount.product_id=params.productid.toInteger()
+                discount.brand_id=product.brand_id.toInteger()
+                discount.category=product.category
+                discount.datebeg=Long.parseLong(params.datebeg)
+                discount.dateend=Long.parseLong(params.dateend)
+        };
+        
+        if( params.range== '1' ){
+                def discount=discountList[0];
+                discount.range_from=1
+                //infinito
+                discount.range_upto=-1
+                discount.percentage=params.desc1.toInteger()
+                discount.save(failOnError: true)
+        }
+        
+        if( params.range== '2' ){
+                def discount1=discountList[0];
+                def discount2=discountList[1];
+                discount1.range_from=1
+                discount1.range_upto=params.ran2.toInteger();
+                discount2.range_from=discount1.range_upto+1
+                //infinito
+                discount2.range_upto=-1;
+                discount1.percentage=params.desc2.toInteger()
+                discount2.percentage=params.descfinal.toInteger()
+                discount1.save(failOnError: true)
+                discount2.save(failOnError: true)
+        }
+        if( params.range== '3' ){
+                def discount1=discountList[0];
+                def discount2=discountList[1];
+                def discount3=discountList[2];
+                
+                discount1.range_from=1
+                discount1.range_upto=params.ran2.toInteger();
+                discount2.range_from=discount1.range_upto+1
+                discount2.range_upto=params.ran3.toInteger();
+                discount3.range_from=discount2.range_upto+1
+                discount3.range_upto=-1;
+                
+                discount1.percentage=params.desc2.toInteger()
+                discount2.percentage=params.desc3.toInteger()
+                discount3.percentage=params.descfinal.toInteger()
+                
+                discount1.save(failOnError: true)
+                discount2.save(failOnError: true)
+                discount3.save(failOnError: true)
+        }
+        
+        [product:product]
 
+    }
      
+     //Nuevo descuento para inserciones por PRODUCTO
      def upentryproduct() {
         
         int desc1=1
@@ -123,7 +251,7 @@ class DiscountController {
         //Buscar si existe algun descuento que se superpone con el que se está por crear
         boolean discountOverlap=findOverlapProducDiscount(params.productid.toInteger(),datebeg,dateend)
         
-        [validRanges:validRanges,validDiscounts:validDiscounts,validDates:validDates,discountOverlap:discountOverlap]
+        [validRanges:validRanges,validDiscounts:validDiscounts,validDates:validDates,discountOverlap:discountOverlap,datebeg:datebeg,dateend:dateend,desc1:desc1,desc2:desc2,desc3:desc3,descfinal:descfinal,ran2:ran2,ran3:ran3]
 
      }
      
@@ -146,14 +274,11 @@ class DiscountController {
         return false;
     }
          
+    //Devuelve true si hay superposicion para inserciones por PRODUCTO
     private boolean findOverlapProducDiscount(int productid,long datebeg, long dateend){
         def product = Product.get(productid)
         def discounts = Discount.list()
         def res=false;
-        
-        println(product.category);
-        
-        println(product.brand_id);
         
         discounts.each { disc ->
                 

@@ -40,7 +40,7 @@
 
 </td>
     <td class="tg-yw4l">${brands[i].name}</td>
-    <td class="tg-yw4l">${discount.percentage} %</td>
+    <td class="tg-yw4l">${descriptions[i]}</td>
     
     <td class="tg-yw4l">${initDiscount[i]} </td>
     <td class="tg-yw4l">${endDiscount[i]}  </td>

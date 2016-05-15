@@ -17,6 +17,5 @@ class Discount {
     
     long    datebeg
     long    dateend
-    
 
 }

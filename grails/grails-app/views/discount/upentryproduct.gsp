@@ -43,14 +43,14 @@ Vuelva al formulario para corregir el error:
 <g:elseif test="${discountOverlap == true}">
 !!! hay superposicion con otro descuento. Puede agregar el descuento, pero se borrarán los descuentos existentes que sean conflictivos.
 <div align="center">
-<g:link action="newdiscount"  params="[name: ("${params.nameproduct}") ]" ><button type="button" class="btn btn-default">Continuar</button></g:link>  </div>
+<g:link action="newdiscount"  params="[discountOverlap:("${discountOverlap}") , datebeg:("${datebeg}"), dateend:("${dateend}"), range:("${params.range}"), productid:("${params.productid}"), desc1:("${desc1}"), desc2:("${desc2}"), desc3:("${desc3}"), descfinal:("${descfinal}"), ran2:("${ran2}"), ran3:("${ran3}")  ]" ><button type="button" class="btn btn-default">Continuar</button></g:link>  </div>
 
 </g:elseif>
 <g:else>
 Todos los datos introducidos son validos y no existe superposición con ningún descuento existente. Presione continuar para guardar el descuento.
 
 <br><div align="center">
-<g:link action="newdiscount"  params="[name: ("${params.nameproduct}") ]" ><button type="button" class="btn btn-default">Continuar</button></g:link> </div>
+<g:link action="newdiscount"  params="[ discountOverlap:("${discountOverlap}") , datebeg:("${datebeg}"), dateend:("${dateend}"), range:("${params.range}"), productid:("${params.productid}"), desc1:("${desc1}"), desc2:("${desc2}"), desc3:("${desc3}"), descfinal:("${descfinal}"), ran2:("${ran2}"), ran3:("${ran3}")  ]" ><button type="button" class="btn btn-default">Continuar</button></g:link> </div>
 </g:else>
 
 </body>
