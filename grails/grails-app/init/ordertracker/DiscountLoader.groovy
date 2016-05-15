@@ -15,6 +15,9 @@ class DiscountLoader {
         calendar.set(Calendar.MINUTE, minutes)
         calendar.set(Calendar.SECOND, 0)
         
+        println "Generado desc con fecha..."
+        println calendar.time 
+        
         return calendar.getTimeInMillis()
     }
     
@@ -41,10 +44,10 @@ class DiscountLoader {
 
         
         //En rango, limite superior -1 significa limite infinito.
-        new Discount(product_id: -1, brand_id:3, range_from:1,range_upto:-1, category:'bebidas', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, monday, 19, 30),dateend: this.generateTimeInMs(calendar, year, month, friday, 14, 30)).save()
-        new Discount(product_id: -1, brand_id:7,range_from:1,range_upto:-1, category:'construccion', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 19, 30),dateend: this.generateTimeInMs(calendar, year, month, friday, 14, 30)).save()
-        new Discount(product_id: -1, brand_id:8,range_from:1,range_upto:-1, category:'none', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, monday, 19, 30),dateend: this.generateTimeInMs(calendar, year, month, wednesday, 14, 30)).save()
-        new Discount(product_id: 2, brand_id:1,range_from:1,range_upto:-1,category:'muebles', percentage: 7.50,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 19, 30),dateend: this.generateTimeInMs(calendar, year, month, friday, 14, 30)).save()
-        new Discount(product_id: 3, brand_id:2,range_from:1,range_upto:-1, category:'muebles', percentage: 3.33,datebeg: this.generateTimeInMs(calendar, year, month, monday, 19, 30),dateend: this.generateTimeInMs(calendar, year, month, wednesday, 14, 30)).save()
+        new Discount(product_id: -1, brand_id:3, range_from:1,range_upto:-1, category:'bebidas', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, monday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, friday, 0, 00)).save()
+        new Discount(product_id: -1, brand_id:7,range_from:1,range_upto:-1, category:'construccion', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, friday, 0, 0)).save()
+        new Discount(product_id: -1, brand_id:8,range_from:1,range_upto:-1, category:'none', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, monday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, wednesday,0, 0)).save()
+        new Discount(product_id: 2, brand_id:1,range_from:1,range_upto:-1,category:'muebles', percentage: 7.50,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, friday, 0, 0)).save()
+        new Discount(product_id: 3, brand_id:2,range_from:1,range_upto:-1, category:'muebles', percentage: 3.33,datebeg: this.generateTimeInMs(calendar, year, month, monday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, wednesday, 0, 0)).save()
     }
 }

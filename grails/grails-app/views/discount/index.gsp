@@ -17,6 +17,8 @@
     <th class="tg-yw4l">Producto</th>
     <th class="tg-yw4l">Marca</th>
     <th class="tg-yw4l">Descuento</th>
+    <th class="tg-yw4l">Inicio</th>
+    <th class="tg-yw4l">Fin</th>
     <th class="tg-yw4l"><div align="center">Editar</div></th>
     <th class="tg-yw4l"><div align="center">Borrar</div></th>
   </tr>
@@ -38,7 +40,10 @@
 
 </td>
     <td class="tg-yw4l">${brands[i].name}</td>
-    <td class="tg-yw4l">${discount.percentage}  %</td>
+    <td class="tg-yw4l">${discount.percentage} %</td>
+    
+    <td class="tg-yw4l">${initDiscount[i]} </td>
+    <td class="tg-yw4l">${endDiscount[i]}  </td>
 
     <td class="tg-yw4l">
     <div align="center">

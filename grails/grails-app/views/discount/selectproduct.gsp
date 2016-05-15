@@ -29,15 +29,15 @@ Agregar descuento al producto ${params.nameproduct}, de $ ${params.productcost}
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Rangos...
     <span class="caret"></span></button>
     <ul class="dropdown-menu-2 dropdown-menu center"  align="center">
-      <li><g:link action="selectproduct" params="[range: 1 ,nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}" ]" >1</g:link></li>
-     <li><g:link action="selectproduct" params="[range: 2 ,nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}"]" >2</g:link></li>
-      <li><g:link action="selectproduct" params="[range: 3 ,nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}"]" >3</g:link></li>
+      <li><g:link action="selectproduct" params="[range: 1 , productid:"${params.productid}", nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}" ]" >1</g:link></li>
+     <li><g:link action="selectproduct" params="[range: 2 ,productid:"${params.productid}", nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}"]" >2</g:link></li>
+      <li><g:link action="selectproduct" params="[range: 3 , productid:"${params.productid}", nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}"]" >3</g:link></li>
     </ul>
   </div>
   </div>
   <br>
    <g:if test="${params.range != "0"}">
-<g:form controller="discount" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost: "${params.productcost}" ]" >
+<g:form controller="discount" action="upentryproduct" params="[productid:"${params.productid}", nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost: "${params.productcost}" ]" >
 
 <g:if test="${params.range == "1"}">
 
@@ -63,17 +63,17 @@ A partir de ese valor, descuento del <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+
 <br>
 <b>Fecha de inicio: </b>
 
-Dia: <g:select  name="day" from="${01..31}"/>,
-Mes:<g:select  name="month"  from="${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']}"/>
+Dia: <g:select  name="dayinit" from="${01..31}"/>,
+Mes:<g:select  name="monthinit"  from="${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']}"/>
               <br><br>
-<b>Fecha de fin: </b> Dia: <g:select  name="day" from="${01..31}"/>,
-Mes:<g:select  name="month"  from="${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']}"/>
+<b>Fecha de fin: </b> Dia: <g:select  name="dayend" from="${01..31}"/>,
+Mes:<g:select  name="monthend"  from="${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']}"/>
               <br><br>
 <br>
 <br>
 
 <br><br>
-<g:actionSubmit class="buttona"  value="Agregar" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost:  "${params.productcost}" ]" />
+<g:actionSubmit class="buttona"  value="Agregar" action="upentryproduct" params="[productid:"${params.productid}" ,  nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost:  "${params.productcost}" ]" />
 
     </g:form>
     
