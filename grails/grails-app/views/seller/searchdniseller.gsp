@@ -6,8 +6,7 @@
 </head>
 
 <body>
-            <h1>Vendedores</h1>
-<p>Listado de todos los vendedores, ordenados por número de documento.</p>
+            <h1>Resultado de búsqueda de vendedores por DNI</h1>
 
 <div align="left">
 
@@ -54,6 +53,7 @@ function showDiv() {
      </div>
 </div>
 
+<g:if test="${res!=0}" >
 
 <div class="table-responsive">
   <table class="table">
@@ -84,6 +84,11 @@ function showDiv() {
 
   </table>
 </div>
+</g:if>
+
+<g:else >
+No se encontraron resultados para mostrar.
+</g:else>
 
 </body>
 </html>

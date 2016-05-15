@@ -17,7 +17,7 @@
 <br>
 <label>DNI: </label>
 <br>
-<g:textField type="number" required="" name="dni"/>
+<g:textField type="number" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" required="" name="dni"/>
 <br>
 <label>Nombre: </label>
 <br>
@@ -25,7 +25,7 @@
 <br>
 <label>Teléfono: </label>
 <br>
-<g:textField type="number" required="" name="phone"/>
+<g:textField type="number" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" required="" name="phone"/>
 <br>
 <label>Zona: </label>
 <br>

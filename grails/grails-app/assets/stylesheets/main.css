@@ -578,6 +578,7 @@ img.grails-logo {
 
 /* COSAS QUE AGREGUE YO */
 
+
 form {
   background: -webkit-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
   background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
@@ -606,6 +607,8 @@ form {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 input {
   width: 75%;
   display: block;
@@ -630,9 +633,36 @@ input.buttona {
   border: 1p solid #999;
 }
 
+input.buttonb {
+  width: 100px;
+  position: relative;
+  left: 380px;
+  bottom:25px;
+  background: #E2E3FF;
+  color: #000;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 15px;
+  border: 1p solid #999;
+}
+
 input.buttona:hover {
   background: #fff;
   color: #09C;
 }
 
+input.buttonc {
+  width: 100px;
+  position: relative;
+  background: #E2E3FF;
+  color: #000;
+  bottom:-10px;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 15px;
+  border: 1p solid #999;
+}
 
+#mainContainer{ overflow:hidden; }
+#divA{ float:left; width:50%; }
+#divB{ float:right; width:50%; margin-bottom:20px}
