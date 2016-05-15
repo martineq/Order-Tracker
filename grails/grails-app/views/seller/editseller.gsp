@@ -30,10 +30,12 @@
 <br>
 <label>Usuario: </label>
 <br>
+<g:textField type="text" required="" value="${user}" name="user"/>
 <br>
 <label>Contraseña: </label>
 <br>
-  <br>
+<g:textField type="text" required="" value="${pass}" name="pass"/>
+<br>
   </div>
   <br>
 

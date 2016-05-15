@@ -24,11 +24,18 @@ class SellerController {
         seller.phone=params.phone.toInteger()
         seller.zone=params.zone
         
-        
-        //TODO: COMO guardo el usuario acá????
-        
         seller.save(failOnError: true)
-
+        def user = new User()
+        user.username=params.user
+        user.password=params.password
+        user.token="token"+params.dni
+        
+        user.save(failOnError: true)
+         
+        
+        def usertype= new UserType( user_id: user.id,type_id: seller.id, type: Seller.getTypeName())
+        usertype.save(failOnError: true)
+        
         [sellern:seller.name]
     }
     
@@ -41,7 +48,15 @@ class SellerController {
         seller.document_number=params.dni.toInteger()
         seller.zone=params.zone
         
-        //TODO: EDITAR USUARIO ACA
+        def types = UserType.list()
+        types.each { type ->
+                if(type.type_id==seller.id){
+                    def user = User.get(type.user_id)
+                    user.username=params.user
+                    user.password=params.pass
+                    user.save(failOnError: true)
+                }
+        };
         
         seller.save(failOnError: true)
 
@@ -56,7 +71,21 @@ class SellerController {
 
         def seller = Seller.findById(params.id)
         
-        [seller:seller]
+        String user="";
+        String pass="";
+        
+        
+        def types = UserType.list()
+        types.each { type ->
+                if(type.type_id==seller.id){
+                    def userC = User.get(type.user_id)
+                    user=userC.username
+                    pass=userC.password
+                }
+        };
+        
+        
+        [seller:seller,user:user,pass:pass]
 
     }
     
