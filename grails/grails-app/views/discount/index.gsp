@@ -32,14 +32,23 @@
         ${products[i].name}
     </g:if>
     <g:else>
+    <g:if test="${brands[i]!= null}" >
     Todos los de la marca  ${brands[i].name}
+    </g:if>
+    <g:else>
+    Todos
+    </g:else>
     <g:if test="${discount.category!= 'none'}" >
        dentro de la categoría ${discount.category}
     </g:if>
     </g:else>
 
 </td>
-    <td class="tg-yw4l">${brands[i].name}</td>
+    <td class="tg-yw4l"><g:if test="${brands[i]!= null}" >
+    ${brands[i].name}
+    </g:if>
+    <g:else>-
+    </g:else></td>
     <td class="tg-yw4l">${descriptions[i]}</td>
     
     <td class="tg-yw4l">${initDiscount[i]} </td>

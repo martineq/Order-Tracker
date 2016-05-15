@@ -18,7 +18,7 @@ class ProductLoader {
         new Product(name:'luminaria', brand_id:9, image:'images/product/14', category:'iluminacion', characteristic:'Araña En Hierro Forjado', stock:50, price:3250.0, state:'disponible').save()
         new Product(name:'sarten', brand_id:5, image:'images/product/15', category:'cocina', characteristic:'Sarten Essen 24 Cm - Linea Clasica - Con Antiadherente', stock:80, price:2500.0, state:'disponible').save()
         new Product(name:'camara digital', brand_id:10, image:'images/product/16', category:'electronica', characteristic:'Cámara Digital Nikon 1 J3 + Lente 10-100mm 1080p 14mp', stock:8, price:10000.0, state:'disponible').save()
-        new Product(name:'perfume', brand_id:11, image:'images/product/17', category:'ciudado personal', characteristic:'botella 1500ml', stock:800, price:23.85, state:'disponible').save()
+        new Product(name:'perfume', brand_id:11, image:'images/product/17', category:'cuidado personal', characteristic:'botella 1500ml', stock:800, price:23.85, state:'disponible').save()
     }
 }
 

@@ -49,5 +49,7 @@ class DiscountLoader {
         new Discount(product_id: -1, brand_id:8,range_from:1,range_upto:-1, category:'none', percentage: 5.00,datebeg: this.generateTimeInMs(calendar, year, month, monday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, wednesday,0, 0)).save()
         new Discount(product_id: 2, brand_id:1,range_from:1,range_upto:-1,category:'muebles', percentage: 7.50,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, friday, 0, 0)).save()
         new Discount(product_id: 3, brand_id:2,range_from:1,range_upto:-1, category:'muebles', percentage: 3.33,datebeg: this.generateTimeInMs(calendar, year, month, monday, 0, 0),dateend: this.generateTimeInMs(calendar, year, month, wednesday, 0, 0)).save()
-    }
+        new Discount(product_id: -1, brand_id:-1, range_from:1,range_upto:-1, category:'cuidado personal', percentage: 10.00,datebeg: this.generateTimeInMs(calendar, year, month, tuesday, 0, 0),dateend:
+        this.generateTimeInMs(calendar, year, month, saturday, 0, 0)).save()
+        }
 }
