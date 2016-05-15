@@ -83,6 +83,22 @@ class DiscountController {
     }
             
     def deleteconfirm() {
+        def disc= Discount.get(params.id)
+        
+        String description = getDescription(disc)
+        def brand=Brand.get(disc.brand_id)
+        def product = Product.get(disc.product_id)
+        String initDisc=getDay(disc.datebeg)
+        String endDisc=getDay(disc.dateend)
+    
+    
+        [discount:disc,product:product,brand:brand,initDisc:initDisc,endDisc:endDisc,description:description]
+    }
+    
+    def delete() {
+        Discount.executeUpdate("delete Discount where id=${params.id}")
+        
+        [id:params.id]
     }
     
     def editdiscount() {

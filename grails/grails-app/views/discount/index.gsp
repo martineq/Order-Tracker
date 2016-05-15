@@ -19,7 +19,6 @@
     <th class="tg-yw4l">Descuento</th>
     <th class="tg-yw4l">Inicio</th>
     <th class="tg-yw4l">Fin</th>
-    <th class="tg-yw4l"><div align="center">Editar</div></th>
     <th class="tg-yw4l"><div align="center">Borrar</div></th>
   </tr>
   
@@ -54,10 +53,7 @@
     <td class="tg-yw4l">${initDiscount[i]} </td>
     <td class="tg-yw4l">${endDiscount[i]}  </td>
 
-    <td class="tg-yw4l">
-    <div align="center">
-    <g:link action="editdiscount" id="${discount.id}" params="[name: ("${discount.category}") ]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
-    </div></td>
+ 
     <td class="tg-yw4l"><div align="center"><g:link action="deleteconfirm" id="${discount.id}" params="[name: ("${discount.category}") ]" ><asset:image src="delete.png" title="Borrar" alt="Borrar" style="width:20px;height:20px;"/></g:link></div></td>
   </tr>
 </g:each>
