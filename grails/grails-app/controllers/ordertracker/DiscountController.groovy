@@ -91,6 +91,17 @@ class DiscountController {
     def upbrand() {
     }
     
+    def selectbrand() {
+    
+        def brands = Brand.list(sort:"name", order:"des")
+        [brands:brands,category:params.category]
+        
+    }
+    
+    def adddiscount(){
+    
+    }
+    
     def upproduct() {
     
             def products = Product.list(sort:"name", order:"des")
@@ -205,7 +216,55 @@ class DiscountController {
         [product:product]
 
     }
-     
+    
+    //Nuevo descuento para inserciones por Marca o categoría
+    def upentrybrandcat() {
+        
+        int desc1=1
+        int desc2=1
+        int desc3=1
+        int descfinal=1
+        
+        int ran2=1
+        int ran3=1
+        
+        if (params.desc1!=null) {
+            desc1=params.desc1.toInteger()
+        }
+        if (params.desc2!=null) {
+            desc2=params.desc2.toInteger()
+        }
+        if (params.desc3!=null) {
+            desc3=params.desc3.toInteger()
+        }
+        if (params.descfinal!=null) {
+            descfinal=params.descfinal.toInteger()
+        }
+
+        
+        if (params.ran2!=null) {
+            ran2=params.ran2.toInteger()
+        }
+        if (params.ran3!=null) {
+            ran3=params.ran3.toInteger()
+        }
+        
+        long datebeg=getDate(params.monthinit,params.dayinit.toInteger())
+        long dateend=getDate(params.monthend,params.dayend.toInteger())
+        
+        //¿Son validos los valores de descuentos?
+        boolean validDiscounts=valuesValidDiscNumber(params.range.toInteger(),desc1,desc2,desc3,descfinal)
+        //¿Son validos los valores de rangos?
+        boolean validRanges=valuesValidRanges(params.range.toInteger(), ran2,ran3)
+        //¿Son validos los valores de fechas?
+        boolean validDates=valuesValidDates(datebeg,dateend)
+        //Buscar si existe algun descuento que se superpone con el que se está por crear
+        boolean discountOverlap=findOverlapBrandDiscount(params.brandid.toInteger(),params.category,datebeg,dateend)
+        
+        [validRanges:validRanges,validDiscounts:validDiscounts,validDates:validDates,discountOverlap:discountOverlap,datebeg:datebeg,dateend:dateend,desc1:desc1,desc2:desc2,desc3:desc3,descfinal:descfinal,ran2:ran2,ran3:ran3]
+
+    }
+    
      //Nuevo descuento para inserciones por PRODUCTO
      def upentryproduct() {
         
@@ -274,6 +333,16 @@ class DiscountController {
         return false;
     }
          
+    //Devuelve true si hay superposicion para inserciones por marca o categoría
+    private boolean findOverlapBrandDiscount(int brandid,String category,long datebeg, long dateend){
+    
+        def discounts = Discount.list()
+        def res=false;
+
+            
+        return res;
+    }
+    
     //Devuelve true si hay superposicion para inserciones por PRODUCTO
     private boolean findOverlapProducDiscount(int productid,long datebeg, long dateend){
         def product = Product.get(productid)
@@ -298,6 +367,15 @@ class DiscountController {
                             res=true;
                             return res;
                         }
+                }
+                //Si existe un descuento para la categoría de este producto
+                //en la misma marca y en fechas que se superponen, hay overlap    
+                if ( disc.category.equals(product.category)  && disc.brand_id==-1) {
+                        if(overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)){
+                            res=true;
+                            return res;
+                        }
+                        
                 }
         };
             
