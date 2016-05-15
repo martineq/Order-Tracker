@@ -144,12 +144,73 @@ class DiscountController {
                             deleteList.add(disc.id)
                         }
                 }
+                 //Si existe un descuento para la categoría de este producto
+                //en la misma marca y en fechas que se superponen, hay overlap    
+                if ( disc.category.equals(product.category)  && disc.brand_id==-1) {
+                        if(overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)){
+                            deleteList.add(disc.id)
+                        }
+                        
+                }
         };
         
         deleteList.each { disc ->
                 Discount.executeUpdate("delete Discount where id=${disc}")
         };
     }
+    
+    
+    private void deleteConflictBrand(){
+    
+        def discounts = Discount.list()
+        def deleteList=[]
+        
+        def category=cat
+        if(cat.equals("")) {
+            category="none"
+        }
+        
+        discounts.each { disc ->
+            if(disc.product_id==-1) {
+                //Si existe un descuento para esta categoria sin marca
+                //o con la misma marca
+                //en fechas que se superponen, hay overlap
+                if (disc.category.equals(category) && (disc.brand_id==-1 || disc.brand_id==brandid) ) {
+                            if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                                deleteList.add(disc.id)
+                            }
+                }
+                //Si existe un descuento para esta misma marca y el descuento no tiene categoria
+                //en fechas que se superponen, hay overlap
+                if (disc.category.equals("none") && disc.brand_id==brandid ) {
+                    if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                            deleteList.add(disc.id)
+                    }
+                }
+            }
+            else {
+                def product = Product.get(disc.product_id)
+                //Si existe un descuento para producto con fecha que se superpone, que tenga
+                // la misma categoria y marca o
+                // la misma categoria con brandid==-1
+                // o la misma marca con category==none, 
+                //en fecha que se superonga, hay overlap
+                def cond1=category.equals(product.category)&&brandid==product.brand_id
+                def cond2=category.equals(product.category)&&disc.brand_id==-1
+                def cond3=category.equals("none")&&brandid==product.brand_id
+                
+                if (cond1&&cond2&&cond3){
+                    deleteList.add(disc.id)
+                }
+            }
+       };
+       
+       deleteList.each { disc ->
+                Discount.executeUpdate("delete Discount where id=${disc}")
+        };
+    
+    }
+    
     
     //Nuevo descuento para inserciones por PRODUCTO
     def newdiscount() {
@@ -215,6 +276,80 @@ class DiscountController {
         
         [product:product]
 
+    }
+    
+    //Nuevo descuento para inserciones por marca o categoria
+    def newdiscountbrand (){
+    
+    def product=Product.get(params.productid)
+        
+        String cat=params.category
+        if(cat.equals("")) {
+            cat="none"
+        }
+        
+        //Si hay superposición con otros descuentos, tengo que borrar los conflictivos
+        if(params.discountOverlap=='true'){
+            deleteConflictBrand();
+        }
+        
+        def discountList=[new Discount(),new Discount(),new Discount()]
+        
+        
+        discountList.each { discount ->
+                discount.product_id=-1
+                discount.brand_id=params.brandid.toInteger()
+                discount.category=cat
+                discount.datebeg=Long.parseLong(params.datebeg)
+                discount.dateend=Long.parseLong(params.dateend)
+        };
+        
+        if( params.range== '1' ){
+                def discount=discountList[0];
+                discount.range_from=1
+                //infinito
+                discount.range_upto=-1
+                discount.percentage=params.desc1.toInteger()
+                discount.save(failOnError: true)
+        }
+        
+        if( params.range== '2' ){
+                def discount1=discountList[0];
+                def discount2=discountList[1];
+                discount1.range_from=1
+                discount1.range_upto=params.ran2.toInteger();
+                discount2.range_from=discount1.range_upto+1
+                //infinito
+                discount2.range_upto=-1;
+                discount1.percentage=params.desc2.toInteger()
+                discount2.percentage=params.descfinal.toInteger()
+                discount1.save(failOnError: true)
+                discount2.save(failOnError: true)
+        }
+        if( params.range== '3' ){
+                def discount1=discountList[0];
+                def discount2=discountList[1];
+                def discount3=discountList[2];
+                
+                discount1.range_from=1
+                discount1.range_upto=params.ran2.toInteger();
+                discount2.range_from=discount1.range_upto+1
+                discount2.range_upto=params.ran3.toInteger();
+                discount3.range_from=discount2.range_upto+1
+                discount3.range_upto=-1;
+                
+                discount1.percentage=params.desc2.toInteger()
+                discount2.percentage=params.desc3.toInteger()
+                discount3.percentage=params.descfinal.toInteger()
+                
+                discount1.save(failOnError: true)
+                discount2.save(failOnError: true)
+                discount3.save(failOnError: true)
+        }
+        
+        [product:product]
+
+    
     }
     
     //Nuevo descuento para inserciones por Marca o categoría
@@ -334,11 +469,54 @@ class DiscountController {
     }
          
     //Devuelve true si hay superposicion para inserciones por marca o categoría
-    private boolean findOverlapBrandDiscount(int brandid,String category,long datebeg, long dateend){
+    private boolean findOverlapBrandDiscount(int brandid,String cat,long datebeg, long dateend){
     
         def discounts = Discount.list()
         def res=false;
-
+        def category=cat
+        if(cat.equals("")) {
+            category="none"
+        }
+        
+        discounts.each { disc ->
+            if(disc.product_id==-1) {
+                //Si existe un descuento para esta categoria sin marca
+                //o con la misma marca
+                //en fechas que se superponen, hay overlap
+                if (disc.category.equals(category) && (disc.brand_id==-1 || disc.brand_id==brandid) ) {
+                            if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                                res=true;
+                                return res;
+                            }
+                }
+                //Si existe un descuento para esta misma marca y el descuento no tiene categoria
+                //en fechas que se superponen, hay overlap
+                if (disc.category.equals("none") && disc.brand_id==brandid ) {
+                    if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                            res=true;
+                            return res;
+                    }
+                }
+            }
+            else {
+                def product = Product.get(disc.product_id)
+                //Si existe un descuento para producto con fecha que se superpone, que tenga
+                // la misma categoria y marca o
+                // la misma categoria con brandid==-1
+                // o la misma marca con category==none, 
+                //en fecha que se superonga, hay overlap
+                def cond1=category.equals(product.category)&&brandid==product.brand_id
+                def cond2=category.equals(product.category)&&disc.brand_id==-1
+                def cond3=category.equals("none")&&brandid==product.brand_id
+                
+                if (cond1&&cond2&&cond3){
+                    if( overlapDates(disc.datebeg,disc.dateend,datebeg,dateend)==true ){
+                            res=true;
+                            return res;
+                    }
+                }
+            }
+       };
             
         return res;
     }
