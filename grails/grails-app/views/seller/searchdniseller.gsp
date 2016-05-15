@@ -16,7 +16,6 @@ function showDiv() {
 }
 </script>
 
-
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
 <h2><b>Búscador</b></h2>
@@ -26,7 +25,7 @@ function showDiv() {
 <label>DNI: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="dni"/>
 
 
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchdniseller"/>
+<g:actionSubmit class="buttonb" value="Buscar" action="searchdniseller"/>
     </g:form>
 
     <br>
@@ -42,8 +41,7 @@ function showDiv() {
 
 <div id="mainContainer">
     <div id="divA">
-    
-    <input type="button" class="buttonc" name="answer" value="Buscar" onclick="showDiv()" />
+    <a><asset:image src="search.png"  style="width:38px;height:38px;" value="Buscar" onclick="showDiv()"/></a>
     
     </div>
     <div id="divB">
