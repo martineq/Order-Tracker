@@ -5,7 +5,7 @@
     <title>Clientes</title>
 </head>
 <body>
-            <h1>Listado de Clientes</h1>
+            <h1>Búsqueda de clientes por nombre</h1>
 
 
 <div align="left">
@@ -41,8 +41,9 @@ function showDiv() {
      <div align="right"><g:link action="up"><b>Agregar</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
      
      </div>
-</div>            
+</div>      
 
+<g:if test="${res!=0}" >
 <div class="table-responsive">
   <table class="table">
      <tr>
@@ -76,6 +77,13 @@ function showDiv() {
 
   </table>
 </div>
+</g:if>
+
+<g:else >
+No se encontraron resultados para mostrar.
+</g:else>
+
+
 
 </body>
 </html>

@@ -61,6 +61,7 @@ class SellerController {
         seller.save(failOnError: true)
 
         [seller:seller]
+        
 
     }
     
@@ -113,6 +114,7 @@ class SellerController {
         
         [sellers:sellers,res:res]
     }
+    
     
     def searchnameseller(){
         def sellersAll = Seller.list(sort:"document_number", order:"des")

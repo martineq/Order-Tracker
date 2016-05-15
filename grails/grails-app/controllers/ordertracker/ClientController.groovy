@@ -29,6 +29,7 @@ class ClientController {
         def client = Client.findById(params.id)
         
         [client:client]
+        
 
     }
     
@@ -86,4 +87,21 @@ class ClientController {
         [address:add]
 
     }
+    
+    def searchnameclient(){
+        def clientsAll = Client.list(sort:"name", order:"des")
+        def clients=[]
+        def res=0
+        
+        clientsAll.each { cli ->
+                if( cli.name.toLowerCase().contains(params.name.toLowerCase()) ){
+                    clients.add(cli);
+                    res=res+1
+                }
+        };
+        
+        [clients:clients,res:res]
+    }
+    
+    
 }
