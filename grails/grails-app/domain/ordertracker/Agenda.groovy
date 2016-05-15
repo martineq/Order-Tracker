@@ -22,12 +22,12 @@ class Agenda {
     String time
 
     def afterInsert() {
-        new NewVisitNotification(this).addNotification()
+        new NewVisitNotification(this).addNotification(this.seller_id)
         PushService.getInstance().push()
     }
 
     def afterUpdate() {
-        new ModifiedVisitNotification(this).addNotification()
+        new ModifiedVisitNotification(this).addNotification(this.seller_id)
         PushService.getInstance().push()
     }
 

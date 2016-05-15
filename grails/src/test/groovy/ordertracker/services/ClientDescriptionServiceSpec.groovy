@@ -98,7 +98,7 @@ class ClientDescriptionServiceSpec extends Specification {
             requester.addProperty(Keywords.CLIENT_ID, 1)
 
         and:
-            new Client(name: 'Juan',    address: 'Av. Pres. Figueroa Alcorta 3535', city: 'Ciudad de Buenos Aires', state: ClientStates.NO_VISITADO.toString(),qrcode: 'A', email: 'a@a.com').save()
+            new Client(name: 'Juan',    address: 'Av. Pres. Figueroa Alcorta 3535', city: 'Ciudad de Buenos Aires', qrcode: 'A', email: 'a@a.com').save()
 
         and:
             def clientDescriptionService = new ClientDescriptionService()
@@ -108,7 +108,7 @@ class ClientDescriptionServiceSpec extends Specification {
             clientDescriptionService.generateQuery()
 
         then:
-            def json = '{"status":{"result":"ok","description":"Client found"},"data":{"id":1,"name":"Juan","address":"Av. Pres. Figueroa Alcorta 3535","city":"Ciudad de Buenos Aires","state":"NO_VISITADO"}}'
+            def json = '{"status":{"result":"ok","description":"Client found"},"data":{"id":1,"name":"Juan","address":"Av. Pres. Figueroa Alcorta 3535","city":"Ciudad de Buenos Aires"}}'
             clientDescriptionService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build() == json
     }
 }

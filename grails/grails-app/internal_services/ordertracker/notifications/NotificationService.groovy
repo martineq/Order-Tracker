@@ -19,6 +19,17 @@ class NotificationService {
         }
     }
 
+    def add(long seller_id, String title, String description) {
+        def push_message = new Push_message(title: title, description: description)
+
+        def seller = Seller.findById(seller_id)
+
+        if ( seller != null ) {
+            push_message.save()
+            new Distribution(message_id: push_message.id, seller: seller.id).save()
+        }
+    }
+
     // return all distribution messages for that seller
     def searchMessages(long seller_id) {
         return Distribution.findAllBySeller(seller_id)

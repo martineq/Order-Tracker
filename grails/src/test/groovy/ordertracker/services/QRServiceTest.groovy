@@ -2,16 +2,24 @@ package ordertracker.services
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import ordertracker.Agenda
+import ordertracker.AgendaLoader
 import ordertracker.AvailableProductsService
 import ordertracker.Brand
 import ordertracker.BrandLoader
 import ordertracker.Client
 import ordertracker.ClientLoader
+import ordertracker.Discount
+import ordertracker.DiscountLoader
 import ordertracker.Product
 import ordertracker.ProductLoader
 import ordertracker.QRService
+import ordertracker.Seller
+import ordertracker.SellerLoader
 import ordertracker.User
 import ordertracker.UserLoader
+import ordertracker.UserType
+import ordertracker.UserTypeLoader
 import ordertracker.constants.ClientStates
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
@@ -22,13 +30,17 @@ import ordertracker.tranmission.TransmissionMedium
 import org.apache.tools.ant.taskdefs.condition.Http
 import spock.lang.Specification
 
-@Mock([User, Product, Brand, Client])
+@Mock([Agenda, User, UserType, Product, Brand, Client, Seller, Discount])
 @TestFor(ordertracker.QRService)
 class QRServiceTest extends Specification {
 
     def setup() {
         new UserLoader().load()
+        new SellerLoader().load()
+        new UserTypeLoader().load()
         new ClientLoader().load()
+        new AgendaLoader().load()
+        new DiscountLoader().load()
 
         Client.findById(1).setQrCode()
     }
@@ -41,7 +53,7 @@ class QRServiceTest extends Specification {
         requester.addProperty(HttpProtocol.METHOD, httpMethod)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
-        requester.addProperty(Keywords.CLIENT_ID, 1)
+        requester.addProperty(Keywords.VISIT_ID, 1)
         requester.addProperty(HttpProtocol.BODY, qrJson)
         return requester
     }
@@ -91,7 +103,7 @@ class QRServiceTest extends Specification {
         requester.addProperty(HttpProtocol.METHOD, HttpProtocol.POST)
         requester.addProperty(Keywords.USERNAME, 'martin')
         requester.addProperty(Keywords.TOKEN, 'token1')
-        requester.addProperty(Keywords.CLIENT_ID, 1)
+        requester.addProperty(Keywords.VISIT_ID, 1)
         requester.addProperty(HttpProtocol.BODY, "")
 
         when:
@@ -121,28 +133,24 @@ class QRServiceTest extends Specification {
     void "test validResponse"() {
         given:
             def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
-            def productRequester = this.generateMartinRequester(HttpProtocol.GET)
 
         and:
             new ProductLoader().load()
             new BrandLoader().load()
+            Agenda.findById(1).setState(ClientStates.PENDIENTE.toString())
 
         and:
             def qrService = new QRService()
-            def productsService = new AvailableProductsService()
 
         when:
 
             qrService.validate(qrRequester)
             qrService.generateQuery()
-
-            productsService.validate(productRequester)
-            productsService.generateQuery()
+            def qrServiceResponse = qrService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
 
         then:
-            def qrServiceResponse = qrService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
-            def productsServiceResponse = productsService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
-            qrServiceResponse == productsServiceResponse
+            qrServiceResponse == '{"status":{"result":"ok","description":"Valid QR"}}'
+
     }
 
     void "test invalidResponse"() {
@@ -162,6 +170,7 @@ class QRServiceTest extends Specification {
 
     void "test validQRCode"() {
         given:
+            Agenda.findById(1).setState(ClientStates.PENDIENTE.toString())
             def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
 
         and:
@@ -180,7 +189,7 @@ class QRServiceTest extends Specification {
             def qrRequester = this.generateMartinRequester(HttpProtocol.POST)
 
         and:
-            Client.findById(1).setState(ClientStates.VISITADO.toString())
+            Agenda.findById(1).setState(ClientStates.VISITADO.toString())
 
         and:
             def qrService = new QRService()

@@ -103,8 +103,6 @@ class QRService implements Queryingly{
         if ( queryResult == false )
             return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, this.errorMessage))
 
-        def productsService = new AvailableProductsService()
-        productsService.generateQuery()
-        productsService.obtainResponse(transmissionMedium)
+        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "Valid QR"))
     }
 }

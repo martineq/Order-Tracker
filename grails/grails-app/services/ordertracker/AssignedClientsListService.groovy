@@ -59,7 +59,8 @@ class AssignedClientsListService implements Queryingly{
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.NAME, client.name))
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ADDRESS, client.address))
         clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.CITY, client.city))
-        clientJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.STATE, client.state))
+        clientJsonObject.addJsonableItem(new JsonPropertyFactory("email", client.email))
+        clientJsonObject.addJsonableItem(new JsonPropertyFactory("qrcode", client.qrcode))
 
         return clientJsonObject
     }

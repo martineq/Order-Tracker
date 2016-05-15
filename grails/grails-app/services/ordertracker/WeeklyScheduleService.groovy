@@ -43,6 +43,7 @@ class WeeklyScheduleService implements Queryingly{
             def user = User.findByUsername(this.sellerUsername)
             def userType = UserType.findByUser_idAndType(user.id, Seller.getTypeName())
             def query = Agenda.where { seller_id == userType.type_id && date > firstScheduledDay && date < lastScheduledDay }
+
             weeklySchedule = query.list(sort:'date')
 
             return true
@@ -66,7 +67,13 @@ class WeeklyScheduleService implements Queryingly{
 
     private Data generateData() {
         JsonObjectBuilder jsonDataObject = new JsonObjectBuilder()
-        weeklySchedule.each { item -> jsonDataObject.addJsonableItem(this.generateClientJsonObject(item)) }
+
+        if ( weeklySchedule != null )
+            weeklySchedule.each { item -> jsonDataObject.addJsonableItem(this.generateClientJsonObject(item)) }
+
+        else
+            jsonDataObject.addJsonableItem(new JsonObjectBuilder())
+
         return new Data(jsonDataObject)
     }
 
@@ -87,7 +94,6 @@ class WeeklyScheduleService implements Queryingly{
 
     private def defineScheduleWeek() {
         Calendar calendar = this.getCalendar()
-
         this.firstScheduledDay = this.startingDateOfThisWeek(calendar)
         this.lastScheduledDay = this.finishingDateOfThisWeek(calendar)
     }
@@ -99,7 +105,10 @@ class WeeklyScheduleService implements Queryingly{
     }
 
     private long startingDateOfThisWeek(Calendar calendar) {
-        calendar.set(Calendar.DATE, Calendar.SATURDAY)
+        int week = calendar.get(Calendar.WEEK_OF_YEAR)
+
+        calendar.set(Calendar.WEEK_OF_YEAR, week-1)
+        calendar.set(Calendar.DAY_OF_WEEK, 7)
         calendar.set(Calendar.HOUR_OF_DAY, 23)
         calendar.set(Calendar.MINUTE, 59)
         calendar.set(Calendar.SECOND, 59)
