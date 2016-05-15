@@ -53,6 +53,27 @@ class DiscountController {
     }
     
      def upentryproduct() {
+     
+        boolean invalidRanges= valuesValidRanges(params.range.toInteger(), 1, 1)
+        
+        [invalidRanges:invalidRanges]
 
+     }
+     
+     boolean valuesValidRanges(int numrange , int ran1, int ran2) {
+     
+     boolean error=false;
+
+     if(ran1<0 | ran2<0){
+        error=true;
+        return error;
+    }
+     if(numrange==3) {
+        if (ran1<=ran2){
+            error=true;
+            return error;
+        }
+     }
+     return error;
      }
 }

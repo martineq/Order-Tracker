@@ -37,27 +37,27 @@ Agregar descuento al producto ${params.nameproduct}, de $ ${params.productcost}
   </div>
   <br>
    <g:if test="${params.range != "0"}">
-<g:form controller="discount" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}" ]" >
+<g:form controller="discount" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost: "${params.productcost}" ]" >
 
 <g:if test="${params.range == "1"}">
 
-Para cualquier número de productos, el descuento será de <g:textField type="text" required="" name="desc1"/>%
+Para cualquier número de productos, el descuento será de <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="desc1"/>%
 <br>
 </g:if>
 <g:else>
 <br>
-Desde 1 hasta <g:textField type="text" required="" name="ran2"/>, descuento del <g:textField type="text" required="" name="desc2"/> %
+Desde 1 hasta <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="ran2"/>, descuento del <g:textField type="number" required="" name="desc2"/> %
 <br>
 
 
 <g:if test="${params.range == "3"}">
 <br>
-Desde ese valor hasta <g:textField type="text" required="" name="ran3"/>, descuento del <g:textField type="text" required="" name="desc3"/> %
+Desde ese valor hasta <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="ran3"/>, descuento del <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="desc3"/> %
 <br>
 </g:if>
 
 <br>
-A partir de ese valor, descuento del <g:textField type="text" required="" name="descfinal"/> %
+A partir de ese valor, descuento del <g:textField pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="descfinal"/> %
 <br>
 </g:else>
 <br>
@@ -73,7 +73,7 @@ Mes:<g:select  name="month"  from="${['Enero','Febrero','Marzo','Abril','Mayo','
 <br>
 
 <br><br>
-<g:actionSubmit class="buttona"  value="Agregar" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , productcost:  "${params.productcost}" ]" />
+<g:actionSubmit class="buttona"  value="Agregar" action="upentryproduct" params="[nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost:  "${params.productcost}" ]" />
 
     </g:form>
     
