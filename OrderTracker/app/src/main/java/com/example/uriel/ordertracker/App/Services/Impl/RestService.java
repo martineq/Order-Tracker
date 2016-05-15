@@ -14,8 +14,11 @@ import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
-import com.example.uriel.ordertracker.App.Model.Dto.*;
-import com.example.uriel.ordertracker.App.Model.Notification;
+import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.NotificationDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.OrderDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.google.gson.Gson;
@@ -23,7 +26,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -292,12 +294,6 @@ public class RestService implements IRestService {
     }
 
     public void getNotifications(final String username, final String token, final PushService context) {
-        ArrayList<Notification> notifications = new ArrayList<>();
-
-        Notification n1 = new Notification();n1.setTitle("Notificacion 1");n1.setBody("Body 1");
-        notifications.add(n1);
-        context.showNotification(notifications);
-
         String url = Constants.getNotificationsServiceUrl();
 
         JsonObjectRequest req = new JsonObjectRequest(url, null,

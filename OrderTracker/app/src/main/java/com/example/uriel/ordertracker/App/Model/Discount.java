@@ -6,20 +6,20 @@ package com.example.uriel.ordertracker.App.Model;
 public class Discount {
     private int id;
     private double percentage;
-    private int rangeFrom;
-    private int rangeTo;
+    private int range_from;
+    private int range_upto;
 
-    public Discount(int id, double percentage, int rangeFrom, int rangeTo){
+    public Discount(int id, double percentage, int range_from, int range_upto){
         this.id = id;
         this.percentage = percentage;
-        this.rangeFrom = rangeFrom;
-        this.rangeTo = rangeTo;
+        this.range_from = range_from;
+        this.range_upto = range_upto;
     }
 
     public Discount(int id, double percentage, int rangeFrom){
         this.id = id;
         this.percentage = percentage;
-        this.rangeFrom = rangeFrom;
+        this.range_from = rangeFrom;
     }
 
     public int getId() {
@@ -39,18 +39,18 @@ public class Discount {
     }
 
     public int getRangeFrom() {
-        return rangeFrom;
+        return range_from;
     }
 
     public void setRangeFrom(int rangeFrom) {
-        this.rangeFrom = rangeFrom;
+        this.range_from = rangeFrom;
     }
 
     public int getRangeTo() {
-        return rangeTo;
+        return range_upto;
     }
 
     public void setRangeTo(int rangeTo) {
-        this.rangeTo = rangeTo;
+        this.range_upto = rangeTo;
     }
 }

@@ -71,6 +71,15 @@ public class Product {
 
     public void setDiscounts(ArrayList<Discount> discounts) { this.discounts = discounts; }
 
+    public boolean hasDiscounts(){
+        for (Discount discount: discounts) {
+            if(discount.getPercentage() > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String encodeTobase64(Bitmap image)
     {
         Bitmap immagex=image;

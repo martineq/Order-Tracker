@@ -83,10 +83,6 @@ public class GridAdapter extends ArrayAdapter<Product>{
             qttText.setText(order.get(products.get(position).getId()).split("&")[1]);
         }
 
-        if(products.get(position).getDiscounts().size() == 0){
-            discountImage.setVisibility(View.INVISIBLE);
-        }
-
         imageView.setImageBitmap(Product.decodeBase64(products.get(position).getImageBase64()));
 
         final Bitmap bitmap = Product.decodeBase64(products.get(position).getImageBase64());
@@ -97,15 +93,19 @@ public class GridAdapter extends ArrayAdapter<Product>{
             }
         });
 
+        if(!products.get(position).hasDiscounts()){
+            discountImage.setVisibility(View.INVISIBLE);
+        }
+
         gridItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ArrayList<Discount> discounts = products.get(position).getDiscounts();
-                if (discounts.size() > 0) {
+                if (products.get(position).hasDiscounts()) {
+                    ArrayList<Discount> discounts = products.get(position).getDiscounts();
                     String content = "";
                     for (Discount discount : discounts) {
                         String rangeTo = "sin limite";
-                        if(discount.getRangeTo() > 0){
+                        if (discount.getRangeTo() > 0) {
                             rangeTo = String.valueOf(discount.getRangeTo());
                         }
                         content += "Desde " + String.valueOf(discount.getRangeFrom()) + " a " + rangeTo + ": %" + String.valueOf(discount.getPercentage()) + "\n";

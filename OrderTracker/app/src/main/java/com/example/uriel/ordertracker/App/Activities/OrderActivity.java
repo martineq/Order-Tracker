@@ -27,7 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.uriel.ordertracker.App.Model.Constants;
-import com.example.uriel.ordertracker.App.Model.Discount;
 import com.example.uriel.ordertracker.App.Model.GridAdapter;
 import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.Product;
@@ -286,14 +285,6 @@ public class OrderActivity extends DrawerActivity {
     public void populateProducts(ArrayList<Product> products, boolean all){
         if(all){
             allProducts = products;
-        }
-
-        //TODO: para simular descuentos -> borrar cuando se reciban del server
-        for (Product prod: products) {
-            ArrayList<Discount> discounts = new ArrayList<Discount>();
-            Discount discount1 = new Discount(1, 5, 0, 10); discounts.add(discount1);
-            Discount discount2 = new Discount(1, 10, 11); discounts.add(discount2);
-            prod.setDiscounts(discounts);
         }
 
         grid=(GridView)findViewById(R.id.gridView);
