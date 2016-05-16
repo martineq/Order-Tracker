@@ -12,7 +12,9 @@ import ordertracker.UserType
 import ordertracker.UserTypeLoader
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.notifications.NewNotification
 import ordertracker.notifications.NotificationService
+import ordertracker.notifications.NotificationType
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
 import spock.lang.Specification
@@ -38,7 +40,7 @@ class NotificationsRequestServiceSpec extends Specification {
         given:
         def title = "title"
         def message = "message"
-        new NotificationService().add(title, message)
+        new NotificationService().add(new NewNotification(title, message, NotificationType.NONE))
 
         and:
         def notificationService = new NotificationsRequestService()

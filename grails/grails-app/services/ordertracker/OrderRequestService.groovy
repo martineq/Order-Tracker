@@ -16,17 +16,13 @@ import ordertracker.tranmission.TransmissionMedium
 
 class OrderRequestService implements Queryingly {
 
-    private def jsonObject
-    private boolean requestAccepted = false
-    private String messageDescription
     private OrderRequestDTO orderRequestDTO
     private long seller_id
+    private String message
 
     OrderRequestService() {
-        this.jsonObject = null
         this.orderRequestDTO = null
-        this.requestAccepted = false
-        this.messageDescription = ""
+        this.message = ""
         this.seller_id = 0
     }
 
@@ -55,7 +51,6 @@ class OrderRequestService implements Queryingly {
             throw new QueryException("No se recibió un objeto json válido")
         }
 
-
         return true
     }
 
@@ -67,27 +62,16 @@ class OrderRequestService implements Queryingly {
 
     @Override
     def generateQuery() {
-        try {
-            def orderRequestLoader = new OrderRequestLoader(this.orderRequestDTO)
-            orderRequestLoader.loadRequest(this.seller_id)
-            this.messageDescription = "Request accepted"
-            this.requestAccepted = true
-        }
+        this.message = new OrderRequestLoader(this.orderRequestDTO).loadRequest(this.seller_id)
 
-        catch (DatabaseException databaseException) {
-            this.messageDescription = databaseException.getMessage()
-        }
-
-        finally {
-            return this.requestAccepted
-        }
+        return ( this.message.size() == 0 )
     }
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        if ( this.requestAccepted == false )
-            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, this.messageDescription))
+        if ( this.message.size() != 0 )
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "No se aceptó la solicitud del pedido: " + message))
 
-        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, this.messageDescription))
+        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "Pedido aceptado"))
     }
 }

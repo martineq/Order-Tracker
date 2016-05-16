@@ -14,11 +14,16 @@ class NewVisitNotification extends Notification {
         this.client = Client.findById(agenda.client_id)
     }
 
-    def defineTitle() {
+    @Override
+    NotificationType defineNotificationType() {
+        return NotificationType.AGENDA
+    }
+
+    def getTitle() {
         return "Nueva Visita"
     }
 
-    def defineBody() {
+    def getBody() {
         return client.name + ' - ' + CalendarDate.getWeekDayInSpanish(agenda.day) + ' ' + agenda.time
     }
 }

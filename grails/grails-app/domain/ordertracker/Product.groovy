@@ -1,5 +1,7 @@
 package ordertracker
 
+import ordertracker.notifications.NewProduct
+
 class Product {
 
     static constraints = {
@@ -16,4 +18,8 @@ class Product {
     Double price
     String state
 
+    def afterInsert() {
+        new NewProduct(this).addNotification()
+        PushService.getInstance().push()
+    }
 }

@@ -3,13 +3,18 @@ package ordertracker.services
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import ordertracker.Agenda
+import ordertracker.Brand
+import ordertracker.BrandLoader
 import ordertracker.Client
 import ordertracker.ClientLoader
 import ordertracker.ClientOrder
+import ordertracker.Discount
+import ordertracker.Distribution
 import ordertracker.OrderDetail
 import ordertracker.OrderRequestService
 import ordertracker.Product
 import ordertracker.ProductLoader
+import ordertracker.Push_message
 import ordertracker.Seller
 import ordertracker.SellerLoader
 import ordertracker.User
@@ -20,22 +25,24 @@ import ordertracker.constants.ClientStates
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
 import ordertracker.constants.OrderStates
+import ordertracker.notifications.EmptyStockNotification
 import ordertracker.queries.QueryException
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
 import ordertracker.util.CalendarDate
 import spock.lang.Specification
 
-@Mock( [User, Product, Client, Seller, ClientOrder, OrderDetail, UserType, Agenda] )
+@Mock( [User, Product, Client, Seller, ClientOrder, OrderDetail, UserType, Agenda, Brand, Push_message, Discount, Distribution] )
 @TestFor(OrderRequestService)
 class OrderRequestServiceSpec extends Specification {
 
     void setup() {
         new UserLoader().load()
+        new UserTypeLoader().load()
         new ProductLoader().load()
         new ClientLoader().load()
         new SellerLoader().load()
-        new UserTypeLoader().load()
+        new BrandLoader().load()
     }
 
     private Requester generateMartinRequester(Enum httpMethod) {
@@ -88,7 +95,7 @@ class OrderRequestServiceSpec extends Specification {
             agenda.save()
 
             def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: '+agenda.id+', client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -113,7 +120,7 @@ class OrderRequestServiceSpec extends Specification {
             agenda.save()
 
             def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: '+agenda.id+',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -141,7 +148,7 @@ class OrderRequestServiceSpec extends Specification {
             def quantity = 3
             def product_id = 4
             def lines = '[ { order: 1, product: '+product_id+', quantity: '+quantity.toString()+', price:100} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: '+agenda.id+',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
             def product = Product.findById(product_id)
             def originalStock = product.stock
 
@@ -168,7 +175,7 @@ class OrderRequestServiceSpec extends Specification {
 
             def quantity = 25
             def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
             def product = Product.findById(1)
             def originalStock = product.stock
 
@@ -191,24 +198,24 @@ class OrderRequestServiceSpec extends Specification {
 
     void "test invalidClient"() {
         given:
-        def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-        String time = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
-        def body = '{client: 1000, fecha: '+ time +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
+            String time = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
+            def body = '{visit_id: 0, client: 1000, fecha: '+ time +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
-        def requester = this.generateMartinRequester(HttpProtocol.POST)
-        requester.addProperty(HttpProtocol.BODY, body)
+            def requester = this.generateMartinRequester(HttpProtocol.POST)
+            requester.addProperty(HttpProtocol.BODY, body)
 
         and:
-        def orderRequesterService = new OrderRequestService()
+            def orderRequesterService = new OrderRequestService()
 
         when:
-        orderRequesterService.validate(requester)
-        orderRequesterService.generateQuery()
-        String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
+            orderRequesterService.validate(requester)
+            orderRequesterService.generateQuery()
+            String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == "{\"status\":{\"result\":\"error\",\"description\":\"Client not found\"}}"
+            result == "{\"status\":{\"result\":\"error\",\"description\":\"Client not found\"}}"
     }
 
     void "test invalidProduct"() {
@@ -219,7 +226,7 @@ class OrderRequestServiceSpec extends Specification {
 
         def lines = '[ { order: 1, product: 1000, quantity: 1, price:100} ]'
         String time = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
-        def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+        def body = '{visit_id: ' + agenda.id + ', client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
         def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -241,11 +248,11 @@ class OrderRequestServiceSpec extends Specification {
         given:
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
             calendar.add(Calendar.DATE, -7)
-            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00')
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
             def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-            def body = '{client: 1, fecha: 0, estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: ' + agenda.id + ', client: 1, fecha: 0, estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -260,7 +267,7 @@ class OrderRequestServiceSpec extends Specification {
             String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-            result == "{\"status\":{\"result\":\"error\",\"description\":\"Date for that client and seller not available\"}}"
+            result == "{\"status\":{\"result\":\"error\",\"description\":\"No se puede solicitar una orden fuera de la semana de trabajo\"}}"
     }
 
     void "test aWeekAgoDate"() {
@@ -271,7 +278,7 @@ class OrderRequestServiceSpec extends Specification {
         agenda.save()
 
         def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-        def body = '{client: 1, fecha: '+ calendar.getTimeInMillis()+', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+        def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis()+', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
         def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -286,7 +293,7 @@ class OrderRequestServiceSpec extends Specification {
         String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == '{"status":{"result":"error","description":"Could not save such an old order request"}}'
+        result == '{"status":{"result":"error","description":"No se puede solicitar una orden fuera de la semana de trabajo"}}'
     }
 
     void "test validDate"() {
@@ -296,7 +303,7 @@ class OrderRequestServiceSpec extends Specification {
         agenda.save()
 
         def lines = '[ { order: 1, product: 1, quantity: 1, price:100} ]'
-        def body = '{client: 1, fecha: '+ calendar.getTimeInMillis()+', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+        def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis()+', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
         def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -323,7 +330,7 @@ class OrderRequestServiceSpec extends Specification {
             def quantity = 25
             def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100} ]'
             String time = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -347,10 +354,10 @@ class OrderRequestServiceSpec extends Specification {
             Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
             agenda.save()
 
+            def product = Product.findById(1)
             def quantity = 15
             def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
-            def product = Product.findById(1)
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal:' + quantity * product.price + ', vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -375,10 +382,12 @@ class OrderRequestServiceSpec extends Specification {
             agenda.save()
 
             def quantity = 15
-            def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100}, { order: 1, product: 2, quantity: '+quantity.toString()+', price:10} ]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
             def product1 = Product.findById(1)
             def product2 = Product.findById(2)
+            def total = quantity * product1.price + quantity * product2.price
+
+            def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100}, { order: 1, product: 2, quantity: '+quantity.toString()+', price:10} ]'
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: ' + total +', vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -404,7 +413,7 @@ class OrderRequestServiceSpec extends Specification {
 
         def quantity = 15
         def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100}, { order: 1, product: 2, quantity: '+quantity.toString()+', price:10} ]'
-        def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+        def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
         def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -430,7 +439,7 @@ class OrderRequestServiceSpec extends Specification {
 
             def quantity = 2
             def lines = '[ {order: 1, product: 6, quantity: '+quantity.toString()+', price:100}]'
-            def body = '{client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.NO_VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.NO_VISITADO.toString() + '", importeTotal: 0.0, vendedor: 1 , lines: '+lines+'}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -452,7 +461,7 @@ class OrderRequestServiceSpec extends Specification {
             String message = orderRequestService2.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
 
         then:
-            message == '{"status":{"result":"error","description":"Order has already been taken"}}'
+            message == '{"status":{"result":"error","description":"No se puede tomar la orden, el cliente ya fue visitado"}}'
     }
 
 
@@ -460,12 +469,13 @@ class OrderRequestServiceSpec extends Specification {
         given:
             long today = CalendarDate.currentDate()
 
-            new Agenda(seller_id: 1, client_id: 1, date: today, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString()).save()
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: today, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
+            agenda.save()
             int stock1 = Product.findById(1).getStock()
             int stock2 = Product.findById(2).getStock()
 
         and:
-            def body = '{"lines":"[{\"order\":\"0\",\"product\":\"1\",\"quantity\":\"1\",\"price\":\"600.0\"},{\"order\":\"0\",\"product\":\"2\",\"quantity\":\"2\",\"price\":\"150.0\"}]","estado":"","client":"1","fecha":'+today+',"importeTotal":"900.0"}'
+            def body = '{"lines":"[{\"order\":\"0\",\"product\":\"1\",\"quantity\":\"1\",\"price\":\"600.0\"},{\"order\":\"0\",\"product\":\"2\",\"quantity\":\"2\",\"price\":\"150.0\"}]","estado":"","client":"1","fecha":'+today+',"importeTotal":"900.0", visit_id: ' + agenda.id + '}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -489,10 +499,11 @@ class OrderRequestServiceSpec extends Specification {
 
     void "test emptyPurchase"() {
         given:
-            new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString()).save()
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: 1462152644190, day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
+            agenda.save()
 
         and:
-            def body = '{"lines":"[{}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0"}'
+            def body = '{"lines":"[{}]","estado":"","client":"1","fecha":"1462152644190","importeTotal":"900.0", visit_id: ' + agenda.id + '}'
 
         and:
             def requester = this.generateMartinRequester(HttpProtocol.POST)
@@ -512,5 +523,34 @@ class OrderRequestServiceSpec extends Specification {
 
         then:
             message.size() != 0
+    }
+
+    void "test validStockToEmptyStock"() {
+        given:
+            int pushMessages = Push_message.count
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
+            Agenda agenda = new Agenda(seller_id: 1, client_id: 1, date: calendar.getTimeInMillis(), day:1, time: '00:00', state: ClientStates.PENDIENTE.toString())
+            agenda.save()
+
+            def product = Product.findById(1)
+            def quantity = product.getStock()
+            def lines = '[ { order: 1, product: 1, quantity: '+quantity.toString()+', price:100} ]'
+            def body = '{visit_id: ' + agenda.id + ',client: 1, fecha: '+ calendar.getTimeInMillis() +', estado: "'+ ClientStates.VISITADO.toString() + '", importeTotal:' + quantity * product.price + ', vendedor: 1 , lines: '+lines+'}'
+
+        and:
+            def requester = this.generateMartinRequester(HttpProtocol.POST)
+            requester.addProperty(HttpProtocol.BODY, body)
+
+        and:
+            def orderRequesterService = new OrderRequestService()
+
+        when:
+            orderRequesterService.validate(requester)
+            orderRequesterService.generateQuery()
+            def order = ClientOrder.findById(1)
+
+        then:
+            order.total_price == quantity * product.price
+            Push_message.count == pushMessages + 1
     }
 }

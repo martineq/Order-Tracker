@@ -5,10 +5,6 @@ import ordertracker.queries.RawQueryFacade
 
 class ProductController {
 
-    def before() {
-        Log.info(request)
-    }
-
     def index() {
         def renderer = new Renderer()
         render renderer.message("Métodos disponibles<br>")
@@ -27,5 +23,9 @@ class ProductController {
 
     def image() {
         response << new RawQueryFacade(new ProductImageService()).solve(request)
+    }
+
+    def testAddProduct() {
+        new Product(name:'prueba', brand_id:11, image:'images/product/17', category:'ciudado personal', characteristic:'botella 1500ml', stock:800, price:13.85, state:'disponible').save()
     }
 }

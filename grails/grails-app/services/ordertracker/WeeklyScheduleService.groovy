@@ -12,6 +12,7 @@ import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
+import ordertracker.util.CalendarDate
 
 class WeeklyScheduleService implements Queryingly{
 
@@ -23,8 +24,6 @@ class WeeklyScheduleService implements Queryingly{
     WeeklyScheduleService() {
         this.sellerUsername = null
         this.weeklySchedule = null
-        this.firstScheduledDay = 0
-        this.lastScheduledDay = 0
         this.defineScheduleWeek()
     }
 
@@ -93,39 +92,8 @@ class WeeklyScheduleService implements Queryingly{
     }
 
     private def defineScheduleWeek() {
-        Calendar calendar = this.getCalendar()
-        this.firstScheduledDay = this.startingDateOfThisWeek(calendar)
-        this.lastScheduledDay = this.finishingDateOfThisWeek(calendar)
-    }
-
-    private Calendar getCalendar() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
-        calendar.setFirstDayOfWeek(Calendar.SUNDAY)
-        return calendar
-    }
-
-    private long startingDateOfThisWeek(Calendar calendar) {
-        int week = calendar.get(Calendar.WEEK_OF_YEAR)
-
-        calendar.set(Calendar.WEEK_OF_YEAR, week-1)
-        calendar.set(Calendar.DAY_OF_WEEK, 7)
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
-
-        return calendar.getTimeInMillis()
-    }
-
-    private long finishingDateOfThisWeek(Calendar calendar) {
-        int week = calendar.get(Calendar.WEEK_OF_YEAR)
-
-        calendar.set(Calendar.WEEK_OF_YEAR, week+2)
-        calendar.setFirstDayOfWeek(Calendar.SUNDAY)
-        calendar.set(Calendar.DAY_OF_WEEK, 1)
-        calendar.set(Calendar.HOUR_OF_DAY, 00)
-        calendar.set(Calendar.MINUTE, 00)
-        calendar.set(Calendar.SECOND, 00)
-
-        return calendar.getTimeInMillis()
+        def calendar = new CalendarDate()
+        this.firstScheduledDay = calendar.startingDateOfThisWeek()
+        this.lastScheduledDay = calendar.finishingDateOfThisWeek()
     }
 }

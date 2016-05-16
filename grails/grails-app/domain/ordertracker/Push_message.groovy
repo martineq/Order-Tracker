@@ -7,5 +7,6 @@ class Push_message {
 
     String title;
     String description;
+    int type;
 
 }

@@ -69,6 +69,7 @@ class PushMessageCreator {
         notification.addJsonableItem(new JsonPropertyFactory(Keywords.ID, message.id))
         notification.addJsonableItem(new JsonPropertyFactory(Keywords.TITLE, message.title))
         notification.addJsonableItem(new JsonPropertyFactory(Keywords.BODY, message.description))
+        notification.addJsonableItem(new JsonPropertyFactory(Keywords.TYPE, message.type))
 
         return notification.buildJson()
     }

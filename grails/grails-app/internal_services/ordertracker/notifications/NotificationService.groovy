@@ -7,9 +7,9 @@ import ordertracker.UserType
 
 class NotificationService {
 
-    def add(String title, String description) {
+    def add(Notification notification) {
 
-        def push_message = new Push_message(title: title, description: description)
+        def push_message = new Push_message(title: notification.getTitle(), description: notification.getBody(), type: notification.getNotificationType())
         push_message.save()
 
         Seller.findAll().each {
@@ -19,9 +19,8 @@ class NotificationService {
         }
     }
 
-    def add(long seller_id, String title, String description) {
-        def push_message = new Push_message(title: title, description: description)
-
+    def add(long seller_id, Notification notification) {
+        def push_message = new Push_message(title: notification.getTitle(), description: notification.getBody(), type: notification.getNotificationType())
         def seller = Seller.findById(seller_id)
 
         if ( seller != null ) {

@@ -10,6 +10,7 @@ import org.grails.web.json.JSONObject
 class OrderRequestDTO implements DTO {
     private List<ProductRequestDTO> productRequests
 
+    private long visit_id
     private int client_id
     private long date
     private double totalAmount
@@ -28,6 +29,7 @@ class OrderRequestDTO implements DTO {
     }
 
     private void loadObjectState(JSONObject jsonObject) {
+        visit_id = jsonObject.getInt(Keywords.VISIT_ID.toString())
         client_id = jsonObject.getInt(Keywords.CLIENT.toString())
         date = jsonObject.getLong(Keywords.DATE_ES.toString())
         totalAmount = jsonObject.getDouble(Keywords.TOTAL_AMOUNT_ES.toString())
@@ -54,6 +56,14 @@ class OrderRequestDTO implements DTO {
 
     void setProductRequests(List<ProductRequestDTO> productRequests) {
         this.productRequests = productRequests
+    }
+
+    long getVisit_id() {
+        return visit_id
+    }
+
+    void setVisit_id(long visit_id) {
+        this.visit_id = visit_id
     }
 
     int getClient_id() {

@@ -6,6 +6,7 @@ import ordertracker.constants.Constants
 import ordertracker.constants.Keywords
 import ordertracker.protocol.builder.JsonObjectBuilder
 import ordertracker.protocol.builder.properties.JsonPropertyFactory
+import ordertracker.util.CalendarDate
 
 /**
  * Created by martin on 14/05/16.
@@ -19,18 +20,20 @@ class DiscountApplier {
     }
 
     def defineDiscounts(Product product) {
+        long currentTime = CalendarDate.currentDate()
 
-        discounts = Discount.findAllByProduct_id(product.id)
+        discounts = Discount.where{ product_id == product.id && brand_id == product.brand_id && category == product.category && datebeg < currentTime && dateend > currentTime }
+        if ( discounts.size() != 0 ) return this
 
-        if ( discounts != null ) return this
+        discounts = Discount.where{ product_id == -1 && brand_id == product.brand_id && category == product.category && datebeg < currentTime && dateend > currentTime }
+        if ( discounts.size() != 0 ) return this
 
-        discounts = Discount.findAllByBrand_id(product.brand_id)
+        discounts = Discount.where{ product_id == -1 && brand_id == product.brand_id && category == 'none' && datebeg < currentTime && dateend > currentTime }
+        if ( discounts.size() != 0 ) return this
 
-        if ( discounts != null ) return this
-
-        discounts = Discount.findAllByCategory(product.category)
-
+        discounts = Discount.where{ product_id == -1 && brand_id == -1 && category == product.category && datebeg < currentTime && dateend > currentTime }
         return this
+
     }
 
     def applyDiscounts() {
@@ -46,8 +49,8 @@ class DiscountApplier {
 
                 discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.ID, discount.id))
                 discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.PERCENTAGE, discount.percentage))
-                discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.RANGE_FROM, Constants.MIN_PRODUCTS_ITEMS))
-                discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.RANGE_UPTO, Constants.MAX_PRODUCTS_ITEMS))
+                discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.RANGE_FROM, discount.range_from))
+                discountJsonObject.addJsonableItem(new JsonPropertyFactory(Keywords.RANGE_UPTO, discount.range_upto))
 
                 jsonObject.addJsonableItem(discountJsonObject)
             }

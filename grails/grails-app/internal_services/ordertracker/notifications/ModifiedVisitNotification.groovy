@@ -14,11 +14,16 @@ class ModifiedVisitNotification extends Notification {
         this.client = Client.findById(agenda.client_id)
     }
 
-    def defineTitle() {
+    @Override
+    NotificationType defineNotificationType() {
+        return NotificationType.AGENDA
+    }
+
+    def getTitle() {
         return "Visita Reprogramada"
     }
 
-    def defineBody() {
+    def getBody() {
         return client.name  + ' - ' + CalendarDate.getWeekDayInSpanish(agenda.day) + ' ' + agenda.time
     }
 }

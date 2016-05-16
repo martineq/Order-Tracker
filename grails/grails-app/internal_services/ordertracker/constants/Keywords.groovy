@@ -40,6 +40,7 @@ enum Keywords {
     STATE("state"),
     STOCK("stock"),
     TITLE("title"),
+    TYPE('type'),
     VISIT_ID('visit_id'),
     WEEK_DATE('week_date'),
 
