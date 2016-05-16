@@ -3,7 +3,6 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Pedidos</title>
-        
 <style>
 
 input[pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"] {
@@ -23,6 +22,7 @@ function showDiv() {
    document.getElementById('searchDiv').style.display = "block";
 }
 </script>
+
 
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
@@ -74,6 +74,7 @@ function showDiv() {
     
 </div>
 
+
 <div id="mainContainer">
     <div id="divA">
     <a><asset:image src="search.png"  style="width:38px;height:38px;" value="Buscar" onclick="showDiv()"/></a>
@@ -81,6 +82,7 @@ function showDiv() {
     </div>
 </div>            
 
+<g:if test="${res!=0}" >
 <div class="table-responsive">
   <table class="table">
      <tr>
@@ -119,6 +121,11 @@ function showDiv() {
 
 
   </table>
+  </g:if>
+
+<g:else >
+No se encontraron resultados para mostrar.
+</g:else>
 </div>
 
 </body>

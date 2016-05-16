@@ -18,6 +18,7 @@ Detalles del pedido del ${params.date}.
     <th class="tg-yw4l">Producto</th>
     <th class="tg-yw4l">Marca</th>
     <th class="tg-yw4l">Categoría</th>
+    <th class="tg-yw4l">Descripción</th>
     <th class="tg-yw4l">Precio por unidad</th>
     <th class="tg-yw4l">Cantidad</th>
   </tr>
@@ -26,13 +27,30 @@ Detalles del pedido del ${params.date}.
 
   <tr>
     
-    <td class="tg-yw4l">${order.product_id}</td>
+    <td class="tg-yw4l"> 
+    <g:if test="${products[i]!=null}"> ${products[i].name} </g:if>
+    <g:else> - </g:else>
+    </td>
     
-    <td class="tg-yw4l"> "MARCA" </td>
+    <td class="tg-yw4l">${brands[i]}</td>
     
-    <td class="tg-yw4l"> CATEGORIA </td>
-
-    <td class="tg-yw4l"> $ </td>
+    <td class="tg-yw4l"> 
+    
+    <g:if test="${products[i]!=null}"> ${products[i].category} </g:if>
+    <g:else> - </g:else>
+</td>
+    <td class="tg-yw4l"> 
+    
+    <g:if test="${products[i]!=null}">   ${products[i].characteristic}   </g:if>
+    <g:else> - </g:else>
+    
+</td>
+    <td class="tg-yw4l"> 
+    
+    <g:if test="${products[i]!=null}">   $  ${products[i].price}   </g:if>
+    <g:else> - </g:else>
+    
+</td>
     <td class="tg-yw4l"> ${order.requested_items} </td>
   </tr>
 </g:each>

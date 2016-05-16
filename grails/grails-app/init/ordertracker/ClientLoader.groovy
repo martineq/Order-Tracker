@@ -64,5 +64,9 @@ class ClientLoader {
         new Client(name: 'Pierre-Gilles de Gennes',  address: 'Av. Corrientes 2650',city: 'Ciudad de Buenos Aires', qrcode: 'H', email: 'Pierre-GillesdeGennes@gmail.com').save()
         new Client(name: 'Subramanyan Chandrasekhar',  address: 'Av. Corrientes 2700',city: 'Ciudad de Buenos Aires', qrcode: 'H', email: 'SubramanyanChandrasekhar@gmail.com').save()
         new Client(name: 'Robert Woodrow Wilson',  address: 'Av. Corrientes 2750',city: 'Ciudad de Buenos Aires', qrcode: 'H', email: 'RobertWoodrowWilson@gmail.com').save()
+        
+        
+        
+
     }
 }
