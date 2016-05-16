@@ -10,6 +10,7 @@ import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
+import ordertracker.util.logger.Log
 
 class ACKPushService implements Queryingly {
 
@@ -53,8 +54,18 @@ class ACKPushService implements Queryingly {
                 user_message.delete(flush: true)
                 message_deleted = true
 
+                try {
+                Log.info(Seller.findById(seller_id).name + " devolvió el ACK del mensaje push #"+ message_id)
+
+                if ( Distribution.findByMessage_id(message_id) == null )
+                    Log.info("Mensaje push #" + message_id + " fue entragado a "+ User.findById(seller_id).username + " y borrado del servidor")
+                } catch (NullPointerException e){}
+
                 if (Distribution.countByMessage_id(user_message.message_id) == 0) {
                     Push_message.findById(user_message.message_id).delete(flush: true)
+                    try {
+                        Log.info("Todos los mensajes push #"+ message_id + " fueron entregados")
+                    } catch (NullPointerException e){}
                 }
             }
 
