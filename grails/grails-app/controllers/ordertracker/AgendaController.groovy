@@ -229,6 +229,30 @@ class AgendaController {
         [clients:clients,day:day]
     }
     
+    def searchnameclient() {
+    
+        def clientsAll=Client.list(sort:"name", order:"des")
+        
+        def clientList=[]
+        
+        def agendaList=[]
+        
+        def res=0
+        
+        clientsAll.each { client ->
+            if ( client.name.toLowerCase().contains(params.clientname.toLowerCase()) ) {
+                def clid=client.id
+                //Tengo la agenda para este cliente
+                def agenda= Agenda.executeQuery("select t2.id,t2.name,t1.day,t1.time,t1.id,t2.id,t2.address,t2.city,t1.state,t3.name from Agenda t1,Client t2,Seller t3 where t1.client_id = t2.id and t2.id=${clid} and t3.id=t1.seller_id order by t1.day asc , t1.time asc")
+                agendaList.add(agenda)
+                res=res+1
+                clientList.add(client)
+            }        
+        };
+        
+        [agendaList:agendaList,res:res,clientList:clientList]
+    }
+    
     def show() {
         def agenda = Agenda.findAllBySeller_id(params.id)
 

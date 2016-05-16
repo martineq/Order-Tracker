@@ -25,7 +25,7 @@ function showDiv() {
 <g:form  controller="Agenda" action="searchdniseller" style="margin: 0px;border:0px">
 
         
-<label>DNI: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="dni"/>
+<label>DNI vendedor: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="dni"/>
 
 
 <g:actionSubmit class="buttonb" value="Buscar" action="searchdniseller"/>
@@ -34,12 +34,25 @@ function showDiv() {
     <br>
     <g:form controller="Agenda" action="searchnameseller" style="margin: 0;border:0px">
  
-<label>Nombre: </label>
+<label>Nombre vendedor: </label>
 <br>
 <g:textField  type="text" required="" name="name"/>
 
   <g:actionSubmit class="buttonb" value="Buscar" action="searchnameseller"/>
     </g:form>
+    
+        <br>
+    <g:form controller="Agenda" action="searchnameclient" style="margin: 0;border:0px">
+ 
+<label>Nombre cliente: </label>
+<br>
+<g:textField  type="text" required="" name="clientname"/>
+
+  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameclient"/>
+    </g:form>
+</div>
+
+
 </div>
 
 <div id="mainContainer">
