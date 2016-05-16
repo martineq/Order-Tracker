@@ -88,6 +88,7 @@ public class Order {
 
     public JSONObject toJSONObject(){
         HashMap<String,String> params = new HashMap<String,String>();
+        if (this.client != null) params.put("visit_id", String.valueOf(this.client.getVisit_id()));
         if (this.client != null) params.put("client", String.valueOf(this.client.getId()));
         if (this.fecha != null) params.put("fecha", String.valueOf(this.fecha.getTime()));
         if (this.estado != null){
