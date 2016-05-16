@@ -12,20 +12,30 @@ import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.LogInActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
+import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Notification;
+import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.example.uriel.ordertracker.R;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Uriel on 05-May-16.
  */
-public class PushService extends IntentService {
+public class PushService extends IntentService implements Response.Listener<JSONObject> {
     private android.os.Handler handler;
     private IRestService restService;
     private String username;
@@ -59,7 +69,7 @@ public class PushService extends IntentService {
                 if(sendRequest){
                     sendRequest = false;
                     restService.getNotifications(username, token, context);
-                    Thread.sleep(3000);
+                    Thread.sleep(30000);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -72,6 +82,12 @@ public class PushService extends IntentService {
 
     public void showNotification(ArrayList<Notification> notifications) {
         for (final Notification notification : notifications) {
+            try {
+                this.sendACK(String.valueOf(notification.getId()));
+            } catch (NullPointerException n) {
+                n.printStackTrace();
+            }
+
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -138,4 +154,24 @@ public class PushService extends IntentService {
             }
         sendRequest = true;
     }
+
+    public void sendACK(final String id) {
+        String url = Constants.getACKServiceUrl();
+
+        JsonObjectRequest req = new JsonObjectRequest(JsonObjectRequest.Method.DELETE, url, null, this, null) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", SessionInformation.getSessionUsername());
+                headers.put("token", SessionInformation.getSessionToken());
+                headers.put("id", id);
+                return headers;
+            }
+        };
+
+        Request response = Volley.newRequestQueue(this).add(req);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {}
 }
