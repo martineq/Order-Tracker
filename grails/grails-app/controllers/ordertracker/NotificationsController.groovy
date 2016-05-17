@@ -21,4 +21,8 @@ class NotificationsController {
     def ack(){
         response << new QueryFacade(new ACKPushService()).solve(request)
     }
+
+    def gcm_token() {
+        response << new QueryFacade(new TokenReceptionService()).solve(request)
+    }
 }

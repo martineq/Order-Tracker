@@ -23,6 +23,7 @@ enum Keywords {
     DATE_UPTO("date_upto"),
     DESCRIPTION("description"),
     DISCOUNT('discounts'),
+    GCM_TOKEN('tokengcm'),
     ID("id"),
     IMAGE("image"),
     IMAGE_BASE_64("imageBase64"),
