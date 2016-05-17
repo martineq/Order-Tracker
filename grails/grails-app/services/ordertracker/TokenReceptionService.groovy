@@ -49,6 +49,10 @@ class TokenReceptionService implements Queryingly {
 
     @Override
     def obtainResponse(TransmissionMedium transmissionMedium) {
-        return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Rejected request"))
+        if ( UserNotification.findByUser_idAndToken_gcm(user_id, gcm_token) == null )
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Rejected request"))
+
+        else
+            return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "User token updated"))
     }
 }
