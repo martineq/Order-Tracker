@@ -3,7 +3,6 @@ package ordertracker
 import ordertracker.constants.Enums
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
-import ordertracker.information.InformationException
 import ordertracker.information.InformationFinder
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
@@ -37,6 +36,14 @@ class TokenReceptionService implements Queryingly {
 
     @Override
     def generateQuery() {
+        def userNotification = UserNotification.findByUser_id(user_id)
+
+        if ( userNotification == null )
+            userNotification = new UserNotification(user_id: user_id, token_gcm: gcm_token )
+
+        else userNotification.token_gcm = gcm_token
+
+        userNotification.save(flush: true)
         return false
     }
 
