@@ -6,11 +6,12 @@ import ordertracker.queries.RawQueryFacade
 class NotificationsController {
 
     def update() {
+        Push_message.findAll().each { Push_message p -> p.properties}
         response << new QueryFacade(new NotificationsRequestService()).solve(request)
     }
 
     def push() {
-        PushService.getInstance().push()
+        GCMConnectorService.getInstance().push()
         response << "OK"
     }
 

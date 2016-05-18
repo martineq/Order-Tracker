@@ -2,6 +2,7 @@ package ordertracker.database
 
 import ordertracker.Agenda
 import ordertracker.ClientOrder
+import ordertracker.GCMConnectorService
 import ordertracker.OrderDetail
 import ordertracker.Product
 import ordertracker.PushService
@@ -66,7 +67,7 @@ class OrderRequestLoader {
             def product = Product.findById(product_id)
             if (product.getStock() == 0) {
                 new EmptyStockNotification(product).addNotification()
-                PushService.getInstance().push()
+                GCMConnectorService.getInstance().push()
             }
         } catch (NullPointerException e) {}
     }

@@ -20,6 +20,6 @@ class Product {
 
     def afterInsert() {
         new NewProduct(this).addNotification()
-        PushService.getInstance().push()
+        GCMConnectorService.getInstance().push()
     }
 }

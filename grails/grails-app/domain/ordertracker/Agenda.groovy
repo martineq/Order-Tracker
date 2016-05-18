@@ -23,12 +23,12 @@ class Agenda {
 
     def afterInsert() {
         new NewVisitNotification(this).addNotification(this.seller_id)
-        PushService.getInstance().push()
+        GCMConnectorService.getInstance().push()
     }
 
     def afterUpdate() {
         new ModifiedVisitNotification(this).addNotification(this.seller_id)
-        PushService.getInstance().push()
+        GCMConnectorService.getInstance().push()
     }
 
 

@@ -37,6 +37,6 @@ class Discount {
         else if ( brand_id != -1 && category == 'none')
             new NewBrandDiscount(this).addNotification()
 
-        PushService.getInstance().push()
+        GCMConnectorService.getInstance().push()
     }
 }

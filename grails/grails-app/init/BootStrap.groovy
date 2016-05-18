@@ -1,14 +1,16 @@
 package ordertracker
 
+import ordertracker.constants.Constants
 import ordertracker.constants.ServerDetails
+
 import ordertracker.util.Server
 import ordertracker.util.logger.Log
 import ordertracker.util.logger.SecurityLog
 
 class BootStrap {
 
-    def pushService
-    def remoteUdpTranslationService
+    // def pushService
+    // def remoteUdpTranslationService
 
     def init = { servletContext ->
 
@@ -17,15 +19,19 @@ class BootStrap {
         Log.InitializeLogger(ServerDetails.SERVER_LOGS_PATH, ServerDetails.SERVER_INFO_LOG_FILE_NAME )
         Log.info("Loading server on url: "+ Server.getURL())
 
-        pushService = PushService.getInstance()
-        remoteUdpTranslationService = RemoteUdpTranslationService.getInstance()
+        // pushService = PushService.getInstance()
+        // remoteUdpTranslationService = RemoteUdpTranslationService.getInstance()
+
+        // Thread.start {
+        //     pushService.run()
+        // }
+
+        // Thread.start {
+        //    remoteUdpTranslationService.run()
+        // }
 
         Thread.start {
-            pushService.run()
-        }
-
-        Thread.start {
-            remoteUdpTranslationService.run()
+            GCMConnectorService.initializeGCMConnectionService(Constants.GCM_AUTHORIZATION_KEY).run()
         }
 
 		new UserLoader().load()
@@ -52,8 +58,9 @@ class BootStrap {
     }
 
     def destroy = {
-        pushService.stop()
-        remoteUdpTranslationService.stop()
+        // pushService.stop()
+        // remoteUdpTranslationService.stop()
+        GCMConnectorService.getInstance().stop()
         Log.info("Server DOWN!")
     }
 }

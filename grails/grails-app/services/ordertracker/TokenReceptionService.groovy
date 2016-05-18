@@ -11,6 +11,7 @@ import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
 import ordertracker.tranmission.TransmissionMedium
+import ordertracker.util.logger.Log
 
 class TokenReceptionService implements Queryingly {
 
@@ -31,7 +32,7 @@ class TokenReceptionService implements Queryingly {
 
         def informationFinder = new InformationFinder(requester)
         gcm_token = informationFinder.findProperty(Keywords.GCM_TOKEN, "Missing token")
-        user_id = informationFinder.findUserID(Keywords.USERNAME)
+        user_id = informationFinder.findSellerID(Keywords.USERNAME)
     }
 
     @Override
@@ -52,7 +53,9 @@ class TokenReceptionService implements Queryingly {
         if ( UserNotification.findByUser_idAndToken_gcm(user_id, gcm_token) == null )
             return new ProtocolJsonBuilder().addStatus(new Status(Result.ERROR, "Rejected request"))
 
-        else
-            return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "User token updated"))
+        Log.info("GCM token recibido: [ " + gcm_token + " ]")
+        GCMConnectorService.getInstance().push()
+        return new ProtocolJsonBuilder().addStatus(new Status(Result.OK, "User token updated"))
+
     }
 }

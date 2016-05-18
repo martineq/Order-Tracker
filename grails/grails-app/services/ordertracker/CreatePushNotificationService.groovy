@@ -3,7 +3,9 @@ package ordertracker
 import ordertracker.constants.Enums
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.notifications.NewNotification
 import ordertracker.notifications.NotificationService
+import ordertracker.notifications.NotificationType
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.protocol.Result
 import ordertracker.protocol.Status
@@ -38,7 +40,7 @@ class CreatePushNotificationService implements Queryingly {
 
     @Override
     def generateQuery() {
-        new NotificationService().add(title, body)
+        new NotificationService().add(new NewNotification(title, body, NotificationType.NONE))
         return true
     }
 
