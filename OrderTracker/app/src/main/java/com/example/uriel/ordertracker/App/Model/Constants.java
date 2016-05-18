@@ -27,7 +27,7 @@ public class Constants {
     public static final String GET_ORDER_SERVICE = "order/historical";
     public static final String SEND_QR_SERVICE = "order/qr";
     public static final String SEND_ORDER_SERVICE = "order/request";
-    public static final String GET_NOTIFICATION_SERVICE = "notifications/update";
+    public static final String REGISTER_GCMTOKEN_SERVICE = "notifications/gcm_token";
     public static final String ACK_SERVICE = "notifications/ack";
     public static final String SHARED_PREFERENCES = "commonKey";
     public static final long MINIMUM_REQUEST_IP_TIME = 5000; // 5s = 5000ms
@@ -40,7 +40,7 @@ public class Constants {
     public static String sendQRServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + SEND_QR_SERVICE); }
     public static String getOrdersServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + GET_ORDER_SERVICE); }
     public static String getACKServiceUrl() { return  (HTTP + BASE_URL + LOCALHOST_PORT + ACK_SERVICE); }
-    public static String getNotificationsServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + GET_NOTIFICATION_SERVICE); }
+    public static String registerGcmTokenServiceUrl() { return (HTTP + BASE_URL + LOCALHOST_PORT + REGISTER_GCMTOKEN_SERVICE); }
 
     //Response
     public static final String ERROR_RESPONSE = "error";

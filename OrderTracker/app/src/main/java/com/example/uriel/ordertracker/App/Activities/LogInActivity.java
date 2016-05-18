@@ -74,13 +74,6 @@ public class LogInActivity extends AppCompatActivity {
         MiInstanceIDListenerService miInstanceIDListenerService = new MiInstanceIDListenerService(this.getApplicationContext());
         miInstanceIDListenerService.onTokenRefresh();
 
-        //startService(new Intent(this, NotificationsService.class));
-
-        /*Intent i = new Intent(this, PushService.class);
-        i.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-        i.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-        startService(i);*/
-
         Intent intent = new Intent(this, DiaryActivity.class);
         intent.putExtra(RestService.LOGIN_RESPONSE_ID, String.valueOf(user.getId()));
         intent.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());

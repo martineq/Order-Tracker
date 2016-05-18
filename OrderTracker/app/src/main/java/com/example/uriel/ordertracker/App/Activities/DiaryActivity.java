@@ -71,14 +71,6 @@ public class DiaryActivity extends DrawerActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        //startService(new Intent(this, NotificationsService.class));
-
-        /*Intent i = new Intent(this, PushService.class);
-        i.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
-        i.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-        startService(i);*/
-
-
         configDrawerAfterCreate(savedInstanceState);
     }
 

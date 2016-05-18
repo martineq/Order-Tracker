@@ -16,7 +16,6 @@ import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Model.Notification;
 import com.example.uriel.ordertracker.R;
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.gson.Gson;
 
 /**
  * Created by Uriel on 17-May-16.
@@ -33,14 +32,14 @@ public class MiGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         //Armar notificacion segun mensaje recibido
-        String jsonNotification = data.getString("notification");
-        Notification notification = new Gson().fromJson(jsonNotification, Notification.class);
+        Bundle jsonNotification = (data.getBundle("notification"));
+        //Notification notification = new Gson().fromJson(jsonNotification, Notification.class);
 
-        /*String title = data.getString("title");
-        String body = data.getString("body");
-        int type = Integer.valueOf(data.getString("type"));*/
+        String title = jsonNotification.getString("title");
+        String body = jsonNotification.getString("body");
+        int type = Integer.valueOf(data.getString("type"));
 
-        //Notification notification = new Notification(0, title, body, type);
+        Notification notification = new Notification(0, title, body, type);
 
         this.MostrarNotification(notification);
     }

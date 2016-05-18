@@ -9,7 +9,6 @@ import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Order;
-import com.example.uriel.ordertracker.App.Services.Impl.PushService;
 
 import org.json.JSONException;
 
@@ -35,6 +34,5 @@ public interface IRestService {
     void getProducts(final String username, final String token, final OrderActivity context) throws JSONException;
     void sendQR(final String username, final String token, final String visit_id, final String qr, final QRReaderActivity context) throws JSONException;
     void getOrderHistory(final String username, final String token, final long desde, final long hasta, final OrderHistoryActivity context) throws JSONException;
-    void getNotifications(final String username, final String token, final PushService context) throws JSONException;
     void registerGcmToken(final String username, final String token, final String tokengcm, final Context context) throws JSONException;
 }
