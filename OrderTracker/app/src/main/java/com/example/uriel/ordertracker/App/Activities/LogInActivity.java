@@ -14,6 +14,7 @@ import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.LoginService;
+import com.example.uriel.ordertracker.App.Services.Impl.MiInstanceIDListenerService;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.R;
 
@@ -69,6 +70,9 @@ public class LogInActivity extends AppCompatActivity {
 
     public void processLoginResponse(User user){
         SessionInformation.getEditor().updateUserInformation(user);
+
+        MiInstanceIDListenerService miInstanceIDListenerService = new MiInstanceIDListenerService(this.getApplicationContext());
+        miInstanceIDListenerService.onTokenRefresh();
 
         //startService(new Intent(this, NotificationsService.class));
 

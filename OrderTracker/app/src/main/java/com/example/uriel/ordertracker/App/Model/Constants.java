@@ -15,9 +15,9 @@ public class Constants {
     public static String NO_VISITADO = "No visitado";
 
     //RestApi
-    public static String BASE_URL = "192.168.43.101";
+    public static String BASE_URL = "";
     public static final String SERVER_URL_PROPERTY = "SERVER_URL";
-    public static final String SERVER_IP_REQUEST = ""; //http://martinhernan.xyz/ip";
+    public static final String SERVER_IP_REQUEST = "http://martinhernan.xyz/ip";
     public static final String LOCALHOST_PORT = ":8080/";
     public static final String HTTP = "http://";
     public static final String LOGIN_SERVICE = "authentication/authenticate";

@@ -45,13 +45,10 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-//import com.example.uriel.ordertracker.App.Services.Impl.BrandService;
-
 public class OrderActivity extends DrawerActivity {
 
     private String brand_spinner[];
     private IProductService productService;
-    //private IBrandService brandService;
     GridView grid;
     GridAdapter gridAdapter;
     int clientId;
@@ -170,14 +167,6 @@ public class OrderActivity extends DrawerActivity {
 
         configDrawerAfterCreate(savedInstanceState);
         setTitle("Arme su pedido");
-
-        //cargar opciones de rubros
-        //brandService.getAll(username, token, this);
-
-        /*Intent i = new Intent(this, PushService.class);
-        i.putExtra(RestService.LOGIN_RESPONSE_NAME, username);
-        i.putExtra(RestService.LOGIN_TOKEN, token);
-        startService(i);*/
 
         try {
             productService.getAll(username, token, this);

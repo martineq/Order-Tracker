@@ -13,6 +13,12 @@ import com.google.android.gms.iid.InstanceIDListenerService;
  */
 public class MiInstanceIDListenerService extends InstanceIDListenerService {
 
+    private Context context;
+
+    public MiInstanceIDListenerService(Context context){
+        this.context = context;
+    }
+
     /**
      * Se llama cuando Gcm servers actualizan el registration token, principalemnte por motivos  de seguridad
      */
@@ -30,13 +36,13 @@ public class MiInstanceIDListenerService extends InstanceIDListenerService {
         protected Object doInBackground(String ... params) {
 
             try {
-                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 String username = sharedPref.getString(RestService.LOGIN_RESPONSE_NAME, "");
                 String token = sharedPref.getString(RestService.LOGIN_TOKEN, "");
 
-                String registrationToken = Helpers.ObtenerRegistrationTokenEnGcm(getApplicationContext());
+                String registrationToken = Helpers.ObtenerRegistrationTokenEnGcm(context);
 
-                Helpers.RegistrarseEnAplicacionServidor(getApplicationContext(),registrationToken, username, token);
+                Helpers.RegistrarseEnAplicacionServidor(context,registrationToken, username, token);
                 return "";
             }
             catch (Exception ex){
