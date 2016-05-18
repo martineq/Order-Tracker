@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
@@ -297,7 +298,7 @@ public class RestService implements IRestService {
     public void registerGcmToken(final String username, final String token, final String tokengcm, Context context) throws JSONException {
         String url = Constants.registerGcmTokenServiceUrl();
 
-        JsonObjectRequest req = new JsonObjectRequest(url, null,
+        JsonObjectRequest req = new JsonObjectRequest(JsonRequest.Method.POST ,url, null,
                 new Response.Listener<JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
