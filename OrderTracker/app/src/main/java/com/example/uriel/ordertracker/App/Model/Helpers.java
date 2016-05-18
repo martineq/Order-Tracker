@@ -1,12 +1,20 @@
 package com.example.uriel.ordertracker.App.Model;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.example.uriel.ordertracker.App.Services.Impl.RestService;
+import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.example.uriel.ordertracker.R;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
+
+import org.json.JSONException;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
@@ -104,5 +112,23 @@ public class Helpers {
         dialog.setContentText(content);
 
         return dialog;
+    }
+
+    public static String ObtenerRegistrationTokenEnGcm(Context context) throws  Exception
+    {
+        InstanceID instanceID = InstanceID.getInstance(context);
+        String token = instanceID.getToken("503700765257", GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+
+        return token;
+    }
+
+    public static void RegistrarseEnAplicacionServidor(Context context,String registrationToken, String username, String token) throws  Exception
+    {
+        try {
+            IRestService restService = new RestService();
+            restService.registerGcmToken(username, token, registrationToken, context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

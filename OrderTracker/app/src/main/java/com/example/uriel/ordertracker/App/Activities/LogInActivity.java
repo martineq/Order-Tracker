@@ -14,8 +14,6 @@ import com.example.uriel.ordertracker.App.Model.Helpers;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Model.User;
 import com.example.uriel.ordertracker.App.Services.Impl.LoginService;
-import com.example.uriel.ordertracker.App.Services.Impl.NotificationsService;
-import com.example.uriel.ordertracker.App.Services.Impl.PushService;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.R;
 
@@ -72,12 +70,12 @@ public class LogInActivity extends AppCompatActivity {
     public void processLoginResponse(User user){
         SessionInformation.getEditor().updateUserInformation(user);
 
-        startService(new Intent(this, NotificationsService.class));
+        //startService(new Intent(this, NotificationsService.class));
 
-        Intent i = new Intent(this, PushService.class);
+        /*Intent i = new Intent(this, PushService.class);
         i.putExtra(RestService.LOGIN_RESPONSE_NAME, user.getUsername());
         i.putExtra(RestService.LOGIN_TOKEN, user.getToken());
-        startService(i);
+        startService(i);*/
 
         Intent intent = new Intent(this, DiaryActivity.class);
         intent.putExtra(RestService.LOGIN_RESPONSE_ID, String.valueOf(user.getId()));

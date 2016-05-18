@@ -174,6 +174,11 @@ public class OrderActivity extends DrawerActivity {
         //cargar opciones de rubros
         //brandService.getAll(username, token, this);
 
+        /*Intent i = new Intent(this, PushService.class);
+        i.putExtra(RestService.LOGIN_RESPONSE_NAME, username);
+        i.putExtra(RestService.LOGIN_TOKEN, token);
+        startService(i);*/
+
         try {
             productService.getAll(username, token, this);
         } catch (JSONException e) {

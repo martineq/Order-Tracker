@@ -1,5 +1,6 @@
 package com.example.uriel.ordertracker.App.Services.Interface;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
@@ -35,4 +36,5 @@ public interface IRestService {
     void sendQR(final String username, final String token, final String visit_id, final String qr, final QRReaderActivity context) throws JSONException;
     void getOrderHistory(final String username, final String token, final long desde, final long hasta, final OrderHistoryActivity context) throws JSONException;
     void getNotifications(final String username, final String token, final PushService context) throws JSONException;
+    void registerGcmToken(final String username, final String token, final String tokengcm, final Context context) throws JSONException;
 }

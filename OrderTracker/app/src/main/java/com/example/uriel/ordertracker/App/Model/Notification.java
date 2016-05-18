@@ -9,6 +9,13 @@ public class Notification {
     private String body;
     private int type;
 
+    public Notification(int id, String title, String body, int type){
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.type = type;
+    }
+
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }

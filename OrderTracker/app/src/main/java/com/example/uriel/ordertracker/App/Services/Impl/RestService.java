@@ -1,5 +1,7 @@
 package com.example.uriel.ordertracker.App.Services.Impl;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -315,7 +317,11 @@ public class RestService implements IRestService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+                Intent i = new Intent(context, PushService.class);
+                i.putExtra(RestService.LOGIN_RESPONSE_NAME, username);
+                i.putExtra(RestService.LOGIN_TOKEN, token);
+                context.startService(i);
+                //ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
             }
         })
         {
@@ -331,5 +337,34 @@ public class RestService implements IRestService {
         // add the request object to the queue to be executed
         Request response = Volley.newRequestQueue(context).add(req);
 
+    }
+
+    @Override
+    public void registerGcmToken(final String username, final String token, final String tokengcm, Context context) throws JSONException {
+        String url = Constants.getNotificationsServiceUrl();
+
+        JsonObjectRequest req = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject> () {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", username);
+                headers.put("token", token);
+                headers.put("tokengcm", tokengcm);
+                return headers;
+            }
+        };
+
+        // add the request object to the queue to be executed
+        Request response = Volley.newRequestQueue(context).add(req);
     }
 }

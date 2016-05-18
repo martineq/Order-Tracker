@@ -48,7 +48,7 @@ public class ProductService implements IProductService {
         }
 
         for (Discount discount: myProduct.getDiscounts()) {
-            if(quantity >= discount.getRangeFrom() && (discount.getRangeTo() == 0 || quantity <= discount.getRangeTo())){
+            if(quantity >= discount.getRangeFrom() && (discount.getRangeTo() == -1 || quantity <= discount.getRangeTo())){
                 return (myProduct.getPrice() * quantity) * discount.getPercentage() / 100;
             }
         }

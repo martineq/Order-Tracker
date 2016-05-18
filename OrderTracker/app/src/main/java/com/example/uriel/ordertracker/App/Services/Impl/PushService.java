@@ -69,7 +69,7 @@ public class PushService extends IntentService implements Response.Listener<JSON
                 if(sendRequest){
                     sendRequest = false;
                     restService.getNotifications(username, token, context);
-                    Thread.sleep(30000);
+                    Thread.sleep(10000);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -82,22 +82,24 @@ public class PushService extends IntentService implements Response.Listener<JSON
 
     public void showNotification(ArrayList<Notification> notifications) {
         for (final Notification notification : notifications) {
+/*
             try {
                 this.sendACK(String.valueOf(notification.getId()));
-            } catch (NullPointerException n) {
+            } catch (Exception n) {
                 n.printStackTrace();
             }
+*/
 
-                NotificationCompat.Builder mBuilder =
-                        (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
-                                .setSmallIcon(R.mipmap.ic_launcher)
-                                .setContentTitle(notification.getTitle())
-                                .setContentText(notification.getBody())
-                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                .setVibrate(new long[]{1000, 0, 0, 0, 0})
-                                .setLights(Color.BLUE, 3000, 3000)
-                                .setAutoCancel(true)
-                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+            NotificationCompat.Builder mBuilder =
+                    (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle(notification.getTitle())
+                            .setContentText(notification.getBody())
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setVibrate(new long[]{1000, 0, 0, 0, 0})
+                            .setLights(Color.BLUE, 3000, 3000)
+                            .setAutoCancel(true)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
 
 
                 if(notification.getType() == 1){
@@ -150,9 +152,9 @@ public class PushService extends IntentService implements Response.Listener<JSON
                     // mId allows you to update the notification later on.
                     mNotificationManager.notify(notification.getId(), mBuilder.build());
                 }
-
             }
         sendRequest = true;
+
     }
 
     public void sendACK(final String id) {
