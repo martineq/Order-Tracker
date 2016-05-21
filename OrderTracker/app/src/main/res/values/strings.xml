@@ -14,6 +14,9 @@
         <item>Catalogo</item>
         <item>Pedidos</item>
         <item>Desconectar</item>
+        <item> </item>
+        <item> </item>
+        <item>Usuario</item>
     </string-array>
     <string name="drawer_open">Abrir menu</string>
     <string name="drawer_close">Cerrar menu</string>

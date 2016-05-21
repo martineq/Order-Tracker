@@ -37,6 +37,7 @@ public class DrawerActivity extends AppCompatActivity {
     public String[] optionsTitles;
 
     public int userId;
+    public String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,14 @@ public class DrawerActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         userId = sharedPref.getInt(RestService.LOGIN_RESPONSE_ID, 0);
         userId = SessionInformation.getEditor().loadUserInformation().getId();
+        username = SessionInformation.getEditor().loadUserInformation().getUsername();
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
 
         mTitle = mDrawerTitle = getTitle();
         optionsTitles = getResources().getStringArray(R.array.arrayItems);
+        optionsTitles[optionsTitles.length - 1] = username;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -140,6 +143,7 @@ public class DrawerActivity extends AppCompatActivity {
                 intent0 = new Intent(this, DiaryActivity.class);
                 intent0.putExtra("FIRST", false);
                 startActivity(intent0);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 1:
@@ -147,12 +151,14 @@ public class DrawerActivity extends AppCompatActivity {
                 intent1 = new Intent(this, OrderActivity.class);
                 intent1.putExtra("ReadOnly", true);
                 startActivity(intent1);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 2:
                 Intent intent2;
                 intent2 = new Intent(this, OrderHistoryActivity.class);
                 startActivity(intent2);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 3:
@@ -171,9 +177,9 @@ public class DrawerActivity extends AppCompatActivity {
                     }
                 });
                 dialog3.show();
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
         }
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
 
