@@ -37,7 +37,11 @@
 <br>
 <label>Contraseña: </label>
 <br>
-<g:textField type="text" required="" name="password"/>
+<g:passwordField name="passw" required=""/>
+<br>
+<label>Repetir Contraseña: </label>
+<br>
+<g:passwordField name="passwok" required="" />
 <br>
 <br>
   </div>

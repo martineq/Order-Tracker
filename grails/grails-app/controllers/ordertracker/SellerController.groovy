@@ -61,48 +61,62 @@ class SellerController {
     
     def save() {
         def seller = new Seller()
-        seller.name=params.name
-        seller.document_number=params.dni.toInteger()
-        seller.phone=params.phone.toInteger()
-        seller.zone=params.zone
+        def okpass=true
+        if(params.passw==params.passwok) {
+            seller.name=params.name
+            seller.document_number=params.dni.toInteger()
+            seller.phone=params.phone.toInteger()
+            seller.zone=params.zone
+            
+            seller.save(failOnError: true)
+            def user = new User()
+            user.username=params.user
+            user.password=params.passw
+            user.token="token"+params.dni
+            
+            user.save(failOnError: true)
+            
+            def usertype= new UserType( user_id: user.id,type_id: seller.id, type: Seller.getTypeName())
+            usertype.save(failOnError: true)
+        }
+        else {
+            okpass=false
+        }
         
-        seller.save(failOnError: true)
-        def user = new User()
-        user.username=params.user
-        user.password=params.password
-        user.token="token"+params.dni
-        
-        user.save(failOnError: true)
-         
-        
-        def usertype= new UserType( user_id: user.id,type_id: seller.id, type: Seller.getTypeName())
-        usertype.save(failOnError: true)
-        
-        [sellern:seller.name]
+        [sellern:seller.name,okpass:okpass]
     }
     
     def updateseller() {
 
         def seller = Seller.get(params.id)
         
-        seller.name=params.name
-        seller.phone=params.phone.toInteger()
-        seller.document_number=params.dni.toInteger()
-        seller.zone=params.zone
+        def okpass=true
         
-        def types = UserType.list()
-        types.each { type ->
-                if(type.type_id==seller.id){
-                    def user = User.get(type.user_id)
-                    user.username=params.user
-                    user.password=params.pass
-                    user.save(failOnError: true)
-                }
-        };
+        if(params.pass==params.passok) {
         
-        seller.save(failOnError: true)
+            seller.name=params.name
+            seller.phone=params.phone.toInteger()
+            seller.document_number=params.dni.toInteger()
+            seller.zone=params.zone
 
-        [seller:seller]
+            
+            def types = UserType.list()
+            types.each { type ->
+                    if(type.type_id==seller.id){
+                        def user = User.get(type.user_id)
+                        user.username=params.user
+                        user.password=params.pass
+                        user.save(failOnError: true)
+                    }
+            };
+            
+            seller.save(failOnError: true)
+        }
+        else {
+            okpass=false
+        }
+
+        [seller:seller,okpass:okpass]
         
 
     }

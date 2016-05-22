@@ -5,7 +5,7 @@
     <title>Datos del vendedor ${seller.name} modificados</title>
 </head>
 <body>
-
+<g:if test="${okpass==true}" >
 <h1>Datos del vendedor ${seller.name} modificados</h1>
 
 <div> Nuevos datos: </div>
@@ -32,7 +32,14 @@
 <div align="center">
 <a href="/seller/index"><button type="button" class="btn btn-default">Volver</button></a>
 </div>
+</g:if>
 
+<g:else >
+<h1>Contraseña incorrecta</h1>
+<div align="center">
+Las contraseñas ingresadas no concuerdan.<br>
+<button type="button" class="btn btn-default" onclick="history.go(-1);">Volver</button></div>
+</g:else>
 
 </body>
 </html>
