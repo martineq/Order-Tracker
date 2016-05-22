@@ -13,16 +13,46 @@ class OrderController {
         def days=[]
         def res=0
         String stat=""
+        String seller=""
+        String client=""
         def ordersres=[]
+        boolean containDat=true
+        boolean searchDate=false
+        long dateInit
+        long dateEnd
         
         if (params.orderstate != null ) {
             if(params.orderstate.toLowerCase().contains("todos") != true){
                 stat=params.orderstate.toLowerCase()
             }
         }
+        if (params.nameseller != null ) {
+            if(params.nameseller.length() != 0 ){
+                seller=params.nameseller.toLowerCase()
+            }
+        }
+        if (params.nameclient != null ) {
+            if(params.nameclient.length() != 0 ){
+                client=params.nameclient.toLowerCase() 
+            }
+        }
+        if (params.yearinit != null && params.yearend != null) {
+         if(params.yearinit.length() != 0  && params.yearend.length() != 0 ){
+                dateInit=getDate(params.yearinit.toInteger(),params.monthinit.toInteger()-1,params.dayinit.toInteger(),0,0)
+                dateEnd=getDate(params.yearend.toInteger(),params.monthend.toInteger()-1,params.dayend.toInteger(),23,59)
+                containDat=false
+                searchDate=true
+            }
+        }
         
         orders.each { ord ->
-                if( ord.state.toLowerCase().contains(stat)==true ) {
+                boolean searchstate=ord.state.toLowerCase().contains(stat)
+                boolean searchseller=ord.sellername.toLowerCase().contains(seller)
+                boolean searchclient=ord.clientname.toLowerCase().contains(client) 
+                if (searchDate) {
+                    containDat = containDate(dateInit,dateEnd,ord.date)
+                }
+                if( searchstate && searchseller && searchclient && containDat) {
                     res=res+1
                     String day = getDay(ord.date)
                     days.add(day)
@@ -32,34 +62,7 @@ class OrderController {
         
         [orders:ordersres,days:days,res:res]
     }
-    
-    def searchnameorder() {
-    
-        def orders = ClientOrder.list(sort:"date", order:"desc")
-        
-        def ordersres=[]
-        def clients=[]
-        def sellers=[]
-        def days=[]
-        def res=0
-        
-        orders.each { ord ->
-                def seller = Seller.findById(ord.seller_id)
-                if(seller!=null) {
-                    if( seller.name.toLowerCase().contains(params.nameseller.toLowerCase()) ) {
-                        def client = Client.findById(ord.client_id)
-                        res=res+1
-                        String day = getDay(ord.date)
-                        clients.add(client);
-                        sellers.add(seller);
-                        days.add(day)
-                        ordersres.add(ord);
-                    }
-                }
-        };
-        
-        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
-    }
+
     
     def searchdateorder() {
         def orders = ClientOrder.list(sort:"date", order:"desc")
@@ -87,33 +90,6 @@ class OrderController {
         
         [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
     }
-    
-    def searchnameclientorder() {
-        def orders = ClientOrder.list(sort:"date", order:"desc")
-        def res=0
-        def ordersres=[]
-        def clients=[]
-        def sellers=[]
-        def days=[]
-        
-        orders.each { ord ->
-                def client = Client.findById(ord.client_id)
-                if(client!=null) {
-                    if( client.name.toLowerCase().contains(params.nameclient.toLowerCase()) ) {
-                        def seller = Seller.findById(ord.seller_id)
-                        res=res+1
-                        String day = getDay(ord.date)
-                        clients.add(client);
-                        sellers.add(seller);
-                        days.add(day)
-                        ordersres.add(ord);
-                    }
-                }
-        };
-        
-        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
-    }
-    
     
     private boolean containDate(long init,long end, long date){
 

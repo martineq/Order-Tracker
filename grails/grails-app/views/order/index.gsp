@@ -65,7 +65,7 @@ function showDiv() {
     
     </div>
 </div>            
-
+<g:if test="${res>0}" >
 <div class="table-responsive">
   <table class="table">
      <tr>
@@ -101,6 +101,9 @@ function showDiv() {
 
   </table>
 </div>
-
+</g:if>
+<g:else >
+No se encontraron resultados para mostrar.
+</g:else>
 </body>
 </html>
