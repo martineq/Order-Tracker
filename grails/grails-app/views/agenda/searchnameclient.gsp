@@ -10,9 +10,7 @@
 
 <h1>Búsqueda de visitas agendadas para un cliente</h1>
 
-        
-
-<div align="left">
+  <div align="left">
 
 <script>
 function showDiv() {
@@ -23,26 +21,20 @@ function showDiv() {
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
-<h2><b>Búscador</b></h2>
-<g:form  controller="Agenda" action="searchdniseller" style="margin: 0px;border:0px">
+<h2><b>Buscador</b></h2>
+<g:form  controller="Agenda" action="index" style="margin: 0px;border:0px">
 
         
-<label>DNI vendedor: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  required="" name="dni"/>
-
-
-<g:actionSubmit class="buttonb" value="Buscar" action="searchdniseller"/>
-    </g:form>
-
-    <br>
-    <g:form controller="Agenda" action="searchnameseller" style="margin: 0;border:0px">
- 
+<label>DNI vendedor: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"   name="dni"/>
+<br>
 <label>Nombre vendedor: </label>
 <br>
-<g:textField  type="text" required="" name="name"/>
+<g:textField  type="text" name="name"/>
 
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameseller"/>
+<g:actionSubmit class="buttonb" value="Buscar" action="index"/>
     </g:form>
-    
+
+
         <br>
     <g:form controller="Agenda" action="searchnameclient" style="margin: 0;border:0px">
  

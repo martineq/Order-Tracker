@@ -5,9 +5,50 @@ import ordertracker.queries.QueryFacade
 class SellerController {
 
     def index() {
-        def sellers = Seller.list(sort:"document_number", order:"des")
-        [sellers:sellers]
+    
+        def sellersAll = Seller.list(sort:"document_number", order:"des")
+        if(params.name==null && params.dni==null) {
+            def res=1
+            [sellers:sellersAll,res:res]
+        }
+        else if (params.name.length() == 0 && params.dni.length()==0){
+            def res=-1
+            [sellers:sellersAll,res:res]
+        }
+        else {
+                def sellers=[]
+                def res=0
+            
+                sellersAll.each { sell ->
+                        if (params.dni.length() != 0 && params.name.length() == 0){
+                        
+                            if( sell.document_number==params.dni.toInteger() ){
+                                sellers.add(sell);
+                                res=res+1
+                            }
+                            
+                        }
+                        if (params.name.length() != 0 && params.dni.length()==0 ){
+                            if( sell.name.toLowerCase().contains(params.name.toLowerCase()) ){
+                                sellers.add(sell);
+                                res=res+1
+                            }
+                        }
+                        if (params.name.length() != 0 && params.dni.length()!=0 ){
+                            if( sell.name.toLowerCase().contains(params.name.toLowerCase()) ){
+                                if( sell.document_number==params.dni.toInteger() ) {
+                                    sellers.add(sell);
+                                    res=res+1
+                                }
+                            }
+                        }
+                };
+            
+                [sellers:sellers,res:res]
+        
+            }
     }
+    
 
     def weeklySchedule() {
         response << new QueryFacade(new WeeklyScheduleService()).solve(request)
@@ -98,37 +139,6 @@ class SellerController {
         Agenda.executeUpdate("delete Agenda where seller_id=${pid}")
         
         [clients:params.id]
-    }
-    
-    def searchdniseller(){
-        def sellersAll = Seller.list(sort:"document_number", order:"des")
-        def sellers=[]
-        def res=0
-        
-        sellersAll.each { sell ->
-                if( sell.document_number==params.dni.toInteger() ){
-                    sellers.add(sell);
-                    res=res+1
-                }
-        };
-        
-        [sellers:sellers,res:res]
-    }
-    
-    
-    def searchnameseller(){
-        def sellersAll = Seller.list(sort:"document_number", order:"des")
-        def sellers=[]
-        def res=0
-        
-        sellersAll.each { sell ->
-                if( sell.name.toLowerCase().contains(params.name.toLowerCase()) ){
-                    sellers.add(sell);
-                    res=res+1
-                }
-        };
-        
-        [sellers:sellers,res:res]
     }
 
 }

@@ -19,7 +19,7 @@ function showDiv() {
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
-<h2><b>Búscador</b></h2>
+<h2><b>Buscador</b></h2>
 
     <g:form controller="Client" action="searchnameclient" style="margin: 0;border:0px">
  

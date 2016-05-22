@@ -12,40 +12,27 @@ class OrderController {
         def clients=[]
         def sellers=[]
         def days=[]
-        
-        orders.each { ord ->
-                def client = Client.findById(ord.client_id)
-                def seller = Seller.findById(ord.seller_id)
-                String day = getDay(ord.date)
-                clients.add(client);
-                sellers.add(seller);
-                days.add(day)
-        };
-        
-        [orders:orders,sellers:sellers,clients:clients,days:days]
-    }
-    
-    def searchstateorder() {
-    
-        def orders = ClientOrder.list(sort:"date", order:"desc")
-        
-        def ordersres=[]
-        def clients=[]
-        def sellers=[]
-        def days=[]
         def res=0
+        String stat=""
+        def ordersres=[]
+        
+        if (params.orderstate != null ) {
+            if(params.orderstate.toLowerCase().contains("todos") != true){
+                stat=params.orderstate.toLowerCase()
+            }
+        }
         
         orders.each { ord ->
-                    if( ord.state.toLowerCase().contains(params.orderstate.toLowerCase()) ) {
-                        def seller = Seller.findById(ord.seller_id)
-                        def client = Client.findById(ord.client_id)
-                        res=res+1
-                        String day = getDay(ord.date)
-                        clients.add(client);
-                        sellers.add(seller);
-                        days.add(day)
-                        ordersres.add(ord);
-                    }
+                if( ord.state.toLowerCase().contains(stat)==true ) {
+                    res=res+1
+                    def client = Client.findById(ord.client_id)
+                    def seller = Seller.findById(ord.seller_id)
+                    String day = getDay(ord.date)
+                    clients.add(client);
+                    sellers.add(seller);
+                    days.add(day)
+                    ordersres.add(ord);
+                }
         };
         
         [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
@@ -106,6 +93,33 @@ class OrderController {
         [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
     }
     
+    def searchnameclientorder() {
+        def orders = ClientOrder.list(sort:"date", order:"desc")
+        def res=0
+        def ordersres=[]
+        def clients=[]
+        def sellers=[]
+        def days=[]
+        
+        orders.each { ord ->
+                def client = Client.findById(ord.client_id)
+                if(client!=null) {
+                    if( client.name.toLowerCase().contains(params.nameclient.toLowerCase()) ) {
+                        def seller = Seller.findById(ord.seller_id)
+                        res=res+1
+                        String day = getDay(ord.date)
+                        clients.add(client);
+                        sellers.add(seller);
+                        days.add(day)
+                        ordersres.add(ord);
+                    }
+                }
+        };
+        
+        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
+    }
+    
+    
     private boolean containDate(long init,long end, long date){
 
         if(date <= end && date >=init) {
@@ -137,31 +151,7 @@ class OrderController {
         return calendar.getTimeInMillis()
     }
     
-    def searchnameclientorder() {
-        def orders = ClientOrder.list(sort:"date", order:"desc")
-        def res=0
-        def ordersres=[]
-        def clients=[]
-        def sellers=[]
-        def days=[]
-        
-        orders.each { ord ->
-                def client = Client.findById(ord.client_id)
-                if(client!=null) {
-                    if( client.name.toLowerCase().contains(params.nameclient.toLowerCase()) ) {
-                        def seller = Seller.findById(ord.seller_id)
-                        res=res+1
-                        String day = getDay(ord.date)
-                        clients.add(client);
-                        sellers.add(seller);
-                        days.add(day)
-                        ordersres.add(ord);
-                    }
-                }
-        };
-        
-        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
-    }
+
     
     def orderdetails() {
     

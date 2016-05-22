@@ -27,51 +27,36 @@ function showDiv() {
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
-<h2><b>Búscador</b></h2>
+<h2><b>Buscador</b></h2>
 
-<g:form controller="Order" action="searchnameorder" style="margin: 0;border:0px" >
+<g:form controller="Order" action="index" style="margin: 0;border:0px" >
  
 <label>Nombre vendedor: </label>
 <br>
-<g:textField  type="text" required="" name="nameseller"/>
-
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameorder"/>
-    </g:form>
-    
+<g:textField  type="text" name="nameseller"/>
 <br>
-<g:form controller="Order" action="searchnameclientorder" style="margin: 0;border:0px" >
- 
 <label>Nombre cliente: </label>
 <br>
-<g:textField  type="text" required="" name="nameclient"/>
-
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameclientorder"/>
-    </g:form>
-    
+<g:textField  type="text" name="nameclient"/>
 <br>
-<g:form controller="Order" action="searchdateorder" style="margin: 0;border:0px">
- 
 <label>Rango de Fechas: </label>
 <br>
  <g:select  name="dayinit" from="${01..31}"/> / <g:select  name="monthinit" from="${01..12}"/> / 
- <g:textField  type="text" required="" name="yearinit" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
+ <g:textField  type="text" name="yearinit" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
 -
  <g:select  name="dayend" from="${01..31}"/> / <g:select  name="monthend" from="${01..12}"/> / 
- <g:textField  type="text" required="" name="yearend"  pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
- 
-<g:actionSubmit class="buttonb" value="Buscar" action="searchdateorder"/>
-    </g:form>
-
-    <br>
-<g:form controller="Order" action="searchstateorder" style="margin: 0;border:0px">
- 
-<label>Estado de pedido: </label>
+ <g:textField  type="text" name="yearend"  pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
 <br>
- <g:select  name="orderstate" from="${['Despachado', 'Solicitado', 'Cancelado']}"/>
-
-<g:actionSubmit class="buttonb" value="Buscar" action="searchstateorder"/>
+  <br>
+  <label>Estado de pedido: </label>
+<br>
+ <g:select  name="orderstate" from="${['Todos', 'Despachado', 'Solicitado', 'Cancelado']}"/>
+ 
+  <g:actionSubmit class="buttonb" value="Buscar" action="index"/>
+  <br>
+  
     </g:form>
-    
+
 </div>
 
 <div id="mainContainer">
