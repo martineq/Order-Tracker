@@ -12,7 +12,15 @@
 
 <script>
 function showDiv() {
-   document.getElementById('searchDiv').style.display = "block";
+
+var div = document.getElementById('searchDiv');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+    
 }
 </script>
 
@@ -21,14 +29,15 @@ function showDiv() {
 
 <h2><b>Buscador</b></h2>
 
-    <g:form controller="Client" action="searchnameclient" style="margin: 0;border:0px">
+    <g:form controller="Client" action="searchnameclient" style="margin: 0;border:0px;width:90%">
  
 <label>Nombre: </label>
 <br>
 <g:textField  type="text" required="" name="name"/>
-
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameclient"/>
+    <br>
+  <g:actionSubmit class="buttond" value="Buscar" action="searchnameclient"/>    <br>
     </g:form>
+    <br>
 </div>
 
 <div id="mainContainer">
@@ -37,7 +46,7 @@ function showDiv() {
     
     </div>
     <div id="divB">
-    
+
      <div align="right"><g:link action="up"><b>Agregar</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
      
      </div>

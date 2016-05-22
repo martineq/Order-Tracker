@@ -14,35 +14,49 @@
 
 <script>
 function showDiv() {
-   document.getElementById('searchDiv').style.display = "block";
+
+var div = document.getElementById('searchDiv');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+    
 }
 </script>
+
 
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
 <h2><b>Buscador</b></h2>
-<g:form  controller="Agenda" action="index" style="margin: 0px;border:0px">
+<g:form  controller="Agenda" action="index" style="margin: 0px;border:0px;width:90%">
 
         
-<label>DNI vendedor: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"   name="dni"/>
-<br>
+<div id="mainContainer">
+    <div id="divA">
+<label>DNI vendedor: </label> <g:textField  type="text" pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"  name="dni"/>
+  </div>
+    <div id="divB">
 <label>Nombre vendedor: </label>
 <br>
 <g:textField  type="text" name="name"/>
+     </div>
+</div>
 
-<g:actionSubmit class="buttonb" value="Buscar" action="index"/>
+<g:actionSubmit class="buttond" value="Buscar" action="index"/><br>
     </g:form>
 
 
         <br>
-    <g:form controller="Agenda" action="searchnameclient" style="margin: 0;border:0px">
+    <g:form controller="Agenda" action="searchnameclient" style="margin: 0;border:0px;width:90%">
  
 <label>Nombre cliente: </label>
 <br>
 <g:textField  type="text" required="" name="clientname"/>
-
-  <g:actionSubmit class="buttonb" value="Buscar" action="searchnameclient"/>
+<br>
+  <g:actionSubmit class="buttond" value="Buscar" action="searchnameclient"/><br>
     </g:form>
 </div>
 
@@ -55,6 +69,7 @@ function showDiv() {
     
     </div>
 </div>
+
  
 <g:if test="${res != 0}">
 

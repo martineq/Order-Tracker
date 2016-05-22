@@ -20,25 +20,45 @@ input[pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$"] {
 
 <script>
 function showDiv() {
-   document.getElementById('searchDiv').style.display = "block";
+
+var div = document.getElementById('searchDiv');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+    
 }
 </script>
 
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
 
+
 <h2><b>Buscador</b></h2>
 
-<g:form controller="Order" action="index" style="margin: 0;border:0px" >
- 
+<g:form controller="Order" action="index" style="margin: 0;border:0px;width:100%" >
+ <div id="mainContainer">
+    <div id="divA">
 <label>Nombre vendedor: </label>
 <br>
 <g:textField  type="text" name="nameseller"/>
-<br>
+    
+    </div>
+    
+    <div id="divB">
 <label>Nombre cliente: </label>
 <br>
 <g:textField  type="text" name="nameclient"/>
-<br>
+</div></div>
+
+
+
+
+ <div id="mainContainer">
+    <div id="divA">
+
 <label>Rango de Fechas: </label>
 <br>
  <g:select  name="dayinit" from="${01..31}"/> / <g:select  name="monthinit" from="${01..12}"/> / 
@@ -47,18 +67,23 @@ function showDiv() {
  <g:select  name="dayend" from="${01..31}"/> / <g:select  name="monthend" from="${01..12}"/> / 
  <g:textField  type="text" name="yearend"  pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
 <br>
-  <br>
+    </div>
+    
+    <div id="divB">
   <label>Estado de pedido: </label>
 <br>
  <g:select  name="orderstate" from="${['Todos', 'Despachado', 'Solicitado', 'Cancelado']}"/>
- 
-  <g:actionSubmit class="buttonb" value="Buscar" action="index"/>
+</div></div>
+
+
+
+  <g:actionSubmit class="buttond" value="Buscar" action="index"/>
   <br>
   
     </g:form>
 
 </div>
-
+<br>
 <div id="mainContainer">
     <div id="divA">
     <a><asset:image src="search.png"  style="width:38px;height:38px;" value="Buscar" onclick="showDiv()"/></a>
