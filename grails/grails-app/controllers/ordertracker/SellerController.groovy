@@ -21,8 +21,8 @@ class SellerController {
             
                 sellersAll.each { sell ->
                         if (params.dni.length() != 0 && params.name.length() == 0){
-                        
-                            if( sell.document_number==params.dni.toInteger() ){
+                            String docn= String.valueOf(sell.document_number) 
+                            if( docn.toLowerCase().contains(params.dni.toLowerCase()) ){
                                 sellers.add(sell);
                                 res=res+1
                             }
@@ -36,7 +36,8 @@ class SellerController {
                         }
                         if (params.name.length() != 0 && params.dni.length()!=0 ){
                             if( sell.name.toLowerCase().contains(params.name.toLowerCase()) ){
-                                if( sell.document_number==params.dni.toInteger() ) {
+                                String docn= String.valueOf(sell.document_number) 
+                                if( docn.toLowerCase().contains(params.dni.toLowerCase())  ) {
                                     sellers.add(sell);
                                     res=res+1
                                 }

@@ -60,7 +60,7 @@ var div = document.getElementById('searchDiv');
     </g:form>
 </div>
 
-
+<br>
 </div>
 
 <div id="mainContainer">

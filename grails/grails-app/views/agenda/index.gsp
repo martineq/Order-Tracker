@@ -61,7 +61,7 @@ var div = document.getElementById('searchDiv');
 
 
 </div>
-
+<br>
 <div id="mainContainer">
     <div id="divA">
     <a><asset:image src="search.png"  style="width:38px;height:38px;" value="Buscar" onclick="showDiv()"/></a>
