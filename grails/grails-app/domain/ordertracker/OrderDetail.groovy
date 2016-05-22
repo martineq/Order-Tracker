@@ -11,5 +11,10 @@ class OrderDetail {
     int order_id
     int product_id
     int requested_items
+    String productname
+    String brand
+    String characteristic
+    String category
+    double price
 
 }

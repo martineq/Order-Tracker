@@ -17,5 +17,7 @@ class ClientOrder {
     String state
     long date
     double total_price
+    String sellername
+    String clientname
 
 }
