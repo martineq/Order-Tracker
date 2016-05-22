@@ -7,8 +7,8 @@
 <body>
             <h1>Detalle de un pedido</h1>
 Detalles del pedido del ${params.date}. 
-<g:if test="${seller != null}"> Vendedor: ${seller.name}. </g:if>
-  <g:if test="${client !=null}"> Cliente: ${client.name} </g:if>
+Vendedor: ${params.sellername}. 
+ Cliente: ${params.clientname}
   
   
   
@@ -28,27 +28,21 @@ Detalles del pedido del ${params.date}.
   <tr>
     
     <td class="tg-yw4l"> 
-    <g:if test="${products[i]!=null}"> ${products[i].name} </g:if>
-    <g:else> - </g:else>
+ ${order.productname} 
     </td>
     
-    <td class="tg-yw4l">${brands[i]}</td>
+    <td class="tg-yw4l"> ${order.brand}  </td>
     
     <td class="tg-yw4l"> 
     
-    <g:if test="${products[i]!=null}"> ${products[i].category} </g:if>
-    <g:else> - </g:else>
+${order.category}
 </td>
     <td class="tg-yw4l"> 
-    
-    <g:if test="${products[i]!=null}">   ${products[i].characteristic}   </g:if>
-    <g:else> - </g:else>
+     ${order.characteristic}
     
 </td>
     <td class="tg-yw4l"> 
-    
-    <g:if test="${products[i]!=null}">   $  ${products[i].price}   </g:if>
-    <g:else> - </g:else>
+  $  ${order.price}
     
 </td>
     <td class="tg-yw4l"> ${order.requested_items} </td>

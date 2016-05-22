@@ -9,8 +9,7 @@ class OrderController {
 
     def index() {
         def orders = ClientOrder.list(sort:"date", order:"desc")
-        def clients=[]
-        def sellers=[]
+
         def days=[]
         def res=0
         String stat=""
@@ -25,17 +24,13 @@ class OrderController {
         orders.each { ord ->
                 if( ord.state.toLowerCase().contains(stat)==true ) {
                     res=res+1
-                    def client = Client.findById(ord.client_id)
-                    def seller = Seller.findById(ord.seller_id)
                     String day = getDay(ord.date)
-                    clients.add(client);
-                    sellers.add(seller);
                     days.add(day)
                     ordersres.add(ord);
                 }
         };
         
-        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
+        [orders:ordersres,days:days,res:res]
     }
     
     def searchnameorder() {
@@ -155,31 +150,18 @@ class OrderController {
     
     def orderdetails() {
     
-        def seller = Seller.findById(params.sellerid)
-        def client = Client.findById(params.clientid)
-        def orders= []
-        def products = []
         def brands = []
-
+        def orders = []
         
         def ordertotal = OrderDetail.list()
         
         ordertotal.each { ord ->
                 if (ord.order_id==params.id.toInteger()) {
                         orders.add(ord);
-                        def prod = Product.findById(ord.product_id)
-                        products.add(prod)
-                        if(prod!=null) {
-                            def brand = Brand.findById(prod.brand_id)
-                            brands.add(brand.name)
-                        }
-                        else {
-                            brands.add("-")
-                        }
                 }
         };
         
-        [seller:seller,client:client,orders:orders,products:products,brands:brands]
+        [orders:orders]
     
     }
     

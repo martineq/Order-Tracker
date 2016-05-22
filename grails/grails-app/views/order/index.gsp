@@ -82,21 +82,17 @@ function showDiv() {
   <tr>
     <td class="tg-yw4l">${days[i]}</td>
     <td class="tg-yw4l">
-    
-    <g:if test="${sellers[i]!=null}"> ${sellers[i].name} </g:if>
-    <g:else> - </g:else>
+    ${order.sellername}
     </td>
     <td class="tg-yw4l">
     
-    <g:if test="${clients[i]!=null}"> ${clients[i].name} </g:if>
-    <g:else> - </g:else>
-    
+     ${order.clientname}
     </td>
     <td class="tg-yw4l">${order.state}</td>
     <td class="tg-yw4l">$ ${order.total_price}</td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="orderdetails" params="[sellerid:"${order.seller_id}", id:"${order.id}", clientid:"${order.client_id}", id:"${order.id}", date:"${days[i]}" ]"><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    <g:link action="orderdetails" params="[clientname:"${order.clientname}", sellername:"${order.sellername}", id:"${order.id}", clientid:"${order.client_id}", id:"${order.id}", date:"${days[i]}" ]"><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
     </div>
     </td>
   </tr>
