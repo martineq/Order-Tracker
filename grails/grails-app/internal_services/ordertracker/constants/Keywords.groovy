@@ -11,6 +11,11 @@ enum Keywords {
     BRAND_ID("brand_id"),
     PRODUCT_ID("product_id"),
 
+    VISITED_CLIENTS_ES("clientesVisistados"),
+    OUT_OF_ROUTE_VISITED_CLIENTS_ES("clientesFueraDeRuta"),
+    TOTAL_SOLD_UNITS_ES("bultosVendidos"),
+    TODAY_GROSS_SALES_ES('ventasDelDia'),
+
     ADDRESS("address"),
     BODY("body"),
     BRAND("brand"),

@@ -96,7 +96,7 @@ class AgendaLoader {
         new Agenda(4, 58, this.generateTimeInMs(calendar, year, month, friday, 16, 00)).save()
         new Agenda(4, 1, this.generateTimeInMs(calendar, year, month, saturday, 17, 00)).save()
         new Agenda(4, 2, this.generateTimeInMs(calendar, year, month, wednesday, 14, 00)).save()
-        new Agenda(5, 3, this.generateTimeInMs(calendar, year, month, wednesday, 14, 00)).save()
+        new Agenda(5, 2, this.generateTimeInMs(calendar, year, month, wednesday, 14, 00)).save()
 
     }
 }
