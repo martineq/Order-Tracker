@@ -16,6 +16,7 @@ class Agenda {
     long    seller_id
     long    client_id
     long    date
+    long    visitedDate
     String  state
 
     int day
@@ -38,6 +39,7 @@ class Agenda {
         this.seller_id = seller_id
         this.client_id = client_id
         this.date = date
+        this.visitedDate = 0
         this.state = this.getCurrentState(date, calendar)
 
         calendar.setFirstDayOfWeek(Calendar.SUNDAY)
@@ -51,8 +53,12 @@ class Agenda {
     private String getCurrentState(long date, Calendar calendar) {
         def state = ClientStates.PENDIENTE
 
-        if ( date < calendar.getTimeInMillis() )
-            state = ( (Math.random() * 2.00) < 1 ) ? ClientStates.VISITADO : ClientStates.NO_VISITADO
+        if ( date < calendar.getTimeInMillis() ) {
+            state = ((Math.random() * 2.00) < 1) ? ClientStates.VISITADO : ClientStates.NO_VISITADO
+
+            if ( state == ClientStates.VISITADO.toString() )
+                this.visitedDate = ((Math.random() * 2.00) < 1.5 ) ? this.date : calendar.getTimeInMillis()
+        }
 
         return state.toString()
     }

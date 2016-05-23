@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.database.SellerSellsReport
 import ordertracker.information.InformationFinder
 import ordertracker.protocol.ProtocolJsonBuilder
 import ordertracker.queries.QueryException
@@ -12,9 +13,11 @@ import ordertracker.tranmission.TransmissionMedium
 class ActualSellsStatsService implements Queryingly {
 
     private long seller_id
+    private def sellerSellsReport
 
     ActualSellsStatsService() {
         this.seller_id = 0
+        this.sellerSellsReport = null
     }
 
     @Override
@@ -28,7 +31,20 @@ class ActualSellsStatsService implements Queryingly {
 
     @Override
     def generateQuery() {
-        return false
+        sellerSellsReport = new SellerSellsReport()
+
+        try {
+            sellerSellsReport.caclulateVisitedClients()
+            sellerSellsReport.caclulateOutOfRouteVisitedClients()
+            sellerSellsReport.calculateTotalSoldUnits()
+            sellerSellsReport.calculateGrossSales()
+        }
+
+        catch (Exception e) {
+            this.sellerSellsReport = null
+        }
+
+        return ( this.sellerSellsReport != null )
     }
 
     @Override

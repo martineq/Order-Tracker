@@ -189,6 +189,7 @@ class AgendaController {
         
         agenda.date=this.generateTimeInMs(dia, params.hourr.toInteger(), params.minutr.toInteger());
 
+        agenda.visitedDate = 0;
 
         agenda.save(failOnError: true)
         
@@ -348,6 +349,8 @@ class AgendaController {
         }
         
         agenda.date=this.generateTimeInMs(dia, params.hourr.toInteger(), params.minutr.toInteger());
+
+        agenda.visitedDate = 0
 
         agenda.state=ClientStates.PENDIENTE.toString()
 
