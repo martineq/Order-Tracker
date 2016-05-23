@@ -1,13 +1,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>User Login</title>
+        <title>Ingresar</title>
     </head>
     <body>
         <div class="body">
             <g:form action="doLogin" method="post">
                 <div class="dialog">
-                <p>Enter your login details below:</p>
+                <p>Introduzca su e-mail y contraseña:</p>
                 <table  class="userForm">
                     <tr class='prop'>
                     <td valign='top' style='text-align:left;' width='20%'>
@@ -19,7 +19,7 @@
                     </tr>
                     <tr class='prop'>
                     <td valign='top' style='text-align:left;' width='20%'>
-                    <label for='password'>Password:</label>
+                    <label for='password'>Contraseña:</label>
                     </td>
                     <td valign='top' style='text-align:left;' width='80%'>
                     <input id="password" type='password' name='password'
