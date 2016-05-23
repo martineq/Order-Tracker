@@ -40,8 +40,8 @@ class OrderRequestServiceSpec extends Specification {
         new UserLoader().load()
         new UserTypeLoader().load()
         new ProductLoader().load()
-        new ClientLoader().load()
         new SellerLoader().load()
+        new ClientLoader().load()
         new BrandLoader().load()
     }
 
@@ -110,7 +110,7 @@ class OrderRequestServiceSpec extends Specification {
             String response = orderRequesterService.obtainResponse().build()
 
         then:
-            response == '{"status":{"result":"ok","description":"Request accepted"}}'
+            response == '{"status":{"result":"ok","description":"Pedido aceptado"}}'
     }
 
     void "test validTime"() {
@@ -192,7 +192,7 @@ class OrderRequestServiceSpec extends Specification {
 
         then:
             product.stock == originalStock
-            def result = '{"status":{"result":"error","description":"Product id: 1 out of stock"}}'
+            def result = '{"status":{"result":"error","description":"No se aceptó la solicitud del pedido: producto mesa solicitado supera el stock [ 20 items ]"}}'
             result == orderRequesterService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
     }
 
@@ -215,7 +215,7 @@ class OrderRequestServiceSpec extends Specification {
             String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-            result == "{\"status\":{\"result\":\"error\",\"description\":\"Client not found\"}}"
+            result == "{\"status\":{\"result\":\"error\",\"description\":\"No se aceptó la solicitud del pedido: Client not found\"}}"
     }
 
     void "test invalidProduct"() {
@@ -241,7 +241,7 @@ class OrderRequestServiceSpec extends Specification {
         String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == "{\"status\":{\"result\":\"error\",\"description\":\"Product id: 1000 do not exist in database\"}}"
+        result == "{\"status\":{\"result\":\"error\",\"description\":\"No se aceptó la solicitud del pedido: Product id: 1000 do not exist in database\"}}"
     }
 
     void "test invalidTime"() {
@@ -267,7 +267,7 @@ class OrderRequestServiceSpec extends Specification {
             String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-            result == "{\"status\":{\"result\":\"error\",\"description\":\"No se puede solicitar una orden fuera de la semana de trabajo\"}}"
+            result == "{\"status\":{\"result\":\"error\",\"description\":\"No se aceptó la solicitud del pedido: No se puede solicitar una orden fuera de la semana de trabajo\"}}"
     }
 
     void "test aWeekAgoDate"() {
@@ -293,7 +293,7 @@ class OrderRequestServiceSpec extends Specification {
         String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == '{"status":{"result":"error","description":"No se puede solicitar una orden fuera de la semana de trabajo"}}'
+        result == '{"status":{"result":"error","description":"No se aceptó la solicitud del pedido: No se puede solicitar una orden fuera de la semana de trabajo"}}'
     }
 
     void "test validDate"() {
@@ -318,7 +318,7 @@ class OrderRequestServiceSpec extends Specification {
         String result = orderRequesterService.obtainResponse(DefaultTransmission.newInstance()).build()
 
         then:
-        result == '{"status":{"result":"ok","description":"Request accepted"}}'
+        result == '{"status":{"result":"ok","description":"Pedido aceptado"}}'
     }
 
     void "test productNotBuyed"() {
@@ -345,7 +345,7 @@ class OrderRequestServiceSpec extends Specification {
 
         then:
             def message = orderRequesterService.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
-            message == '{"status":{"result":"error","description":"Product id: 1 out of stock"}}'
+            message == '{"status":{"result":"error","description":"No se aceptó la solicitud del pedido: producto mesa solicitado supera el stock [ 20 items ]"}}'
     }
 
     void "test validStock"() {
@@ -461,7 +461,7 @@ class OrderRequestServiceSpec extends Specification {
             String message = orderRequestService2.obtainResponse(DefaultTransmission.obtainDefaultTransmission()).build()
 
         then:
-            message == '{"status":{"result":"error","description":"No se puede tomar la orden, el cliente ya fue visitado"}}'
+            message == '{"status":{"result":"error","description":"No se aceptó la solicitud del pedido: No se puede tomar la orden, el cliente ya fue visitado"}}'
     }
 
 
@@ -494,7 +494,7 @@ class OrderRequestServiceSpec extends Specification {
         then:
             Product.findById(1).getStock() == stock1 - 1
             Product.findById(2).getStock() == stock2 - 2
-            message == '{"status":{"result":"ok","description":"Request accepted"}}'
+            message == '{"status":{"result":"ok","description":"Pedido aceptado"}}'
     }
 
     void "test emptyPurchase"() {

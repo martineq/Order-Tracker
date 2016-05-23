@@ -3,12 +3,14 @@ package ordertracker.services
 import grails.test.mixin.Mock
 import ordertracker.*
 import ordertracker.notifications.PushMessageHandler
+import ordertracker.notifications.PushMessageSender
 import spock.lang.Specification
 
-@Mock([User, UserType, UserNotification, Distribution, Push_message])
+@Mock([Seller, User, UserType, UserNotification, Distribution, Push_message])
 class PushMessageHandlerTest extends Specification {
 
     def setup() {
+        new SellerLoader().load()
         new UserLoader().load()
         new UserTypeLoader().load()
     }
@@ -19,6 +21,8 @@ class PushMessageHandlerTest extends Specification {
         push_message.save()
 
         new Distribution(message_id: push_message.id, seller: seller_id).save()
+
+        new UserNotification(user_id: 1, token_gcm: "gcm_token").save()
     }
 
     void "test jsonBuilder"() {
@@ -26,10 +30,10 @@ class PushMessageHandlerTest extends Specification {
             this.generatePushMessage(1)
 
         and:
-            def pushMessageBuilder = new PushMessageHandler("")
+            def pushMessageSender = new PushMessageSender(Distribution.findById(1))
         when:
             def distribution = Distribution.findById(1)
-            def json = pushMessageBuilder.buildJson(distribution)
+            def json = pushMessageSender.buildJson(distribution)
 
         then:
             json == '{"to":"gcm_token","notification":{"title":"title","body":"description"},"data":{"type":1}}'
@@ -40,26 +44,11 @@ class PushMessageHandlerTest extends Specification {
             def gcm = new PushMessageHandler("AIzaSyBdpUd3L643VWf12vzRg2uGbb_2-scKOCQ")
         when:
         try {
-            def resp = gcm.sendMessage('{ "data": {"score": "5x1","time": "15:10" },"to" : "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." }')
+            def resp = gcm.send()
         } catch (RuntimeException e ) {
 
         }
         then:
-            1 == ""
+            Distribution.count() == 0
     }
-
-    void "test gcm"() {
-        given:
-            def gcm = new PushMessageHandler("AIzaSyBdpUd3L643VWf12vzRg2uGbb_2-scKOCQ")
-
-        when:
-            def json = '{ "data": {"score": "5x1","time": "15:10" },"to" : "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." }'
-            def resp = gcm.sendMessage(json)
-            def body = resp.getBody()
-            gcm.analize(body)
-
-        then:
-            1 == ""
-    }
-
 }

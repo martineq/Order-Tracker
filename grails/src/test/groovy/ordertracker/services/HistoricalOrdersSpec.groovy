@@ -7,22 +7,29 @@ import ordertracker.ClientLoader
 import ordertracker.ClientOrder
 import ordertracker.ClientOrderLoader
 import ordertracker.HistoricalOrdersService
+import ordertracker.Seller
+import ordertracker.SellerLoader
 import ordertracker.User
 import ordertracker.UserLoader
 import ordertracker.UserType
 import ordertracker.UserTypeLoader
 import ordertracker.constants.HttpProtocol
 import ordertracker.constants.Keywords
+import ordertracker.constants.ServerDetails
 import ordertracker.queries.Requester
 import ordertracker.tranmission.DefaultTransmission
 import ordertracker.util.CalendarDate
+import ordertracker.util.logger.Log
 import spock.lang.Specification
 
-@Mock( [Client, ClientOrder, User, UserType])
+@Mock( [Seller, Client, ClientOrder, User, UserType])
 @TestFor(HistoricalOrdersService)
 class HistoricalOrdersSpec extends Specification {
 
     def setup() {
+        Log.InitializeLogger(ServerDetails.SERVER_LOGS_PATH, ServerDetails.SERVER_INFO_LOG_FILE_NAME )
+
+        new SellerLoader().load()
         new ClientLoader().load()
         new UserLoader().load()
         new UserTypeLoader().load()
@@ -91,8 +98,8 @@ class HistoricalOrdersSpec extends Specification {
     void "test completeValidRequest"() {
         given:
             def requester = this.generateRequester(HttpProtocol.GET)
-            requester.addProperty(Keywords.DATE_FROM, CalendarDate.fromCurrentDate(-8))
-            requester.addProperty(Keywords.DATE_UPTO, CalendarDate.fromCurrentDate(-6))
+            requester.addProperty(Keywords.DATE_FROM, CalendarDate.fromCurrentDate(-7))
+            requester.addProperty(Keywords.DATE_UPTO, CalendarDate.fromCurrentDate(+7))
 
         when:
             def service = new HistoricalOrdersService()
