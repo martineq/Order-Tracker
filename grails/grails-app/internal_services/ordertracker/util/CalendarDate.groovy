@@ -67,6 +67,24 @@ class CalendarDate {
         return result
     }
 
+    public static long todayFirstSecond() {
+        def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
+        calendar.set(Calendar.HOUR_OF_DAY, 00)
+        calendar.set(Calendar.MINUTE, 00)
+        calendar.set(Calendar.SECOND, 00)
+
+        return calendar.getTimeInMillis()
+    }
+
+    public static long todayLastSecond() {
+        def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+
+        return calendar.getTimeInMillis()
+    }
+
     public static long currentDate() {
         return Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString())).getTimeInMillis()
     }
