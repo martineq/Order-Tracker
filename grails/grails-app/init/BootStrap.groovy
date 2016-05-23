@@ -33,18 +33,19 @@ class BootStrap {
         Thread.start {
             GCMConnectorService.initializeGCMConnectionService(Constants.GCM_AUTHORIZATION_KEY).run()
         }
-
-		new UserLoader().load()
+    
+        new UseradminLoader().load()
+        new UserLoader().load()
         new ClientLoader().load()
-            new ProductLoader().load()
-
-            new BrandLoader().load()
-            new DiscountLoader().load()
-            new AgendaLoader().load()
-            new SellerLoader().load()
-            new ClientOrderLoader().load()
-            new OrderDetailLoader().load()
-            new UserTypeLoader().load()
+        new ProductLoader().load()
+        
+        new BrandLoader().load()
+        new DiscountLoader().load()
+        new AgendaLoader().load()
+        new SellerLoader().load()
+        new ClientOrderLoader().load()
+        new OrderDetailLoader().load()
+        new UserTypeLoader().load()
 
 
         String productImages = ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()

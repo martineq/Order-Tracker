@@ -13,7 +13,9 @@
     <g:layoutHead/>
 </head>
 <body>
-
+<div style="background-color: #022747;color:#FFF;text-align: right">
+<div style="margin-right: 20px"><a href="/useradmin/logout">Cerrar sesion</a></div>
+</div>
     <div class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">

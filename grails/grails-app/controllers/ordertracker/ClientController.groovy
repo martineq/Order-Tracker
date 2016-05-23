@@ -4,6 +4,8 @@ import ordertracker.queries.QueryFacade
 
 class ClientController {
 
+
+
     def index() {
         def clients = Client.list(sort:"name", order:"des")
         [clients:clients]
@@ -11,6 +13,7 @@ class ClientController {
         
     def up() {
     }
+    
     
     def save() {
         def client = new Client()
