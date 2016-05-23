@@ -24,6 +24,7 @@ class PushMessageHandler {
         Distribution.withTransaction {
 
             long total = Distribution.count
+            long sent = 0
 
             try {
                 def sellerList = UserNotification.executeQuery("SELECT user_id FROM UserNotification")
@@ -33,7 +34,10 @@ class PushMessageHandler {
                     try {
                         def resp = new PushMessageSender(it).sendMessage(authorizationKey)
                         def stat = new ResponseAnalizer(resp).analizeResponse()
-                        if (stat == true) this.deleteMessage(it)
+                        if (stat == true) {
+                            this.deleteMessage(it)
+                            sent++;
+                        }
                     }
 
                     catch (Exception e) {
@@ -48,7 +52,7 @@ class PushMessageHandler {
 
             finally {
                 long delayedMessages = Distribution.executeQuery("SELECT COUNT(*) from Distribution d, UserNotification n WHERE d.seller = n.user_id").get(0)
-                Log.info("Mensajes pendientes [ " + delayedMessages + " ] - Mensajes en espera del token [ " + ( total - delayedMessages) + " ]")
+                Log.info("Mensajes pendientes [ " + delayedMessages + " ] - Mensajes en espera del token [ " + ( total - sent ) + " ]")
                 return delayedMessages
             }
         }
@@ -63,9 +67,9 @@ class PushMessageHandler {
             distributionMessage.delete(flush: true)
 
             if ( Distribution.findByMessage_id(id) == null )
-                Log.info("Mensaje push #" + id + " fue entragado a "+ User.findById(seller_id).username + " y borrado del servidor")
+                Log.info("Mensaje push #" + id + " fue entregado a "+ User.findById(seller_id).username + " y borrado del servidor")
 
-            if (Distribution.countByMessage_id(id) == 0)
+            if ( Distribution.countByMessage_id(push_id) == 0 )
                 Push_message.findById(push_id).delete(flush: true)
 
             if ( Push_message.findById(push_id) == null )

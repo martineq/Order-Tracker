@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat
 
 class Agenda {
 
+    static transients = ['dateModified']
+    boolean	dateModified
+
     static constraints = {
     }
 
@@ -22,20 +25,27 @@ class Agenda {
     int day
     String time
 
+    def beforeUpdate() {
+        dateModified = this.isDirty('date')
+    }
+
     def afterInsert() {
         new NewVisitNotification(this).addNotification(this.seller_id)
         GCMConnectorService.getInstance().push()
     }
 
     def afterUpdate() {
-        new ModifiedVisitNotification(this).addNotification(this.seller_id)
-        GCMConnectorService.getInstance().push()
+        if ( dateModified == true ) {
+            dateModified = false
+            new ModifiedVisitNotification(this).addNotification(this.seller_id)
+            GCMConnectorService.getInstance().push()
+        }
     }
-
 
     Agenda(long seller_id, long client_id, long date) {
         def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
 
+        this.dateModified = false
         this.seller_id = seller_id
         this.client_id = client_id
         this.date = date
