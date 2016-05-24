@@ -9,11 +9,12 @@ import ordertracker.protocol.Status
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
+import ordertracker.security.UserEncryptor
 import ordertracker.tranmission.TransmissionMedium
 
 class ValidationService implements Queryingly{
 
-    private def user
+    private User user
     private boolean validationResult
 
     ValidationService() {
@@ -32,12 +33,14 @@ class ValidationService implements Queryingly{
 
     @Override
     def generateQuery() {
-        User user = User.findByUsername(this.user.username.toString())
+        try {
+            User user = User.findByUsername(this.user.username.toString())
+            return this.validationResult = new UserEncryptor(user).validateToken(this.user.getToken())
+        }
 
-        if ( user == null || this.user.token.compareTo(user.token) != 0 )
+        catch (NullPointerException e) {
             throw new QueryException("Invalid request - user rejected")
-
-        return this.validationResult = true
+        }
     }
 
     @Override

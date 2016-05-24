@@ -1,5 +1,7 @@
 package ordertracker
 
+import ordertracker.security.UserAdminEncryptor
+
 
 class UseradminController {
     def login = { 
@@ -7,11 +9,15 @@ class UseradminController {
     }
     
     def doLogin = {
-        def user = Useradmin.findWhere(email:params['email'],password:params['password'])
+        Useradmin user = Useradmin.findWhere(email:params['email'])
+
         session.user = user
-        if(user) redirect( uri:'/' )
-        else
-        redirect(controller:'useradmin',action:'login')
+
+        if ( new UserAdminEncryptor(user).validatePassword((String) params['password']) ) {
+            redirect(uri: '/')
+        }
+
+        else redirect(controller: 'useradmin', action: 'login')
     }
     
     def logout = {
