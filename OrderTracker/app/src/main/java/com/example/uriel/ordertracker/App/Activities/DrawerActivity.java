@@ -15,11 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Helpers;
+import com.example.uriel.ordertracker.App.Model.MenuAdapter;
 import com.example.uriel.ordertracker.App.Model.SessionInformation;
 import com.example.uriel.ordertracker.App.Services.Impl.RestService;
 import com.example.uriel.ordertracker.R;
@@ -51,6 +51,7 @@ public class DrawerActivity extends AppCompatActivity {
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
         mTitle = mDrawerTitle = getTitle();
         optionsTitles = getResources().getStringArray(R.array.arrayItems);
+        optionsTitles[0] = "Usuario: " + username;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -58,8 +59,7 @@ public class DrawerActivity extends AppCompatActivity {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, optionsTitles));
+        mDrawerList.setAdapter(new MenuAdapter(this, optionsTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -136,52 +136,52 @@ public class DrawerActivity extends AppCompatActivity {
 
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
-            case 0:
-                SweetAlertDialog dialog0 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
-                dialog0.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            case 1:
+                SweetAlertDialog dialog1 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
+                dialog1.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         SessionInformation.getEditor().removeUserInformation();
 
-                        Intent intent0;
-                        intent0 = new Intent(getApplicationContext(), LogInActivity.class);
-                        intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent1;
+                        intent1 = new Intent(getApplicationContext(), LogInActivity.class);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         sweetAlertDialog.dismiss();
                         finish();
-                        startActivity(intent0);
+                        startActivity(intent1);
                     }
                 });
-                dialog0.show();
-                mDrawerLayout.closeDrawer(mDrawerList);
-                break;
-
-            case 1:
-                Intent intent1;
-                intent1 = new Intent(this, DiaryActivity.class);
-                intent1.putExtra("FIRST", false);
-                startActivity(intent1);
+                dialog1.show();
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 2:
                 Intent intent2;
-                intent2 = new Intent(this, OrderActivity.class);
-                intent2.putExtra("ReadOnly", true);
+                intent2 = new Intent(this, DiaryActivity.class);
+                intent2.putExtra("FIRST", false);
                 startActivity(intent2);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 3:
                 Intent intent3;
-                intent3 = new Intent(this, OrderHistoryActivity.class);
+                intent3 = new Intent(this, OrderActivity.class);
+                intent3.putExtra("ReadOnly", true);
                 startActivity(intent3);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 4:
                 Intent intent4;
-                intent4 = new Intent(this, ReportActivity.class);
+                intent4 = new Intent(this, OrderHistoryActivity.class);
                 startActivity(intent4);
+                mDrawerLayout.closeDrawer(mDrawerList);
+                break;
+
+            case 5:
+                Intent intent5;
+                intent5 = new Intent(this, ReportActivity.class);
+                startActivity(intent5);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
         }

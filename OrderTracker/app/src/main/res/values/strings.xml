@@ -10,6 +10,7 @@
 
 
     <string-array name="arrayItems">
+        <item>Usuario</item>
         <item>Desconectar</item>
         <item>Agenda</item>
         <item>Catalogo</item>
