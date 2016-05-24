@@ -9,4 +9,6 @@ class Constants {
     public static int MAX_PRODUCTS_ITEMS = 1000
 
     public static String GCM_AUTHORIZATION_KEY = 'AIzaSyBdpUd3L643VWf12vzRg2uGbb_2-scKOCQ'
+
+    public static final int A_MINUTE_IN_MS = 60000
 }

@@ -2,7 +2,7 @@ package ordertracker
 
 import ordertracker.constants.Constants
 import ordertracker.constants.ServerDetails
-
+import ordertracker.status.VisitsStatusUpdate
 import ordertracker.util.Server
 import ordertracker.util.logger.Log
 import ordertracker.util.logger.SecurityLog
@@ -47,6 +47,7 @@ class BootStrap {
         new OrderDetailLoader().load()
         new UserTypeLoader().load()
 
+        VisitsStatusUpdate.getInstance().start()
 
         String productImages = ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
         String productTmpImages = ServerDetails.SERVER_TMP_DIR.toString() + ServerDetails.SERVER_PRODUCTS_IMAGE_DIR.toString()
@@ -61,6 +62,7 @@ class BootStrap {
     def destroy = {
         // pushService.stop()
         // remoteUdpTranslationService.stop()
+        VisitsStatusUpdate.getInstance().terminate()
         GCMConnectorService.getInstance().stop()
         Log.info("Server DOWN!")
     }

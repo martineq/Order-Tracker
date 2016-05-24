@@ -35,6 +35,10 @@ class CalendarDate {
         calendar.setFirstDayOfWeek(this.first_day_of_the_week)
     }
 
+    public long remainingSecondsToNextMinute() {
+        return ( 60 - calendar.get(Calendar.SECOND) ) *1000
+    }
+
     public long startingDateOfThisWeek() {
         long currentTime = calendar.getTimeInMillis()
         int week = calendar.get(Calendar.WEEK_OF_YEAR)
@@ -65,6 +69,13 @@ class CalendarDate {
         calendar.setTimeInMillis(currentTime)
 
         return result
+    }
+
+    public static long lastFiveMinutes() {
+        def calendar = Calendar.getInstance(TimeZone.getTimeZone(Keywords.AR_TIMEZONE.toString()))
+        calendar.add(Calendar.MINUTE, -5)
+
+        return calendar.getTimeInMillis()
     }
 
     public static long todayFirstSecond() {
