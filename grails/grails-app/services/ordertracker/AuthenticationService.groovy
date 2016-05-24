@@ -12,16 +12,19 @@ import ordertracker.protocol.builder.properties.JsonPropertyFactory
 import ordertracker.queries.QueryException
 import ordertracker.queries.Queryingly
 import ordertracker.queries.Requester
+import ordertracker.security.UserEncryptor
 import ordertracker.tranmission.TransmissionMedium
 
 class AuthenticationService implements Queryingly{
 
     private User user
     private boolean authenticationResult
+    private String randomToken
 
     AuthenticationService() {
         this.user = new User(username: '', password: '', token: '')
         this.authenticationResult = false
+        this.randomToken = ""
     }
 
     @Override
@@ -37,13 +40,25 @@ class AuthenticationService implements Queryingly{
 
     @Override
     def generateQuery() {
-        User user = User.findByUsername(this.user.username.toString())
+        try {
+            User user = User.findByUsername(this.user.username.toString())
 
-        if ( user == null || this.user.password.compareTo(user.password) != 0 )
+            def cipher = new UserEncryptor(user)
+
+            if ( cipher.validatePassword(this.user.getPassword()) == false )
+                throw new QueryException("User rejected - invalid password")
+
+            this.randomToken = cipher.generateRandomToken()
+
+            cipher.encryptToken(this.randomToken)
+
+            this.user = user
+            return this.authenticationResult = true
+        }
+
+        catch (NullPointerException e) {
             throw new QueryException("User rejected")
-
-        this.user = user
-        return this.authenticationResult = true
+        }
     }
 
     @Override
@@ -59,7 +74,7 @@ class AuthenticationService implements Queryingly{
         
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.ID, (int) this.user.id))
         jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.USERNAME, this.user.username))
-        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.TOKEN, this.user.token))
+        jsonObjectBuilder.addJsonableItem(new JsonPropertyFactory(Keywords.TOKEN, this.randomToken))
 
         return new Data(jsonObjectBuilder)
     }

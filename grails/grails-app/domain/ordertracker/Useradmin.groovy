@@ -1,5 +1,7 @@
 package ordertracker
 
+import ordertracker.security.UserAdminEncryptor
+
 class Useradmin {
 
     static constraints = {
@@ -16,4 +18,22 @@ class Useradmin {
         "$email"
     }
 
+    def afterInsert() {
+        this.cipherUserPassword()
+    }
+    
+    def afterUpdate() {
+        if ( passwordModified ) cipherUserPassword()
+    }
+
+    def cipherUserPassword() {
+        new UserAdminEncryptor(this).encryptPassword(password)
+    }
+
+    def beforeUpdate() {
+        passwordModified = this.isDirty('password')
+    }
+
+    boolean	passwordModified
+    static transients = ['passwordModified']
 } 
