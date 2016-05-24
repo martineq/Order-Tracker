@@ -49,10 +49,8 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     public void configDrawerAfterCreate(Bundle savedInstanceState) {
-
         mTitle = mDrawerTitle = getTitle();
         optionsTitles = getResources().getStringArray(R.array.arrayItems);
-        optionsTitles[optionsTitles.length - 1] = username;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -139,44 +137,51 @@ public class DrawerActivity extends AppCompatActivity {
         switch (position) {
             //El orden del case es el orden en el que estan las opciones en arrayItems (en archivo strings.xml)
             case 0:
-                Intent intent0;
-                intent0 = new Intent(this, DiaryActivity.class);
-                intent0.putExtra("FIRST", false);
-                startActivity(intent0);
+                SweetAlertDialog dialog0 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
+                dialog0.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        SessionInformation.getEditor().removeUserInformation();
+
+                        Intent intent0;
+                        intent0 = new Intent(getApplicationContext(), LogInActivity.class);
+                        intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        sweetAlertDialog.dismiss();
+                        finish();
+                        startActivity(intent0);
+                    }
+                });
+                dialog0.show();
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 1:
                 Intent intent1;
-                intent1 = new Intent(this, OrderActivity.class);
-                intent1.putExtra("ReadOnly", true);
+                intent1 = new Intent(this, DiaryActivity.class);
+                intent1.putExtra("FIRST", false);
                 startActivity(intent1);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 2:
                 Intent intent2;
-                intent2 = new Intent(this, OrderHistoryActivity.class);
+                intent2 = new Intent(this, OrderActivity.class);
+                intent2.putExtra("ReadOnly", true);
                 startActivity(intent2);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
 
             case 3:
-                SweetAlertDialog dialog3 = Helpers.getConfirmationDialog(this, "Cerrar sesión", "Esta seguro que desea cerrar sesión?", "Cerrar sesión", "Cancelar");
-                dialog3.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        SessionInformation.getEditor().removeUserInformation();
+                Intent intent3;
+                intent3 = new Intent(this, OrderHistoryActivity.class);
+                startActivity(intent3);
+                mDrawerLayout.closeDrawer(mDrawerList);
+                break;
 
-                        Intent intent3;
-                        intent3 = new Intent(getApplicationContext(),LogInActivity.class);
-                        intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        sweetAlertDialog.dismiss();
-                        finish();
-                        startActivity(intent3);
-                    }
-                });
-                dialog3.show();
+            case 4:
+                Intent intent4;
+                intent4 = new Intent(this, ReportActivity.class);
+                startActivity(intent4);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
         }

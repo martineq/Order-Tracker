@@ -10,13 +10,11 @@
 
 
     <string-array name="arrayItems">
+        <item>Desconectar</item>
         <item>Agenda</item>
         <item>Catalogo</item>
         <item>Pedidos</item>
-        <item>Desconectar</item>
-        <item> </item>
-        <item> </item>
-        <item>Usuario</item>
+        <item>Reporte diario</item>
     </string-array>
     <string name="drawer_open">Abrir menu</string>
     <string name="drawer_close">Cerrar menu</string>
@@ -29,5 +27,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_order_history">OrderHistoryActivity</string>
     <string name="title_activity_view_route">ViewRouteActivity</string>
+    <string name="title_activity_report">ReportActivity</string>
 
 </resources>

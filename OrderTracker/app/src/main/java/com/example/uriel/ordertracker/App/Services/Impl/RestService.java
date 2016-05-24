@@ -14,12 +14,14 @@ import com.example.uriel.ordertracker.App.Activities.DiaryActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderActivity;
 import com.example.uriel.ordertracker.App.Activities.OrderHistoryActivity;
 import com.example.uriel.ordertracker.App.Activities.QRReaderActivity;
+import com.example.uriel.ordertracker.App.Activities.ReportActivity;
 import com.example.uriel.ordertracker.App.Activities.ViewMyOrderActivity;
 import com.example.uriel.ordertracker.App.Model.Constants;
 import com.example.uriel.ordertracker.App.Model.Dto.BaseDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ClientsDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.OrderDTO;
 import com.example.uriel.ordertracker.App.Model.Dto.ProductDTO;
+import com.example.uriel.ordertracker.App.Model.Dto.ReportDTO;
 import com.example.uriel.ordertracker.App.Model.Order;
 import com.example.uriel.ordertracker.App.Services.Interface.IRestService;
 import com.google.gson.Gson;
@@ -315,6 +317,48 @@ public class RestService implements IRestService {
                 headers.put("username", username);
                 headers.put("token", token);
                 headers.put("tokengcm", tokengcm);
+                return headers;
+            }
+        };
+
+        // add the request object to the queue to be executed
+        Request response = Volley.newRequestQueue(context).add(req);
+    }
+
+    @Override
+    public void getReport(final String username, final String token, final ReportActivity context) throws JSONException {
+        String url = Constants.getReportServiceUrl();
+
+        JsonObjectRequest req = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject> () {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            ReportDTO reportContainer =
+                                    new Gson().fromJson(response.toString(), ReportDTO.class);
+                            if(Constants.OK_RESPONSE.equals(reportContainer.getStatus().getResult())) {
+                                context.populateReport(reportContainer.getData());
+                            } else {
+                                context.handleUnexpectedError(reportContainer.getStatus().getDescription());
+                            }
+                        }catch (Exception e){
+                            context.handleUnexpectedError("Ocurrio un error");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConnectionService.newTask(context.getApplicationContext()).requestServerAddress();
+                int a = 0;
+                //handle error
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("username", username);
+                headers.put("token", token);
                 return headers;
             }
         };
