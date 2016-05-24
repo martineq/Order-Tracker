@@ -21,7 +21,7 @@ class Useradmin {
     def afterInsert() {
         this.cipherUserPassword()
     }
-    
+
     def afterUpdate() {
         if ( passwordModified ) cipherUserPassword()
     }

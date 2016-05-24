@@ -13,6 +13,7 @@ import ordertracker.constants.ClientStates
 import ordertracker.constants.OrderStates
 import ordertracker.internalServices.dtos.OrderRequestDTO
 import ordertracker.notifications.EmptyStockNotification
+import ordertracker.util.logger.Log
 
 class OrderRequestLoader {
 
@@ -45,9 +46,14 @@ class OrderRequestLoader {
 
     private def changeAgendaVisitState() {
         try {
-            def agenda = Agenda.findById(request.visit_id)
-            agenda.setState(ClientStates.VISITADO.toString())
-            agenda.setVisitedDate(request.getDate())
+            String setState = "UPDATE Agenda a SET a.state = :state WHERE a.id = :id"
+            String setVisitedDate = "UPDATE Agenda a SET a.visitedDate = :visitedDate WHERE a.id = :id "
+
+            Agenda.executeUpdate(setState, [ state: ClientStates.VISITADO.toString(), id: request.getVisit_id()])
+            Agenda.executeUpdate(setVisitedDate, [ visitedDate: request.getDate(), id: request.getVisit_id()])
+
+
+            Log.info(Client.findById(request.client_id).name + " fue visitado el " + new Date(request.getDate()).getDateTimeString())
         }
 
         catch (NullPointerException n) {}
