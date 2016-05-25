@@ -26,7 +26,6 @@ class PushMessageCreator {
             try {
                 this.distributions = Distribution.findAll()
             } catch (Exception e) {
-                println(e.getMessage())
                 this.distributions = null
             }
 

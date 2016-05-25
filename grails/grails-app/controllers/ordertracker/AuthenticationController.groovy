@@ -29,8 +29,6 @@ class AuthenticationController {
     }
 
     def gcm() {
-        println("GCM********************************")
-
         try {
             def gcm = new PushMessageHandler("AIzaSyBdpUd3L643VWf12vzRg2uGbb_2-scKOCQ")
             def json = '{ "data": {"score": "5x1","time": "15:10" },"to" : "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1..." }'

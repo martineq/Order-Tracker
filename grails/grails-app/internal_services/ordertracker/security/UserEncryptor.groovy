@@ -46,8 +46,6 @@ class UserEncryptor {
     }
 
     def validateToken(String token) {
-        println(token)
-
         User.withNewSession{
             String query = "SELECT COUNT(*) FROM User u WHERE u.id = :id AND u.token = :token"
             return ( User.executeQuery(query, [id: user.id, token: cypherMessage(token)]).get(0) == 1 ) ? true : false

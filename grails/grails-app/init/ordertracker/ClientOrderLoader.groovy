@@ -13,7 +13,6 @@ class ClientOrderLoader {
         def client = Client.findById(1)
         def seller = Seller.findById(1)
         new ClientOrder(seller_id:1, client_id:1, state:OrderStates.SOLICITADO.toString(), date: CalendarDate.fromCurrentDate(0), total_price:8550.00,sellername:seller.name,clientname:client.name).save()
-        println(CalendarDate.fromCurrentDate(0))
         Agenda.executeUpdate(setState, [ state: ClientStates.VISITADO.toString(), seller_id: seller.id, client_id: client.id])
         Agenda.executeUpdate(setVisitedDate, [ visitedDate: CalendarDate.fromCurrentDate(0), seller_id: seller.id, client_id: client.id])
 
