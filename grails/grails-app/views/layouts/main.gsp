@@ -55,6 +55,10 @@
             <a href="/order/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Pedidos</a>
 
         </li>
+
+        <li class="dropdown">
+            <a href="/graphics/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        </li>
             </div>
         </div>
     </div>
