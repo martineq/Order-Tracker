@@ -113,7 +113,10 @@ var div = document.getElementById('searchDiv');
     
      ${order.clientname}
     </td>
-    <td class="tg-yw4l">${order.state}</td>
+    <td class="tg-yw4l">${order.state} <a> </a>
+     <g:link action="changeorderstate" params="[day:"${days[i]}",  id:"${order.id}", orderstate:"${order.state}", sellername:"${order.sellername}", clientname: "${order.clientname}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    
+    </td>
     <td class="tg-yw4l">$ ${order.total_price}</td>
     <td class="tg-yw4l">
     <div align="center">

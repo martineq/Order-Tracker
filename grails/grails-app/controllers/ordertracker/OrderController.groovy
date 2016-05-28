@@ -2,6 +2,7 @@ package ordertracker
 
 import ordertracker.queries.QueryFacade
 import ordertracker.constants.Keywords
+import ordertracker.constants.OrderStates
 
 class OrderController {
 
@@ -138,6 +139,22 @@ class OrderController {
         };
         
         [orders:orders]
+    
+    }
+    
+    def changeorderstate() {
+        [state1: OrderStates.SOLICITADO.toString(),state2: OrderStates.CANCELADO.toString(), state3: OrderStates.DESPACHADO.toString()]
+    }
+    
+    def statechanged() {
+    
+        def order = ClientOrder.get(params.id)
+        
+        order.state=params.orderstate
+        
+        order.save(failOnError: true)
+
+        [order:order,day:params.day]
     
     }
     
