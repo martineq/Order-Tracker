@@ -4,7 +4,6 @@ class LoginInterceptor {
 
      public LoginInterceptor() {
 
-        //matchAll().excludes(controller: 'useradmin')
         match(controller:"client", action:"index")
         match(controller:"client", action:"up")
         match(controller:"client", action:"save")
@@ -71,6 +70,16 @@ class LoginInterceptor {
         match(controller:"brand", action:"upload_image")
         match(controller:"brand", action:"deleteconfirm")
         match(controller:"brand", action:"delete")
+        match(controller:"brand", action:"editbrand")
+        match(controller:"brand", action:"saveeditedbrand")
+        
+        
+        
+        match(controller:"graphics", action:"annualsales")
+        match(controller:"graphics", action:"topsellers")
+        match(controller:"graphics", action:"topbrands")
+        
+        
         
         match(controller:"index", action:"index")
     }

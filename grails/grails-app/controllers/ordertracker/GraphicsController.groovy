@@ -2,5 +2,10 @@ package ordertracker
 
 class GraphicsController {
 
-    def index() { }
+    
+    def annualsales() { }
+    
+    def topsellers() { }
+    
+    def topbrands() { }
 }

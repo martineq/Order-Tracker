@@ -60,8 +60,15 @@
         </li>
 
         <li class="dropdown">
-            <a href="/graphics/index" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/graphics/annualsales">Ventas anuales</a></li>
+                <li><a href="/graphics/topbrands">Top marcas</a></li>
+                <li><a href="/graphics/topsellers">Top vendedores</a></li>
+            </ul>
         </li>
+        
+        
             </div>
         </div>
     </div>
