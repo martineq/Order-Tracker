@@ -65,33 +65,6 @@ class OrderController {
     }
 
     
-    def searchdateorder() {
-        def orders = ClientOrder.list(sort:"date", order:"desc")
-        def res=0
-        def ordersres=[]
-        def clients=[]
-        def sellers=[]
-        def days=[]
-        
-        long dateInit=getDate(params.yearinit.toInteger(),params.monthinit.toInteger()-1,params.dayinit.toInteger(),0,0)
-        long dateEnd=getDate(params.yearend.toInteger(),params.monthend.toInteger()-1,params.dayend.toInteger(),23,59)
-        
-        orders.each { ord ->
-                if(containDate(dateInit,dateEnd,ord.date)){
-                    def client = Client.findById(ord.client_id)
-                    def seller = Seller.findById(ord.seller_id)
-                    String day = getDay(ord.date)
-                    clients.add(client);
-                    sellers.add(seller);
-                    days.add(day)
-                    ordersres.add(ord)
-                    res=res+1
-                }
-        };
-        
-        [orders:ordersres,sellers:sellers,clients:clients,days:days,res:res]
-    }
-    
     private boolean containDate(long init,long end, long date){
 
         if(date <= end && date >=init) {

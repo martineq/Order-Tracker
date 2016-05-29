@@ -50,7 +50,6 @@ class LoginInterceptor {
         
         
         match(controller:"order", action:"index")
-        match(controller:"order", action:"searchdateorder")
         match(controller:"order", action:"orderdetails")
         match(controller:"order", action:"changeorderstate")
         match(controller:"order", action:"statechanged")
