@@ -24,6 +24,20 @@ var div = document.getElementById('searchDiv');
 }
 </script>
 
+<div id="searchDiv"  style="display:none;" class="answer_list" > 
+
+<h2><b>Buscador</b></h2>
+
+    <g:form controller="Brand" action="index" style="margin: 0;border:0px;width:90%">
+ 
+<label>Nombre: </label>
+<br>
+<g:textField  type="text" required="" name="name"/>
+    <br>
+  <g:actionSubmit class="buttond" value="Buscar" action="index"/>    <br>
+    </g:form>
+    <br>
+</div>
 
 
 <div id="mainContainer">
@@ -37,6 +51,9 @@ var div = document.getElementById('searchDiv');
      
      </div>
 </div>            
+
+
+<g:if test="${res>0}" >
 
 <div class="table-responsive">
   <table class="table">
@@ -72,7 +89,7 @@ window.open("${g.createLink(controller: 'brand', action: 'viewpic', params: [id:
     </td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="editclient" params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;" /> </g:link>
+    <g:link action="editbrand" params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;" /> </g:link>
     </div></td>
     <td class="tg-yw4l"><div align="center"><g:link action="deleteconfirm"  params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="delete.png" title="Borrar" alt="Borrar" style="width:20px;height:20px;"/></g:link></div></td>
   </tr>
@@ -80,6 +97,14 @@ window.open("${g.createLink(controller: 'brand', action: 'viewpic', params: [id:
 
 
   </table>
+  
+  </g:if>
+
+<g:else >
+No se encontraron resultados para mostrar.
+</g:else>
+
+
 </div>
 
 </body>

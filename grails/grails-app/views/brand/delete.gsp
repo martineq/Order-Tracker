@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Marca eliminado</title>
+    <title>Marca eliminada</title>
 </head>
 <body>
 
-<h1>Marca eliminado</h1>
+<h1>Marca eliminada</h1>
 
 <div align="center">
 Se eliminó el registro de la marca ${params.name}</div>

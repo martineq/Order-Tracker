@@ -6,6 +6,10 @@
 </head>
 <body>
 
+
+
+
+<g:if test="${productconflict==false && discountconflict==false}" >
 <h1>¿Está seguro de que desea continuar?</h1>
 
 <div align="center">¿Está seguro de querer borrar la marca ${params.name} ? <br>
@@ -15,8 +19,25 @@
 <g:link action="delete" id="${params.id}"  params="[name: ("${params.name}") ]" ><button type="button" class="btn btn-default">Borrar</button></g:link>
 <g:link action="index" ><button type="button" class="btn btn-default">Volver</button></g:link>
  </div>
+ </g:if>
+
+<g:else >
+<h1><asset:image src="warning.png" title="Editar" alt="Editar" style="width:45px;height:45px;"/> Se detectó un conflicto</h1>
+<div align="center">
+<g:if test="${productconflict==true}" >
+⚫ No puede eliminar esta marca porque existen productos registrados en la misma.<br>
+ </g:if>
+ <g:if test="${discountconflict==true}" >
+ ⚫ No puede eliminar esta marca porque existen descuentos asociados a la misma.<br>
+ </g:if>
  
-  </table>
+ Elimine los conflictos existentes y vuelva a intentarlo.<br>
+ <g:link action="index" ><button type="button" class="btn btn-default">Volver</button></g:link>
+</g:else>
+
+</div>
+
+
 </div>
 
 </body>
