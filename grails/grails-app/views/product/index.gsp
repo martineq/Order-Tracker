@@ -49,6 +49,10 @@ var div = document.getElementById('searchDiv');
   <table class="table">
      <tr>
     <th class="tg-yw4l">Nombre</th>
+    <th class="tg-yw4l">Categoría</th>
+    <th class="tg-yw4l">Características</th>
+    <th class="tg-yw4l">Precio</th>
+    <th class="tg-yw4l">Stock</th>
     <th class="tg-yw4l"><div align="center">Imagen</div></th>
     <th class="tg-yw4l"><div align="center">Editar</div></th>
     <th class="tg-yw4l"><div align="center">Borrar</div></th>
@@ -58,6 +62,15 @@ var div = document.getElementById('searchDiv');
 
   <tr>
     <td class="tg-yw4l">${product.name}</td>
+    
+     <td class="tg-yw4l">${product.category}</td>
+     
+      <td class="tg-yw4l">${product.characteristic}</td>
+      
+      <td class="tg-yw4l">${product.price}</td>
+      
+      <td class="tg-yw4l">${product.stock}</td>
+      
     <td class="tg-yw4l">
     <div align="center">
     

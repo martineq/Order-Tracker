@@ -46,6 +46,7 @@ class BootStrap {
         new ClientOrderLoader().load()
         new OrderDetailLoader().load()
         new UserTypeLoader().load()
+        new CategoryLoader().load()
 
         VisitsStatusUpdate.getInstance().start()
 

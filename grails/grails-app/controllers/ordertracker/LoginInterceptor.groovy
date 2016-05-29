@@ -82,7 +82,7 @@ class LoginInterceptor {
         
         
         match(controller:"product", action:"index")
-        
+        match(controller:"product", action:"viewpic")
         
         
         

@@ -105,6 +105,9 @@ class DiscountController {
     }
     
     def upbrand() {
+    
+        def cats = Category.list(sort:"name", order:"des")
+        [cats:cats]
     }
     
     def selectbrand() {

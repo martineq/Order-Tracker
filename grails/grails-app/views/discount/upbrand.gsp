@@ -18,11 +18,12 @@ Si no desea especificar ninguna categoría y el descuento debe aplicarse a todos
 <br>
 <label>Ingrese una categoría: </label>
 <br>
-<g:textField type="text" name="category"/>
+<g:select name="category"
+          from="${cats.name}" />
 <br>
 <br>
   </div>
-   <g:actionSubmit class="buttona"  value="Siguiente" action="selectbrand"/>
+   <g:actionSubmit class="buttonb"  value="Siguiente" action="selectbrand"/>
     </g:form>
         
 	</body>
