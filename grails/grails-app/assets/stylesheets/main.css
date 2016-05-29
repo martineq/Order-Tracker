@@ -686,7 +686,25 @@ input.buttonimg {
   clear:both;
 }
 
+
+input.buttongraph {
+  width: 100px;
+  left: 0px;
+  bottom:25px;
+  background: #E2E3FF;
+  color: #000;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 15px;
+  border: 1p solid #999;
+}
+
 #mainContainer{ overflow:hidden; }
 #divA{ float:left; width:50%; }
 #divB{ float:right; width:50%; margin-bottom:20px}
+
+
+#mainContainer1{ overflow:hidden; }
+#divA1{ float:left; width:30%; }
+#divB1{ float:right; width:70%; }
 
