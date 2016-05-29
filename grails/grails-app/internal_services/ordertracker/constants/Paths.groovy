@@ -2,8 +2,8 @@ package ordertracker.constants
 
 enum Paths {
 
-    BRANDS("/home/poly/tp7547/grails/images/brands/"),
-    PRODUCTS("/home/poly/tp7547/grails/images/products/"),
+    BRANDS("/home/martin/Escritorio/ordertracker/images/brands/"),
+    PRODUCTS("/home/martin/Escritorio/ordertracker/images/products/"),
 
     private final String value
 
