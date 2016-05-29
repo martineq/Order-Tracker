@@ -27,10 +27,6 @@ class BrandController {
             }
     }
     
-    def avatar_image() {
-
-    }
-    
     def up() {
     
     }

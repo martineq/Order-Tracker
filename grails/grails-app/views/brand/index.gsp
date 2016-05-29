@@ -53,12 +53,26 @@ var div = document.getElementById('searchDiv');
     <td class="tg-yw4l">${brand.name}</td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="viewpic"  params="[id:"${brand.id}" ,name:"${brand.name}", img:"${brand.image}"]" ><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    
+
+
+
+    
+<script>
+function ${brand.name[0]+brand.id}(){
+window.open("${g.createLink(controller: 'brand', action: 'viewpic', params: [id:"${brand.id}" ,img:"${brand.image}"])}",'', 'width=500,height=500');
+}
+</script>
+
+<a href="javascript:void()" onclick="javascript:${brand.name[0]+brand.id}()"> <asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </a>
+
+
+
     </div>
     </td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="editclient" params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    <g:link action="editclient" params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;" /> </g:link>
     </div></td>
     <td class="tg-yw4l"><div align="center"><g:link action="deleteconfirm"  params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="delete.png" title="Borrar" alt="Borrar" style="width:20px;height:20px;"/></g:link></div></td>
   </tr>

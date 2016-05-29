@@ -65,6 +65,12 @@ class LoginInterceptor {
         match(controller:"seller", action:"delete")
         
         
+        match(controller:"brand", action:"index")
+        match(controller:"brand", action:"viewpic")
+        match(controller:"brand", action:"up")
+        match(controller:"brand", action:"upload_image")
+        match(controller:"brand", action:"deleteconfirm")
+        match(controller:"brand", action:"delete")
         
         match(controller:"index", action:"index")
     }
