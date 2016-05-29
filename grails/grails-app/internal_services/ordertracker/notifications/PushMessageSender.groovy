@@ -55,7 +55,7 @@ class PushMessageSender {
     public def sendPostRequest(String authorizationKey, String jsonMessage) {
         try {
             return new RestBuilder().post('https://gcm-http.googleapis.com/gcm/send') {
-                header 'Content-Type', 'application/json'
+                header 'Content-Type', 'application/json; charset=UTF-8'
                 header 'Authorization', 'key=' + authorizationKey
                 json jsonMessage
             }
