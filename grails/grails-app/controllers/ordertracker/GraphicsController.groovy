@@ -40,7 +40,10 @@ class GraphicsController {
             
     }
     
-    def topsellers() { }
+    def topsellers() {
+    
+    
+    }
     
     def topbrands() { }
     

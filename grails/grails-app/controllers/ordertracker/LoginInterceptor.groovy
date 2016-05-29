@@ -81,6 +81,11 @@ class LoginInterceptor {
         
         
         
+        match(controller:"product", action:"index")
+        
+        
+        
+        
         match(controller:"index", action:"index")
     }
     

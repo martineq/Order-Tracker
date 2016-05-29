@@ -15,12 +15,12 @@
     <br>
     
 
-<g:form controller="Graphics" action="annualsales" style="margin: 0;border:0px;width:440px">
+<g:form controller="Graphics" action="annualsales" style="margin: 0;border:0px;width:500px">
 
 <div id="mainContainer1">
     <div id="divA1">
     
-    Filtrar por Año:
+    Ver para otro Año:
     
    
 </div>    
@@ -37,7 +37,7 @@
     </div>
     <div id="divB">
 
-     <g:actionSubmit  value="Buscar" class="buttongraph" action="annualsales"/>  
+     <g:actionSubmit  value="Ver" class="buttongraph" action="annualsales"/>  
      
      </div>
      
