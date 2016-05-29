@@ -11,7 +11,7 @@
 
 <body>
 <h1>Ingrese una categoría</h1>
-Si no desea especificar ninguna categoría y el descuento debe aplicarse a todos los productos de una marca, deje el campo en blanco.
+Si no desea especificar ninguna categoría y el descuento debe aplicarse a todos los productos de una marca, elija "ninguna".
 <br><br>
             <g:form controller="discount" action="selectbrand">
 <div  style="form">          

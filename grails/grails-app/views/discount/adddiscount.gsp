@@ -20,7 +20,7 @@ input[type=text] {
 <h1> Introduzca un nuevo descuento </h1>
 <p> 
 <g:if test="${params.namebrand != 'none'}">
-Agregar descuento a la marca ${params.namebrand}<g:if test="${params.category != ''}">, categoría ${params.category} </g:if></g:if>
+Agregar descuento a la marca ${params.namebrand}<g:if test="${params.category != 'ninguna'}">, categoría ${params.category} </g:if></g:if>
 <g:else>
 Agregar descuento a la categoría ${params.category}
 </g:else>

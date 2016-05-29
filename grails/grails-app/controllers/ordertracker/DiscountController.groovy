@@ -107,6 +107,8 @@ class DiscountController {
     def upbrand() {
     
         def cats = Category.list(sort:"name", order:"des")
+        def cat= new Category(name:"ninguna")
+        cats.add(0,cat)
         [cats:cats]
     }
     
@@ -307,7 +309,7 @@ class DiscountController {
         def product=Product.get(params.productid)
         
         String cat=params.category
-        if(cat.equals("")) {
+        if(cat.equals("ninguna")) {
             cat="none"
         }
         
@@ -416,7 +418,10 @@ class DiscountController {
         //¿Son validos los valores de fechas?
         boolean validDates=valuesValidDates(datebeg,dateend)
         //Buscar si existe algun descuento que se superpone con el que se está por crear
-        boolean discountOverlap=findOverlapBrandDiscount(params.brandid.toInteger(),params.category,datebeg,dateend)
+        String cat=params.category
+        if(cat=="ninguna") cat=""
+
+        boolean discountOverlap=findOverlapBrandDiscount(params.brandid.toInteger(),cat,datebeg,dateend)
         
 
         
