@@ -53,7 +53,7 @@ var div = document.getElementById('searchDiv');
  
 <label>Nombre cliente: </label>
 <br>
-<g:textField  type="text" required="" name="clientname"/>
+<g:textField  type="text" required="" name="clientname" style="width:37.8%"/>
 <br>
   <g:actionSubmit class="buttond" value="Buscar" action="searchnameclient"/><br>
     </g:form>
