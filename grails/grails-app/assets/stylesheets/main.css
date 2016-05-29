@@ -675,6 +675,17 @@ input.buttond {
   clear:both;
 }
 
+input.buttonimg {
+  background: #E2E3FF;
+  position: relative;
+  color: #000;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 55px;
+  border: 1p solid #999;
+  clear:both;
+}
+
 #mainContainer{ overflow:hidden; }
 #divA{ float:left; width:50%; }
 #divB{ float:right; width:50%; margin-bottom:20px}

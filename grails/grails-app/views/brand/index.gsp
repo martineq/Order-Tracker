@@ -42,7 +42,7 @@ var div = document.getElementById('searchDiv');
   <table class="table">
      <tr>
     <th class="tg-yw4l">Nombre</th>
-    <th class="tg-yw4l"><div align="center">Detalles</div></th>
+    <th class="tg-yw4l"><div align="center">Imagen</div></th>
     <th class="tg-yw4l"><div align="center">Editar</div></th>
     <th class="tg-yw4l"><div align="center">Borrar</div></th>
   </tr>
@@ -53,7 +53,7 @@ var div = document.getElementById('searchDiv');
     <td class="tg-yw4l">${brand.name}</td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="clientdetails"  params="[id:"${brand.id}" ,name:"${brand.name}"]" ><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    <g:link action="viewpic"  params="[id:"${brand.id}" ,name:"${brand.name}", img:"${brand.image}"]" ><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
     </div>
     </td>
     <td class="tg-yw4l">

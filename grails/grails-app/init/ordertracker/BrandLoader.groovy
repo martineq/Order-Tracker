@@ -14,4 +14,7 @@ class BrandLoader {
         new Brand(name: 'nikon', image:'not').save()
         new Brand(name: 'givenchi', image:'not').save()
     }
+    
+    
+    
 }

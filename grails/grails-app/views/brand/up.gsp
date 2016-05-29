@@ -9,12 +9,23 @@
             <h1>Agregar marca</h1>
 
 <fieldset>
-  <legend>Subir imagen</legend>
+
+
     <g:uploadForm action="upload_image">
-        <input type="file" name="image">
-        <input type="submit" value="Upload Image">
+    
+    <label>Nombre:</label>
+        <br>
+        <g:textField type="text" required="" name="name"/>
+        <br>
+          <label>Subir imagen</label>
+        
+        <input type="file" class="buttonimg" name="image">
+  <br>
+        <input type="submit" class="buttonb" value="Guardar">
+
 
   </g:uploadForm>
 </fieldset> 
+
 </body>
 </html>

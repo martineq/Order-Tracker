@@ -47,7 +47,7 @@ var div = document.getElementById('searchDiv');
     </div>
     <div id="divB">
 
-     <div align="right"><g:link action="up"><b>Agregar</b><asset:image src="add.png" alt="Editar" style="width:38px;height:38px;"/></g:link></div>
+     <div align="right"><g:link action="up"><b>Agregar</b><asset:image src="add.png" alt="Agregar" style="width:38px;height:38px;"/></g:link></div>
      
      </div>
 </div>            
@@ -71,7 +71,7 @@ var div = document.getElementById('searchDiv');
     <td class="tg-yw4l">${client.city}</td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="clientdetails" id="${client.id}" params="[name:"${client.name}", mail:"${client.email}", city: "${client.city}", address: "${client.address}"]" ><asset:image src="view.png" title="Editar" alt="Editar" style="width:20px;height:20px;"/> </g:link>
+    <g:link action="clientdetails" id="${client.id}" params="[name:"${client.name}", mail:"${client.email}", city: "${client.city}", address: "${client.address}"]" ><asset:image src="view.png" title="Ver" alt="Ver" style="width:20px;height:20px;"/> </g:link>
     </div>
     </td>
     <td class="tg-yw4l">
