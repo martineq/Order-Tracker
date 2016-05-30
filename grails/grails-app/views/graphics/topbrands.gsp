@@ -11,6 +11,33 @@
 <h1>Reportes gráficos: Marcas mas vendidas</h1>
 <center>
 
+<g:form controller="Graphics" action="topbrands" style="margin: 0px;border:0px;width:60%">
+
+
+
+<div id="mainContainer">
+    <div id="divA">
+   
+           <label>Mes: </label>
+        <br>
+        <g:select name="month"
+               from="${months}" style="width: 80%" />
+   
+   </div>
+   <div id="divB">
+
+<label>Año </label> <g:textField  type="text"  name="year" pattern="^[0-9]+\\s*\$|^[0-9]\$"/>
+
+   </div>
+  
+</div>
+
+<br>
+<g:actionSubmit class="buttond" value="Ver" action="topbrands"   />
+<br> 
+</g:form>
+
+<g:if test="${numSales[0]>0}" >
 <%-- ***Gráfico 2: Marcas mas vendidas***
  Marcas mas vendidas del mes elegido: Usa el filtro Mes y Año. Obtiene para ese mes las marcas mas vendidas.
  El formato gráfico será de Barras verticales ordenadas decrecientemente.
@@ -23,9 +50,7 @@
 <%
     def columnasMarcasMasVendidas = [['string', 'Marca'], ['number', 'Cantidad de ventas']]
     def datosMarcasMasVendidas = [[top20Brands[0], numSales[0]], [top20Brands[1], numSales[1]], [top20Brands[2], numSales[2]], [top20Brands[3],  numSales[3]], [top20Brands[4],  numSales[4]],
-                                  [top20Brands[5],  numSales[5]], [top20Brands[6],  numSales[6]], [top20Brands[7],  numSales[7]], [top20Brands[8], numSales[8]], [top20Brands[9], numSales[9]],
-                                  [top20Brands[10],  numSales[10]], [top20Brands[11],  numSales[11]], [top20Brands[12],  numSales[12]], [top20Brands[13],  numSales[13]], [top20Brands[14],  numSales[14]],
-                                  [top20Brands[15],  numSales[15]], [top20Brands[16], numSales[16]], [top20Brands[17],  numSales[17]], [top20Brands[18],  numSales[19]], [top20Brands[20],  numSales[20]]]
+                                  [top20Brands[5],  numSales[5]], [top20Brands[6],  numSales[6]], [top20Brands[7],  numSales[7]], [top20Brands[8], numSales[8]], [top20Brands[9], numSales[9]]]
 %>
 
 <%-- Creo el gráfico con los datos cargados anteriormente --%>
@@ -33,6 +58,10 @@
                                 columns="${columnasMarcasMasVendidas}" data="${datosMarcasMasVendidas}" />
     <div id="marcasMasVendidas"></div>
 
+</g:if>
+<g:else><br>
+No hay resultados para mostrar.
+</g:else>
 
 
 </center>

@@ -1,6 +1,7 @@
 package ordertracker
 
 import ordertracker.constants.Keywords
+import ordertracker.constants.OrderStates
 
 class GraphicsController {
 
@@ -29,8 +30,8 @@ class GraphicsController {
         def sales= ClientOrder.list()
         
         sales.each { sale ->
-
-            if ( getyear(sale.date) == yr ) {
+            def condicion=!( sale.state.toLowerCase().equals(OrderStates.CANCELADO.toString().toLowerCase() ) ) ;
+            if ( getyear(sale.date) == yr && condicion ) {
                 res[getmonth(sale.date)]+=sale.total_price;
             }        
         };
@@ -64,8 +65,9 @@ class GraphicsController {
                     ( params.seller.toLowerCase().equals(order.sellername.toLowerCase()) ) ) ;
                     boolean condicion2=( ( params.month==null ) || ( params.month.equals("") ) || ( params.month.toInteger()==(getmonth(order.date)+1) ) );
                     boolean condicion3= ( ( params.year==null ) || ( params.year.equals("") ) || ( ( params.year.toInteger() == getyear(order.date) ) ) );
+                    boolean condicion4= !( order.state.toLowerCase().equals(OrderStates.CANCELADO.toString().toLowerCase() ) ) ;
                     
-                    if ( condicion1 && condicion2 && condicion3) {
+                    if ( condicion1 && condicion2 && condicion3 && condicion4) {
                         if (! lastname.equals(order.sellername)) {
                             i=i+1;
                             allNames[i]=order.sellername;
@@ -114,6 +116,7 @@ class GraphicsController {
     
         def top20Brands = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
         def numSales = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        def months = ["","1","2","3","4","5","6","7","8","9","10","11","12"]
         def allNames=[]
         def allSales=[]
         def sortedSalesInverse=[]
@@ -124,15 +127,23 @@ class GraphicsController {
         int i=-1;
         
         orders.each { order ->
-
-                        if (! lastname.equals(order.brand)) {
-                            i=i+1;
-                            allNames[i]=order.brand;
-                            allSales[i]=0
-                            lastname=order.brand;
+                        def general= ClientOrder.findById(order.order_id)
+                        
+                        
+                        boolean condicion1=( ( params.month==null ) || ( params.month.equals("") ) || ( params.month.toInteger()==(getmonth(general.date)+1) ) );
+                        boolean condicion2= ( ( params.year==null ) || ( params.year.equals("") ) || ( ( params.year.toInteger() == getyear(general.date) ) ) );
+                        boolean condicion3= !( general.state.toLowerCase().equals(OrderStates.CANCELADO.toString().toLowerCase()) ) ;
+                    
+                        if(condicion1 && condicion2 && condicion3) {
+                            if (! lastname.equals(order.brand)) {
+                                i=i+1;
+                                allNames[i]=order.brand;
+                                allSales[i]=0
+                                lastname=order.brand;
+                            }
+                            allSales[i]=allSales[i]+1
+                            sortedSalesInverse[i]=allSales[i]
                         }
-                        allSales[i]=allSales[i]+1
-                        sortedSalesInverse[i]=allSales[i]
         }
         sortedSalesInverse = sortedSalesInverse.sort()
         def sortedSales = []
@@ -159,7 +170,7 @@ class GraphicsController {
         }
         
         
-        [top20Brands:top20Brands,numSales:numSales]
+        [top20Brands:top20Brands,numSales:numSales,months:months]
     }
     
     
