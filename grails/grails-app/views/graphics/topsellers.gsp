@@ -77,11 +77,12 @@
 <gvisualization:pieCoreChart elementId="topVendedores" title="Top 10 vendedores" width="${600}" height="${600}"
                                 columns="${columnasTopVendedores}" data="${datosTopVendedores}" />
 <div id="topVendedores"></div>
-
+        El resultado observado corresponde a un ${topSellersPercentage} % del total de vendedores
 </g:if>
 <g:else>
-No hay resultados para mostrar.
+    <br>No hay resultados para mostrar
 </g:else>
+
 
 </center>
 </body>

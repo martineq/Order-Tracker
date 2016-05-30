@@ -49,7 +49,7 @@ class GraphicsController {
         
         def top10Names = [null,null,null,null,null,null,null,null,null,null]
         def numSales = [0,0,0,0,0,0,0,0,0,0]
-        
+
         def allNames = []
         def allSales = []
         def sortedSalesInverse =[]
@@ -107,8 +107,13 @@ class GraphicsController {
                     sellerNames.add(seller.name);
         }
         sellerNames.add(0,"")
-    
-        [sellersAll:sellerNames,top10Names:top10Names,numSales:numSales,months:months]
+
+        def sellerCount = 0
+        top10Names.each { if ( it != null ) sellerCount++ }
+        def value = ( sellerCount / Seller.count ) * 100
+        def topSellersPercentage = value.toInteger()
+
+        [sellersAll:sellerNames,top10Names:top10Names,numSales:numSales,months:months, topSellersPercentage: topSellersPercentage]
     }
     
     def topbrands() {
