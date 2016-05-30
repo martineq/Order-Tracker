@@ -301,7 +301,7 @@ public class ViewRouteActivity extends FragmentActivity {
                     }
                 }
             } catch (IOException e) {
-                SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "Ocurrio un error al obtener la ubicación. Compruebe su conexión e intente nuevamente");
+                SweetAlertDialog dialog = Helpers.getErrorDialog(this, "Error", "Ocurrió un error al obtener la ubicación. Compruebe su conexión e intente nuevamente");
                 dialog.show();
             }
         }

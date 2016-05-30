@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Por favor lea el codigo QR"
+            android:text="Por favor lea el código QR"
             android:textSize="20dp"
             android:id="@+id/textView"
             android:layout_alignParentTop="true"

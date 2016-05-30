@@ -249,7 +249,7 @@ public class ViewMyOrderActivity extends DrawerActivity {
     }
 
     public void savedOrder(){
-        SweetAlertDialog dialog = Helpers.getSuccesDialog(this, "Pedido", "El pedido se almaceno con exito");
+        SweetAlertDialog dialog = Helpers.getSuccesDialog(this, "Pedido", "El pedido se almacenó con exito");
 
         dialog.setCancelable(false);
         dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

@@ -46,10 +46,10 @@ public class ReportActivity extends DrawerActivity {
     public void populateReport(Report report){
         String dayOfWeek = getDayOfWeek();
         TextView dayText = (TextView)findViewById(R.id.dia);
-        dayText.setText("Reporte del dia: " + dayOfWeek);
+        dayText.setText("Reporte del día: " + dayOfWeek);
 
         TextView visitedText = (TextView)findViewById(R.id.visitados);
-        visitedText.setText("Clientes visitados del dia: " + String.valueOf(report.getClientesVisitados()));
+        visitedText.setText("Clientes visitados del día: " + String.valueOf(report.getClientesVisitados()));
 
         TextView offRouteText = (TextView)findViewById(R.id.fueraDeRuta);
         offRouteText.setText("Clientes visitados fuera de ruta: " + String.valueOf(report.getClientesFueraDeRuta()));

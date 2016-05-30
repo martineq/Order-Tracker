@@ -434,7 +434,7 @@ public class OrderActivity extends DrawerActivity {
         if(readOnly){
             super.onBackPressed();
         }else {
-            SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que descartar desea cancelar el pedido?", "Descartar", "Cancelar");
+            SweetAlertDialog dialog = Helpers.getConfirmationDialog(this, "Volver", "Esta seguro que desea descartar el pedido?", "Descartar", "Cancelar");
 
             dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override

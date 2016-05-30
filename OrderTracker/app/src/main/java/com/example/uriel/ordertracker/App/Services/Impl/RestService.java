@@ -221,7 +221,7 @@ public class RestService implements IRestService {
                                 context.handleUnexpectedError(baseContainer.getStatus().getDescription());
                             }
                         }catch (Exception e){
-                            context.handleUnexpectedError("Ocurrio un error");
+                            context.handleUnexpectedError("Ocurrió un error");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -342,7 +342,7 @@ public class RestService implements IRestService {
                                 context.handleUnexpectedError(reportContainer.getStatus().getDescription());
                             }
                         }catch (Exception e){
-                            context.handleUnexpectedError("Ocurrio un error");
+                            context.handleUnexpectedError("Ocurrió un error");
                         }
                     }
                 }, new Response.ErrorListener() {
