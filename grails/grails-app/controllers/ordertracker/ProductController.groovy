@@ -70,9 +70,7 @@ class ProductController {
                 boolean containsBrand=br.name.toLowerCase().contains(brandsearch)
                 boolean containsStock=containsNumber(product.stock,stockinit,stockend)
                 boolean containsPrice=containsNumberD(product.price,priceinit,priceend)
-                
-                println(product.price)
-                println(product.price)
+
                 
                 if(containsName&&containsCat&&containsBrand&&containsStock&&containsPrice){
                         brands.add(br)
