@@ -3,6 +3,13 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Productos</title>
+<style>
+
+input[pattern="^[0-9]+\\s*\$|^[0-9]\$"] {
+    display: inline;
+    width: 100px;
+}
+</style>
 </head>
 <body>
             <h1>Listado de Productos</h1>
@@ -25,7 +32,57 @@ var div = document.getElementById('searchDiv');
 </script>
 
 <div id="searchDiv"  style="display:none;" class="answer_list" > 
+<h2><b>Buscador</b></h2>
+<g:form controller="Product" action="index" style="margin: 0px;border:0px;width:90%">
 
+
+<div class="container">
+   <div class="column-center">
+   
+           <label>Marca: </label>
+        <br>
+        <g:select name="brand"
+                from="${brandslist}" style="width: 80%" />
+   
+   </div>
+   <div class="column-left">
+
+<label>Nombre </label> <g:textField  type="text"  name="name" />
+
+   </div>
+   <div class="column-right">
+    <label>Categoría: </label>
+        <br>
+        <g:select name="category"
+                from="${catslist}"  style="width: 80%"/>
+   </div>
+</div>
+<br>
+<div class="container">
+    <div class="column-left"  >
+<label> Rango de Stock: </label>
+<br>
+ <g:textField  type="text" name="stockinit" pattern="^[0-9]+\\s*\$|^[0-9]\$" />
+-
+ <g:textField  type="text" name="stockend"  pattern="^[0-9]+\\s*\$|^[0-9]\$" />
+<br>
+    </div>
+    
+    
+    <div class="column-center" >
+    
+    <label>Rango de Precios: </label>
+<br>
+ <g:textField  type="text" name="priceinit" pattern="^[0-9]+\\s*\$|^[0-9]\$" />
+-
+ <g:textField  type="text" name="priceend"  pattern="^[0-9]+\\s*\$|^[0-9]\$" />
+<br>
+    </div>
+    </div>
+<br>
+<g:actionSubmit class="buttond" value="Buscar" action="index"   />
+<br> 
+</g:form>
 
 </div>
 

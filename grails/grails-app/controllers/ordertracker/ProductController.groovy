@@ -8,14 +8,88 @@ class ProductController {
 
     def index() {
         def productsAll = Product.list(sort:"name", order:"des")
-        def brands=[]
+        def brands=[];
+        def products=[];
         
-        productsAll.each { product ->
-                def br = Brand.findById(product.brand_id)
-                brands.add(br)
+        String namesearch=""
+        String brandsearch=""
+        String catsearch=""
+        
+        int res=0
+        
+        int stockinit=0
+        int stockend=999999999
+        
+        int priceinit=0
+        int priceend=999999999
+
+        def brandslist= Brand.executeQuery("select t2.name from Brand t2 order by t2.name");
+        def cats= Category.executeQuery("select t1.name from Category t1 order by t1.name");
+        
+        brandslist.add(0,"");
+        cats.add(0,"");
+        
+        if (params.name != null ) {
+            if(params.name.length() != 0 ){
+                namesearch=params.name.toLowerCase()
+            }
+        }
+        if (params.brand != null ) {
+            if(params.brand.length() != 0 ){
+                brandsearch=params.brand.toLowerCase()
+            }
+        }
+        if (params.category != null ) {
+            if(params.category.length() != 0 ){
+                catsearch=params.category.toLowerCase()
+            }
         }
         
-        [res:1,products:productsAll,brands:brands]
+        if (params.stockinit != null && params.stockend != null) {
+            if(params.stockinit.length() != 0  && params.stockend.length() != 0 ){
+                    stockinit=params.stockinit.toInteger()
+                    stockend=params.stockend.toInteger()
+            }
+        }
+        
+        if (params.priceinit != null && params.priceend != null) {
+            if(params.priceinit.length() != 0  && params.priceend.length() != 0 ){
+                    priceinit=params.priceinit.toInteger()
+                    priceend=params.priceend.toInteger()
+            }
+        }
+        
+        
+
+        productsAll.each { product ->
+        
+                def br = Brand.findById(product.brand_id)
+                
+                boolean containsName=product.name.toLowerCase().contains(namesearch)
+                boolean containsCat=product.category.toLowerCase().contains(catsearch)
+                boolean containsBrand=br.name.toLowerCase().contains(brandsearch)
+                boolean containsStock=containsNumber(product.stock,stockinit,stockend)
+                boolean containsPrice=containsNumberD(product.price,priceinit,priceend)
+                
+                println(product.price)
+                println(product.price)
+                
+                if(containsName&&containsCat&&containsBrand&&containsStock&&containsPrice){
+                        brands.add(br)
+                        products.add(product)
+                        res=res+1
+                }
+        }
+        
+        [res:res,products:products,brands:brands,catslist:cats,brandslist:brandslist]
+    }
+    
+    def containsNumber(int number, int init, int end){
+        return ( number>=init && number<=end );
+    }
+    
+    def containsNumberD(double number, int init, int end){
+        return ( number>=init && number<=end );
     }
     
     def viewpic() {

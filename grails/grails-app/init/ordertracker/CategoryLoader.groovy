@@ -10,6 +10,7 @@ class CategoryLoader {
             new Category(name: 'muebles').save()
             new Category(name: 'cuidado personal').save()
             new Category(name: 'cocina').save()
+            new Category(name: 'iluminacion').save()
     }
     
 }
