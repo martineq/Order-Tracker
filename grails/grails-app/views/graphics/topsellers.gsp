@@ -41,8 +41,24 @@
 <br> <br>
 </g:form>
 
-<br> 
-<g:if test="${numSales[0]>0}" >
+<br>
+
+    <g:if test="${params.month!=null && params.month!=""}" >
+        <label>Mes filtrado: ${params.month} </label>
+    </g:if>
+    <g:else>
+        Mes filtrado: (Sin filtro aplicado)
+    </g:else>
+
+    <g:if test="${params.year!=null && params.year!=""}" >
+        <label> / Año filtrado: ${params.year}  </label>
+    </g:if>
+    <g:else>
+        / Año filtrado: (Sin filtro aplicado)
+    </g:else>
+
+
+    <g:if test="${numSales[0]>0}" >
 <%-- ***Gráfico 3: Top 10 Vendedores***
  Top 10 ventas: Usa el filtro Vendedor, Mes, Año. Toma los 10 vendedores con mayor cantidad de ventas,
  además se muestra que porcentaje del total representan estos 10 vendedores. El formato gráfico será de torta dividida
