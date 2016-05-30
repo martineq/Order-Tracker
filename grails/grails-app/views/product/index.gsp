@@ -95,7 +95,7 @@ window.open("${g.createLink(controller: 'product', action: 'viewpic', params: [i
     </td>
     <td class="tg-yw4l">
     <div align="center">
-    <g:link action="editproduct" params="[id:"${product.id}" ,name:"${product.name}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;" /> </g:link>
+    <g:link action="editproduct" params="[id:"${product.id}" ,price:"${product.price}" ,cat:"${product.category}" ,car:"${product.characteristic}", brand:"${brands[i].name}" , name:"${product.name}",stock:"${product.stock}"]" ><asset:image src="edit.png" title="Editar" alt="Editar" style="width:20px;height:20px;" /> </g:link>
     </div></td>
     <td class="tg-yw4l"><div align="center"><g:link action="deleteconfirm"  params="[id:"${product.id}" ,name:"${product.name}"]" ><asset:image src="delete.png" title="Borrar" alt="Borrar" style="width:20px;height:20px;"/></g:link></div></td>
   </tr>

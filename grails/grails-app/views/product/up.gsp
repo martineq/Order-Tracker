@@ -39,7 +39,7 @@
          <label>Stock:</label>
         <br>
          <g:textField  type="text" name="stock" required=""  pattern="^[0-9]+\\s*\$|^[0-9]+\\.?[0-9]+\\s*\$" />
-         <br>
+
         <br>
         <label>Subir imagen</label>
         <input type="file" class="buttonimg" name="image" required="">

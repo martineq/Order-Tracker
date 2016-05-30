@@ -42,6 +42,68 @@ class ProductController {
         [cats:cats,brands:brands]
     }
     
+    def editproduct(){
+    
+        def cats = Category.list(sort:"name", order:"des")
+        def brands = Brand.list(sort:"name", order:"des")
+        [cats:cats,brands:brands]
+    }
+    
+    def editedproduct(){
+    
+    
+      def uplurl= Paths.PRODUCTS.toString()
+      def file=request.getFile('image')
+      
+      def res=0;
+                
+      def product = Product.get(params.id)
+      product.name=params.name
+      
+      def brands= Brand.list();
+      
+      product.image=uplurl
+      def bra=-1
+      
+      brands.each { brand ->
+                    if( brand.name.toLowerCase().equals(params.brand.toLowerCase()) ){
+                        bra=brand.id
+                    }
+      }
+      
+      
+      product.brand_id=bra
+      product.category=params.category
+      product.characteristic=params.charac
+      product.price=Double.parseDouble(params.price) 
+      product.stock=Integer.parseInt(params.stock)
+      product.state="disponible"
+    
+      product.save(failOnError: true)
+        
+        
+      try{
+         if(file && !file.empty){
+            file.transferTo(new File(uplurl+product.id))
+            def b2 = Product.get(product.id)
+        
+            b2.image="images/product/"+product.id
+            
+            b2.save(failOnError: true)
+            res=1;
+
+         }
+         
+      }
+      catch(Exception e){
+         log.error("ERROR subiendo imagen para marca ${params.name}",e)  
+         res=0;
+         [res:res]
+      }
+      
+      [res:res,name:product.name]
+    }
+    
       
     def uploadproduct() {
     
