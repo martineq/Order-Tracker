@@ -141,7 +141,7 @@ class GraphicsController {
                                 allSales[i]=0
                                 lastname=order.brand;
                             }
-                            allSales[i]=allSales[i]+1
+                            allSales[i]=allSales[i]+ order.requested_items
                             sortedSalesInverse[i]=allSales[i]
                         }
         }
