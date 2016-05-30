@@ -23,7 +23,7 @@
 <br>
 <g:textField type="text" required="" name="city"/>
 <br>
-<label>Direccion: </label>
+<label>Dirección: </label>
 <br>
 <g:textField type="text" required="" name="address"/>
 <br>

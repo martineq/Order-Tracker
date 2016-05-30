@@ -27,7 +27,7 @@
   </div>
 <br><br><br>
 
-<g:actionSubmit class="buttona"  value="Agregar" params="[nameclient: "${params.nameclient}" , nameseller: "${params.seller}" , sellerid:"${params.sellerid}" , clientid:"${params.clientid}" ]"  action="upentry"/>
+<g:actionSubmit class="buttona"  value="Guardar" params="[nameclient: "${params.nameclient}" , nameseller: "${params.seller}" , sellerid:"${params.sellerid}" , clientid:"${params.clientid}" ]"  action="upentry"/>
     </g:form>
         
 </body>

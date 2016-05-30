@@ -73,7 +73,7 @@ Mes:<g:select  name="monthend"  from="${['Enero','Febrero','Marzo','Abril','Mayo
 <br>
 
 <br><br>
-<g:actionSubmit class="buttona"  value="Agregar" action="upentryproduct" params="[productid:"${params.productid}" ,  nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost:  "${params.productcost}" ]" />
+<g:actionSubmit class="buttona"  value="Guardar" action="upentryproduct" params="[productid:"${params.productid}" ,  nameproduct: "${params.nameproduct}" , range: "${params.range}" , productcost:  "${params.productcost}" ]" />
 
     </g:form>
     

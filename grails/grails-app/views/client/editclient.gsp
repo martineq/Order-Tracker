@@ -20,7 +20,7 @@
 <br>
 <g:textField type="text" value="${client.city}" size="100%" required="" name="city"/>
 <br>
-<label>Direccion: </label>
+<label>Dirección: </label>
 <br>
 <g:textField type="text"  value="${client.address}" size="100%" required="" name="address"/>
 <br>
@@ -32,7 +32,7 @@
   </div>
   <br>
 
-  <g:actionSubmit class="buttona" value="Actualizar" id="${client.id}" action="updateclient"/>
+  <g:actionSubmit class="buttona" value="Guardar" id="${client.id}" action="updateclient"/>
     </g:form>
     
 

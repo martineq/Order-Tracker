@@ -27,7 +27,7 @@
   </div>
 <br><br><br>
 
-<g:actionSubmit class="buttona"  value="Modificar" id="${params.agendaid}"  params="[nameclient: "${params.nameclient}" , nameseller: "${params.nameseller}" ]"  action="savechanges"/>
+<g:actionSubmit class="buttona"  value="Guardar" id="${params.agendaid}"  params="[nameclient: "${params.nameclient}" , nameseller: "${params.nameseller}" ]"  action="savechanges"/>
     </g:form>
         
 </body>

@@ -43,7 +43,7 @@
   </div>
   <br>
 
-  <g:actionSubmit class="buttona" value="Actualizar" id="${seller.id}" action="updateseller"/>
+  <g:actionSubmit class="buttona" value="Guardar" id="${seller.id}" action="updateseller"/>
     </g:form>
     
 
