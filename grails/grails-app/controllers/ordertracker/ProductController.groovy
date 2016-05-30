@@ -8,7 +8,14 @@ class ProductController {
 
     def index() {
         def productsAll = Product.list(sort:"name", order:"des")
-        [res:1,products:productsAll]
+        def brands=[]
+        
+        productsAll.each { product ->
+                def br = Brand.findById(product.brand_id)
+                brands.add(br)
+        }
+        
+        [res:1,products:productsAll,brands:brands]
     }
     
     def viewpic() {
@@ -27,6 +34,98 @@ class ProductController {
                 outputStream.close()
                 fileInputStream.close()
             }
+    }
+    
+    def up(){
+        def cats = Category.list(sort:"name", order:"des")
+        def brands = Brand.list(sort:"name", order:"des")
+        [cats:cats,brands:brands]
+    }
+    
+      
+    def uploadproduct() {
+    
+    
+      def uplurl= Paths.PRODUCTS.toString()
+      def file=request.getFile('image')
+      
+      def res=0;
+                
+      def product = new Product()
+      product.name=params.name
+      
+      def brands= Brand.list();
+      
+      product.image=uplurl
+      def bra=-1
+      
+      brands.each { brand ->
+                    if( brand.name.toLowerCase().equals(params.brand.toLowerCase()) ){
+                        bra=brand.id
+                    }
+      }
+      
+      
+      product.brand_id=bra
+      product.category=params.category
+      product.characteristic=params.charac
+      product.price=Double.parseDouble(params.price) 
+      product.stock=Integer.parseInt(params.stock)
+      product.state="disponible"
+    
+      product.save(failOnError: true)
+        
+        
+      try{
+         if(file && !file.empty){
+            file.transferTo(new File(uplurl+product.id))
+            def b2 = Product.get(product.id)
+        
+            b2.image="images/product/"+product.id
+            
+            b2.save(failOnError: true)
+            res=1;
+
+         }
+         else{
+                def pid=product.id
+                Product.executeUpdate("delete Product where id=${pid}")
+                res=0;
+         }
+      }
+      catch(Exception e){
+         log.error("ERROR subiendo imagen para marca ${params.name}",e)  
+         res=0;
+         [res:res]
+      }
+      
+      [res:res]
+
+    }
+    
+    def deleteconfirm() {
+    
+        def discountconflict=false
+        
+        def prodid=params.id
+        
+        def result1= Discount.executeQuery("select t1.id from Discount t1 where t1.product_id = ${prodid}")
+
+        if (result1.size() != 0) {
+                  discountconflict=true  
+        }
+
+        
+        [discountconflict:discountconflict]
+        
+    }
+    
+    def delete() {
+        def pid=params.id
+        
+        Product.executeUpdate("delete Product where id=${pid}")
+        
+        [product:params.id]
     }
 
     def list() {

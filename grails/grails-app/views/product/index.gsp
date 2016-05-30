@@ -49,6 +49,7 @@ var div = document.getElementById('searchDiv');
   <table class="table">
      <tr>
     <th class="tg-yw4l">Nombre</th>
+    <th class="tg-yw4l">Marca</th>
     <th class="tg-yw4l">Categoría</th>
     <th class="tg-yw4l">Características</th>
     <th class="tg-yw4l">Precio</th>
@@ -63,11 +64,13 @@ var div = document.getElementById('searchDiv');
   <tr>
     <td class="tg-yw4l">${product.name}</td>
     
+    <td class="tg-yw4l">${brands[i].name}</td>
+    
      <td class="tg-yw4l">${product.category}</td>
      
       <td class="tg-yw4l">${product.characteristic}</td>
       
-      <td class="tg-yw4l">${product.price}</td>
+      <td class="tg-yw4l">$ ${product.price}</td>
       
       <td class="tg-yw4l">${product.stock}</td>
       

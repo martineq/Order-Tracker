@@ -19,7 +19,7 @@
         <br>
           <label>Subir imagen</label>
         
-        <input type="file" class="buttonimg" name="image">
+        <input type="file" class="buttonimg"  required="" name="image">
   <br>
         <input type="submit" class="buttonb" value="Guardar">
 
