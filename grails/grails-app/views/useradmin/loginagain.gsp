@@ -45,7 +45,7 @@
                 <table class="userForm"   align="center">
                     <tr class='prop'>
                     <td valign='top' style='text-align:left;'>
-                    <label for='email'>Email:</label>
+                    <label for='email'>E-mail:</label>
                     </td>
                     <td valign='top' style='text-align:left;'>
                     <input id="email" type='text' name='email' value='${user?.email}' />
@@ -69,7 +69,7 @@
                 </div>
                 <br>
             </g:form>
-            <center><font color="red" face="verdana" size="2">El usuario o la contraseña introducidos son incorrectos.</font></center>
+            <center><font color="red" face="verdana" size="2">El E-mail o la contraseña introducidos son incorrectos.</font></center>
         </div>
         </div>
         </div>

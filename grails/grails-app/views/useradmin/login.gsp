@@ -45,7 +45,7 @@
                 <table class="userForm"   align="center">
                     <tr class='prop'>
                     <td valign='top' style='text-align:left;'>
-                    <label for='email'>Email:</label>
+                    <label for='email'>E-mail:</label>
                     </td>
                     <td valign='top' style='text-align:left;'>
                     <input id="email" type='text' name='email' value='${user?.email}' />
