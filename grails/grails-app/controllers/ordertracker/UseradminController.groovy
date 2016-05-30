@@ -8,6 +8,10 @@ class UseradminController {
         
     }
     
+    def loginagain = { 
+        
+    }
+    
     def doLogin = {
         Useradmin user = Useradmin.findWhere(email:params['email'])
 
@@ -17,7 +21,7 @@ class UseradminController {
             redirect(uri: '/')
         }
 
-        else redirect(controller: 'useradmin', action: 'login')
+        else redirect(controller: 'useradmin', action: 'loginagain')
     }
     
     def logout = {
