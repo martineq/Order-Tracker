@@ -37,7 +37,22 @@
 <br> 
 </g:form>
 
-<g:if test="${numSales[0]>0}" >
+    <g:if test="${params.month!=null && params.month!=""}" >
+        <label>Mes filtrado: ${params.month} </label>
+    </g:if>
+    <g:else>
+        Mes filtrado: (Sin filtro aplicado)
+    </g:else>
+
+    <g:if test="${params.year!=null && params.year!=""}" >
+        <label> / Año filtrado: ${params.year}  </label>
+    </g:if>
+    <g:else>
+        / Año filtrado: (Sin filtro aplicado)
+    </g:else>
+
+
+    <g:if test="${numSales[0]>0}" >
 <%-- ***Gráfico 2: Marcas mas vendidas***
  Marcas mas vendidas del mes elegido: Usa el filtro Mes y Año. Obtiene para ese mes las marcas mas vendidas.
  El formato gráfico será de Barras verticales ordenadas decrecientemente.
