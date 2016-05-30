@@ -109,7 +109,58 @@ class GraphicsController {
         [sellersAll:sellerNames,top10Names:top10Names,numSales:numSales,months:months]
     }
     
-    def topbrands() { }
+    def topbrands() {
+    
+    
+        def top20Brands = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
+        def numSales = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        def allNames=[]
+        def allSales=[]
+        def sortedSalesInverse=[]
+        
+        def orders = OrderDetail.list(sort:"brand", order:"desc")
+        String lastname=""
+        
+        int i=-1;
+        
+        orders.each { order ->
+
+                        if (! lastname.equals(order.brand)) {
+                            i=i+1;
+                            allNames[i]=order.brand;
+                            allSales[i]=0
+                            lastname=order.brand;
+                        }
+                        allSales[i]=allSales[i]+1
+                        sortedSalesInverse[i]=allSales[i]
+        }
+        sortedSalesInverse = sortedSalesInverse.sort()
+        def sortedSales = []
+        
+        for (int ind=sortedSalesInverse.size()-1; ind >= 0; ind--) {
+            sortedSales.push(sortedSalesInverse[ind])
+        }
+        
+        int j=0
+        sortedSales.each { sale->
+                    int aux=sale
+                    numSales[j]=sale
+                    int m=0
+                    allSales.each { sal2 ->
+                        if(sal2==aux) {
+                            top20Brands[j]=allNames[m]
+                            allSales[m]=-1
+                            aux=-2
+                        }
+                        m=m+1
+                    }
+                    j++;
+                    
+        }
+        
+        
+        [top20Brands:top20Brands,numSales:numSales]
+    }
     
     
     

@@ -22,11 +22,10 @@
 <%-- *Hay que definir cuantas marcas se van a mostrar, en el ejemplo hay 22 elementos*  --%>
 <%
     def columnasMarcasMasVendidas = [['string', 'Marca'], ['number', 'Cantidad de ventas']]
-    def datosMarcasMasVendidas = [['Marca X', 934], ['Marca I', 912], ['Marca C', 888], ['Marca P', 854], ['Marca A', 822],
-                                  ['Marca F', 811], ['Marca S', 793], ['Marca Z', 761], ['Marca B', 759], ['Marca V', 738],
-                                  ['Marca D', 722], ['Marca G', 710], ['Marca J', 707], ['Marca N', 694], ['Marca L', 688],
-                                  ['Marca O', 657], ['Marca E', 632], ['Marca H', 621], ['Marca W', 608], ['Marca K', 589],
-                                  ['Marca Q', 572], ['Marca M', 545]]
+    def datosMarcasMasVendidas = [[top20Brands[0], numSales[0]], [top20Brands[1], numSales[1]], [top20Brands[2], numSales[2]], [top20Brands[3],  numSales[3]], [top20Brands[4],  numSales[4]],
+                                  [top20Brands[5],  numSales[5]], [top20Brands[6],  numSales[6]], [top20Brands[7],  numSales[7]], [top20Brands[8], numSales[8]], [top20Brands[9], numSales[9]],
+                                  [top20Brands[10],  numSales[10]], [top20Brands[11],  numSales[11]], [top20Brands[12],  numSales[12]], [top20Brands[13],  numSales[13]], [top20Brands[14],  numSales[14]],
+                                  [top20Brands[15],  numSales[15]], [top20Brands[16], numSales[16]], [top20Brands[17],  numSales[17]], [top20Brands[18],  numSales[19]], [top20Brands[20],  numSales[20]]]
 %>
 
 <%-- Creo el gráfico con los datos cargados anteriormente --%>
